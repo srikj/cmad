@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
 import com.cisco.cmad.api.InvalidDataException;
-import com.cisco.cmad.api.Message;
 import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.Rendezvous;
 import com.cisco.cmad.api.RendezvousException;
@@ -32,9 +31,8 @@ import com.cisco.cmad.api.UserAlreadyExistsException;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.biz.SimpleRendezvous;
 
-
 @Path("/rendezvous")
-public class RendezvousController {
+public class UserController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
@@ -169,71 +167,6 @@ public class RendezvousController {
 		posts.add(p2);
 		
 		return Response.ok().entity(posts).build();
-	}
-
-	public void createPost(Post post) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<Comment> getComments(int post_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Post> getPosts(int number) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Post> getPostsByTag(int tag_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Post> getPostsByInterest(Interest interest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Post getPost(int post_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getFavouritePostCount(int post_id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void markFavourite(int post_id, String username) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void unMarkFavourite(int post_id, String username) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<Post> search(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void createComment(Comment comment) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void createMessage(Message message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<Message> getMessages(int number) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
