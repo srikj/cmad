@@ -2,6 +2,10 @@ package com.cisco.cmad.data;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
 import com.cisco.cmad.api.Message;
@@ -9,11 +13,16 @@ import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.User;
 
 public class JPADAO implements DAO {
+	
+	static EntityManagerFactory factory = Persistence.createEntityManagerFactory("rendezvous");
 
 	@Override
-	public String createUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void createUser(User user) {
+		EntityManager em = factory.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	@Override

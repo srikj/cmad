@@ -9,7 +9,7 @@ import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.User;
 
 public interface DAO {
-	public String createUser(User user);
+	public void createUser(User user);
 
 	public User getUser(String username) ;
 
