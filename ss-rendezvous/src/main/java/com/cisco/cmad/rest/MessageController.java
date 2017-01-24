@@ -1,35 +1,21 @@
 package com.cisco.cmad.rest;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.cisco.cmad.api.Comment;
-import com.cisco.cmad.api.Interest;
 import com.cisco.cmad.api.InvalidDataException;
 import com.cisco.cmad.api.Message;
-import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.Rendezvous;
 import com.cisco.cmad.api.RendezvousException;
-import com.cisco.cmad.api.Tag;
-import com.cisco.cmad.api.User;
-import com.cisco.cmad.api.UserAlreadyExistsException;
-import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.biz.SimpleRendezvous;
 
 
@@ -39,14 +25,30 @@ public class MessageController {
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
 
-	public void createMessage(Message message) {
-		// TODO Auto-generated method stub
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/Messages/create/")
+	public Response createMessage(Message message) {
+		try {
+			rendezvous.createMessage(message);
+		} catch (InvalidDataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RendezvousException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return Response.ok().build();
 		
 	}
 
-	public List<Message> getMessages(int number) {
-		// TODO Auto-generated method stub
-		return null;
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/Messages")
+	public Response getMessages(@QueryParam(value = "offset") int offset, @QueryParam(value = "size")int size) {
+		List<Message> messages = rendezvous.getMessages(offset,size);
+		return Response.ok().entity(messages).build();
 	}
 
 }
