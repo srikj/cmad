@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -97,8 +98,10 @@ public class RendezvousController {
 		return Response.ok().build();
 		
 	}
-
-	public Response getFavouritePosts(String username) {
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/user/favouritePosts/{username}")
+	public Response getFavouritePosts(@PathParam("username") String username) {
 		User a = new User();
 		a.setName("Srikanth Janardhan");
 		a.setEmail("srikj@cisco.com");
@@ -108,12 +111,12 @@ public class RendezvousController {
 		a.setUsername("srikanthj");
 		
 		User b = new User();
-		b.setName("Srikanth Janardhan");
-		b.setEmail("srikj@cisco.com");
-		b.setInterest(Interest.MOVIES);
+		b.setName("Subransu Chhotaray");
+		b.setEmail("subchhot@cisco.com");
+		b.setInterest(Interest.SPORTS);
 		b.setPassword("hello");
 		b.setPhoneNumber(new Long(9731938514l));
-		b.setUsername("srikanthj");
+		b.setUsername("subchhot");
 		
 		Set<Tag> tags = new HashSet<>();
 		tags.add(new Tag(1, "Movies", new HashSet<>()));
@@ -125,8 +128,8 @@ public class RendezvousController {
 		Post p1 = new Post();
 		
 		List<Comment> comments = new ArrayList<>();
-		comments.add(new Comment(1, "Great post!", b, p1, dateobj, dateobj));
-		comments.add(new Comment(2, "Thanks", a, p1, dateobj, dateobj));
+		comments.add(new Comment(1, "Great post!", "srikanthj", dateobj, dateobj));
+		comments.add(new Comment(2, "Thanks", "subchhot", dateobj, dateobj));
 		
 		p1.setAbstractText("Hello World");
 		p1.setComments(comments);
@@ -140,13 +143,13 @@ public class RendezvousController {
 		p1.setTags(tags);
 		p1.setTitle("Hello");
 		p1.setUpdatedDate(dateobj);
-		p1.setUser(a);
+		p1.setUser("srikanthj");
 		
 		Post p2 = new Post();
 		
 		List<Comment> commentsByUserb = new ArrayList<>();
-		commentsByUserb.add(new Comment(1, "Great post!", a, p2, dateobj, dateobj));
-		commentsByUserb.add(new Comment(2, "Thanks", b, p2, dateobj, dateobj));
+		commentsByUserb.add(new Comment(1, "Great post!", "srikanthj",dateobj, dateobj));
+		commentsByUserb.add(new Comment(2, "Thanks", "subchhot", dateobj, dateobj));
 		
 		p2.setAbstractText("Hey Guys");
 		p2.setComments(commentsByUserb);
@@ -159,7 +162,7 @@ public class RendezvousController {
 		p2.setTags(tags);
 		p2.setTitle("Hello");
 		p2.setUpdatedDate(dateobj);
-		p2.setUser(b);
+		p2.setUser("subchhot");
 		
 		List<Post> posts = new ArrayList<>();
 		posts.add(p1);

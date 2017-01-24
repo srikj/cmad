@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -19,6 +20,7 @@ import javax.persistence.TemporalType;
 public class Post {
 
 	@Id
+	@GeneratedValue
 	private int post_id;
 	private String title;
 	private String postText;
@@ -31,8 +33,7 @@ public class Post {
 	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private User user;
+	private String username;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Comment> comments;
@@ -47,7 +48,7 @@ public class Post {
 	}
 
 	public Post(int post_id, String title, Set<Tag> tags, String postText, String abstractText, List<Comment> comments,
-			Date createdDate, Date updatedDate, User user, Interest interest, Set<User> favouritedUsers) {
+			Date createdDate, Date updatedDate, String username, Interest interest, Set<User> favouritedUsers) {
 		super();
 		this.post_id = post_id;
 		this.title = title;
@@ -57,7 +58,7 @@ public class Post {
 		this.comments = comments;
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
-		this.user = user;
+		this.username = username;
 		this.interest = interest;
 		this.favouritedUsers = favouritedUsers;
 	}
@@ -126,12 +127,12 @@ public class Post {
 		this.updatedDate = updatedDate;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUser() {
+		return username;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(String username) {
+		this.username = username;
 	}
 
 	public Set<User> getFavouritedUsers() {

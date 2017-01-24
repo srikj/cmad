@@ -10,18 +10,16 @@ public class Comment {
 	@Id
 	private int id;
 	private String commentText;
-	private User user;
-	private Post post;
+	private String username;
 	private Date createdDate;
 	private Date updatedDate;
 	public Comment() {
 	}
-	public Comment(int id, String commentText, User user, Post post, Date createdDate, Date updatedDate) {
+	public Comment(int id, String commentText, String username, Date createdDate, Date updatedDate) {
 		super();
 		this.id = id;
 		this.commentText = commentText;
-		this.user = user;
-		this.post = post;
+		this.username = username;
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
 	}
@@ -37,17 +35,11 @@ public class Comment {
 	public void setCommentText(String commentText) {
 		this.commentText = commentText;
 	}
-	public User getUser() {
-		return user;
+	public String getUser() {
+		return username;
 	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public Post getPost() {
-		return post;
-	}
-	public void setPost(Post post) {
-		this.post = post;
+	public void setUser(String user) {
+		this.username = user;
 	}
 	public Date getCreatedDate() {
 		return createdDate;

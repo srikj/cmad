@@ -9,7 +9,7 @@ import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.User;
 
 public interface DAO {
-	public void register(User user);
+	public String createUser(User user);
 
 	public User getUser(String username) ;
 
@@ -17,15 +17,17 @@ public interface DAO {
 
 	public List<Post> getFavouritePosts(String username); 
 
-	public void createPost(Post post) ;
+	public int createPost(Post post) ;
 
 	public List<Comment> getComments(int post_id); 
 
-	public List<Post> getPosts(int number) ;
+	public List<Post> getPosts() ;
+	
+	public List<Post> getPosts(int offset, int size) ;
 
 	public List<Post> getPostsByTag(int tag_id); 
 
-	public List<Post> getPostsByInterest(Interest interest) ;
+	public List<Post> getPostsByInterest(Interest interest);
 
 	public Post getPost(int post_id) ;
 
@@ -41,5 +43,7 @@ public interface DAO {
 
 	public void createMessage(Message message) ;
 
-	public List<Message> getMessages(int number) ;
+	public List<Message> getMessages() ;
+	
+	public List<Message> getMessages(int offset, int size) ;
 }
