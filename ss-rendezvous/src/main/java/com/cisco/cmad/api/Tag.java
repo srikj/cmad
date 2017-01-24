@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import org.hibernate.search.annotations.Field;
+
 @Entity
 public class Tag {
 
