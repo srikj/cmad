@@ -1,6 +1,7 @@
 package com.cisco.cmad.data;
 
 import java.util.List;
+import java.util.Set;
 
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
@@ -15,7 +16,7 @@ public interface DAO {
 
 	public User update(User user) ;
 
-	public List<Post> getFavouritePosts(String username); 
+	public Set<Post> getFavouritePosts(String username); 
 
 	public int createPost(Post post) ;
 
@@ -25,7 +26,7 @@ public interface DAO {
 	
 	public List<Post> getPosts(int offset, int size) ;
 
-	public List<Post> getPostsByTag(int tag_id); 
+	public Set<Post> getPostsByTag(int tag_id); 
 
 	public List<Post> getPostsByInterest(Interest interest);
 
@@ -39,7 +40,7 @@ public interface DAO {
 
 	public List<Post> search(String key) ;
 
-	public void createComment(Comment comment) ;
+	public void createComment(int post_id,Comment comment) ;
 
 	public void createMessage(Message message) ;
 

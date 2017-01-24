@@ -16,13 +16,23 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
+
 @Entity
 public class Post {
 
 	@Id
 	@GeneratedValue
 	private int post_id;
+	
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
+	
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String postText;
 	private String abstractText;
 	private Interest interest;
@@ -38,10 +48,11 @@ public class Post {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Comment> comments;
 	
+	@IndexedEmbedded
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Tag> tags = new HashSet<Tag>(0);
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "favouritePosts")
 	private Set<User> favouritedUsers = new HashSet<User>(0);
 
 	public Post() {

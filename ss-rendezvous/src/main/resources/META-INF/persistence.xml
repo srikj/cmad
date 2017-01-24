@@ -16,6 +16,9 @@
 				value="jdbc:derby:/Users/srikj/Desktop/cmad/rendezvous-db;create=true" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
+			
+			<property name="hibernate.search.default.directory_provider" value="filesystem"/>
+			<property name="hibernate.search.default.indexBase" value="/indexes"/>
 		</properties>
 	</persistence-unit>
 </persistence>
