@@ -124,7 +124,11 @@ public class JPADAO implements DAO {
 
 	@Override
 	public int getFavouritePostCount(int post_id) {
-		return 0;
+		EntityManager em = factory.createEntityManager();
+		Post p = em.find(Post.class, post_id);
+		int size = p.getFavouritedUsers().size();
+		em.close();
+		return size;
 	}
 
 	@Override
