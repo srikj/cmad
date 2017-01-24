@@ -1,6 +1,11 @@
 package com.cisco.cmad.api;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Message {
+	@Id
 	private int messageId;
 	private User user;
 	private String messageText;

@@ -2,8 +2,12 @@ package com.cisco.cmad.api;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Comment {
-	
+	@Id
 	private int id;
 	private String commentText;
 	private User user;

@@ -3,8 +3,12 @@ package com.cisco.cmad.api;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+@Entity
 public class Tag {
 
+	@Id
 	private int id;
 	private String tagName;
 	

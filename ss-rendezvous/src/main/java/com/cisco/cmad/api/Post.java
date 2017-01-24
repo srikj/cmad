@@ -5,19 +5,42 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
 public class Post {
 
+	@Id
 	private int post_id;
 	private String title;
-	private Set<Tag> tags = new HashSet<Tag>(0);
 	private String postText;
 	private String abstractText;
-	private List<Comment> comments;
-	private Date createdDate;
-	private Date updatedDate;
-	private User user;
 	private Interest interest;
+	
+	@Temporal(TemporalType.DATE)
+	private Date createdDate;
+	
+	@Temporal(TemporalType.DATE)
+	private Date updatedDate;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private User user;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Comment> comments;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Tag> tags = new HashSet<Tag>(0);
 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<User> favouritedUsers = new HashSet<User>(0);
 
 	public Post() {

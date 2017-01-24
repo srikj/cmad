@@ -4,8 +4,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class User {
@@ -17,11 +22,16 @@ public class User {
 	private String email;
 	private Number phoneNumber;
 	private Interest interest;
-	private Date createdDate;
-	private Date updatedDate;
 	private String lastLoginIP;
+	
+	@Temporal(TemporalType.DATE)
 	private Date lastLoginDate;
+	@Temporal(TemporalType.DATE)
+	private Date createdDate;
+	@Temporal(TemporalType.DATE)
+	private Date updatedDate;
 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Post> favouritePosts = new HashSet<Post>(0);
 
 	public User() {
