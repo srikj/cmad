@@ -15,6 +15,7 @@ public class UserTest {
 		User user = new User();
 		try {
 			rend.register(user);
+			System.out.println("Hello");
 		} catch (RendezvousException e) {
 			e.printStackTrace();
 		}
