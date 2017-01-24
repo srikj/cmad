@@ -39,7 +39,7 @@ public interface DAO {
 
 	public List<Post> search(String key) ;
 
-	public void createComment(Comment comment) ;
+	public void createComment(int post_id,Comment comment) ;
 
 	public void createMessage(Message message) ;
 
