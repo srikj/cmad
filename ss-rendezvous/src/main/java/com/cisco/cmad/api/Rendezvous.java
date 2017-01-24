@@ -10,35 +10,39 @@ public interface Rendezvous {
 	
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException;
 
-	public void invite(String emailIds);
+	public void invite(String emailIds) throws InvalidDataException, RendezvousException;
 	
-	public List<Post> getFavouritePosts(String username);
+	public List<Post> getFavouritePosts(String username) throws UserNotFoundException,RendezvousException;
 	
-	public void createPost(Post post);
+	public void createPost(Post post) throws InvalidDataException,RendezvousException;
 	
-	public List<Comment> getComments(int post_id);
+	public List<Comment> getComments(int post_id) throws PostNotFoundException,RendezvousException;
 	
-	public List<Post> getPosts(int number);
+	public List<Post> getPosts() ;
 	
-	public List<Post> getPostsByTag(int tag_id);
+	public List<Post> getPosts(int offset, int size) ;
 	
-	public List<Post> getPostsByInterest(Interest interest);
+	public List<Post> getPostsByTag(int tag_id) throws TagNotFoundException,RendezvousException;
 	
-	public Post getPost(int post_id);
+	public List<Post> getPostsByInterest(Interest interest) throws InvalidInterestException,RendezvousException;
 	
-	public int getFavouritePostCount(int post_id);
+	public Post getPost(int post_id) throws PostNotFoundException,RendezvousException;
 	
-	public void markFavourite(int post_id,String username);
+	public int getFavouritePostCount(int post_id) throws PostNotFoundException,RendezvousException;
 	
-	public void unMarkFavourite(int post_id,String username);
+	public void markFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException;
+	
+	public void unMarkFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException;
 	
 	public List<Post> search(String key);
 	
-	public void createComment(Comment comment);
+	public void createComment(int post_id, Comment comment) throws PostNotFoundException, InvalidDataException, RendezvousException;
 	
-	public void createMessage(Message message);
+	public void createMessage(Message message) throws InvalidDataException, RendezvousException;
 	
-	public List<Message> getMessages(int number);
+	public List<Message> getMessages() ;
+	
+	public List<Message> getMessages(int offset, int size) ;
 	
 	
 }
