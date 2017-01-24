@@ -37,7 +37,6 @@ public class UserController {
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/user/register/")
 	public Response register(User user) {
@@ -55,13 +54,16 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user/login")
 	public Response login(@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) {
-		User a = new User();
-		a.setName("Srikanth Janardhan");
-		a.setEmail("srikj@cisco.com");
-		a.setInterest(Interest.MOVIES);
-		a.setPassword("hello");
-		a.setPhoneNumber(new Long(9731938514l));
-		a.setUsername("srikanthj");
+		User a = null;
+		try {
+			a = rendezvous.login(username, password);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RendezvousException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return Response.ok().entity(a).build();
 	}
 

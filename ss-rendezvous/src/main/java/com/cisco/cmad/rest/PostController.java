@@ -2,12 +2,15 @@ package com.cisco.cmad.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Path;
+
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
 import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.Rendezvous;
 import com.cisco.cmad.biz.SimpleRendezvous;
 
+@Path("/rendezvous")
 public class PostController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
