@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.query.dsl.QueryBuilder;
 
@@ -123,7 +124,7 @@ public class JPADAO implements DAO {
 
 	@Override
 	public int getFavouritePostCount(int post_id) {
-
+		return 0;
 	}
 
 	@Override
