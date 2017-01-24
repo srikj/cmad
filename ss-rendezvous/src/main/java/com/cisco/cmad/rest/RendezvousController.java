@@ -1,6 +1,12 @@
 package com.cisco.cmad.rest;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,6 +25,7 @@ import com.cisco.cmad.api.Message;
 import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.Rendezvous;
 import com.cisco.cmad.api.RendezvousException;
+import com.cisco.cmad.api.Tag;
 import com.cisco.cmad.api.User;
 import com.cisco.cmad.api.UserAlreadyExistsException;
 import com.cisco.cmad.api.UserNotFoundException;
@@ -81,14 +88,84 @@ public class RendezvousController {
 	}
 
 	public Response invite(String emailIds) {
-		// TODO Auto-generated method stub
+		
+		String[] emailArray = emailIds.split(",");
+		for(String email : emailArray) {
+			//invite people
+		}
+		
 		return Response.ok().build();
 		
 	}
 
-	public List<Post> getFavouritePosts(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getFavouritePosts(String username) {
+		User a = new User();
+		a.setName("Srikanth Janardhan");
+		a.setEmail("srikj@cisco.com");
+		a.setInterest(Interest.MOVIES);
+		a.setPassword("hello");
+		a.setPhoneNumber(new Long(9731938514l));
+		a.setUsername("srikanthj");
+		
+		User b = new User();
+		b.setName("Srikanth Janardhan");
+		b.setEmail("srikj@cisco.com");
+		b.setInterest(Interest.MOVIES);
+		b.setPassword("hello");
+		b.setPhoneNumber(new Long(9731938514l));
+		b.setUsername("srikanthj");
+		
+		Set<Tag> tags = new HashSet<>();
+		tags.add(new Tag(1, "Movies", new HashSet<>()));
+		tags.add(new Tag(1, "Tech", new HashSet<>()));
+		
+		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		Date dateobj = new Date();
+		
+		Post p1 = new Post();
+		
+		List<Comment> comments = new ArrayList<>();
+		comments.add(new Comment(1, "Great post!", b, p1, dateobj, dateobj));
+		comments.add(new Comment(2, "Thanks", a, p1, dateobj, dateobj));
+		
+		p1.setAbstractText("Hello World");
+		p1.setComments(comments);
+		p1.setCreatedDate(dateobj);
+		p1.setFavouritedUsers(new HashSet<>());
+		p1.getFavouritedUsers().add(a);
+		p1.getFavouritedUsers().add(b);
+		p1.setInterest(Interest.MOVIES);
+		p1.setPost_id(1);
+		p1.setPostText("Hellow World, Welcome to our blog!");
+		p1.setTags(tags);
+		p1.setTitle("Hello");
+		p1.setUpdatedDate(dateobj);
+		p1.setUser(a);
+		
+		Post p2 = new Post();
+		
+		List<Comment> commentsByUserb = new ArrayList<>();
+		commentsByUserb.add(new Comment(1, "Great post!", a, p2, dateobj, dateobj));
+		commentsByUserb.add(new Comment(2, "Thanks", b, p2, dateobj, dateobj));
+		
+		p2.setAbstractText("Hey Guys");
+		p2.setComments(commentsByUserb);
+		p2.setCreatedDate(dateobj);
+		p2.setFavouritedUsers(new HashSet<>());
+		p2.getFavouritedUsers().add(a);
+		p2.setInterest(Interest.TECHNOLOGY);
+		p2.setPost_id(1);
+		p2.setPostText("Hey Guys, This is a new question to you");
+		p2.setTags(tags);
+		p2.setTitle("Hello");
+		p2.setUpdatedDate(dateobj);
+		p2.setUser(b);
+		
+		List<Post> posts = new ArrayList<>();
+		posts.add(p1);
+		posts.add(p2);
+		
+		return Response.ok().entity(posts).build();
 	}
 
 	public void createPost(Post post) {
