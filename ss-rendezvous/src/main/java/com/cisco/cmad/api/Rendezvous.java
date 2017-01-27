@@ -1,6 +1,7 @@
 package com.cisco.cmad.api;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Rendezvous {
 
@@ -12,7 +13,7 @@ public interface Rendezvous {
 
 	public void invite(String emailIds) throws InvalidDataException, RendezvousException;
 	
-	public List<Post> getFavouritePosts(String username) throws UserNotFoundException,RendezvousException;
+	public Set<Post> getFavouritePosts(String username) throws UserNotFoundException,RendezvousException;
 	
 	public void createPost(Post post) throws InvalidDataException,RendezvousException;
 	
@@ -22,7 +23,7 @@ public interface Rendezvous {
 	
 	public List<Post> getPosts(int offset, int size) ;
 	
-	public List<Post> getPostsByTag(int tag_id) throws TagNotFoundException,RendezvousException;
+	public Set<Post> getPostsByTag(int tag_id) throws TagNotFoundException,RendezvousException;
 	
 	public List<Post> getPostsByInterest(Interest interest) throws InvalidInterestException,RendezvousException;
 	
@@ -30,9 +31,9 @@ public interface Rendezvous {
 	
 	public int getFavouritePostCount(int post_id) throws PostNotFoundException,RendezvousException;
 	
-	public void markFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException;
+	public void markFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException, InvalidDataException;
 	
-	public void unMarkFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException;
+	public void unMarkFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException, InvalidDataException;
 	
 	public List<Post> search(String key);
 	

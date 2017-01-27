@@ -1,7 +1,7 @@
 package com.cisco.cmad.rest;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -119,7 +119,7 @@ public class UserController {
 	@Path("/user/favouritePosts/{username}")
 	public Response getFavouritePosts(@PathParam("username") String username) {
 		
-		List<Post> posts = null;
+		Set<Post> posts = null;
 		try {
 			posts = rendezvous.getFavouritePosts(username);
 		} catch (UserNotFoundException e) {

@@ -1,6 +1,7 @@
 package com.cisco.cmad.rest;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -88,7 +89,7 @@ public class PostController {
 	@Path("/posts")
 	public Response getPostsByTag(@QueryParam(value = "tag")int tag_id) {
 		
-		List<Post> posts = null;
+		Set<Post> posts = null;
 		try {
 			posts = rendezvous.getPostsByTag(tag_id);
 		} catch (TagNotFoundException e) {
