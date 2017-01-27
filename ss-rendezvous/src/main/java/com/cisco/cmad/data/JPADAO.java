@@ -91,8 +91,13 @@ public class JPADAO implements DAO {
 
 	@Override
 	public List<Post> getPosts(int offset, int size) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = factory.createEntityManager();
+		TypedQuery<Post> query =
+			      em.createQuery("FROM Post", Post.class);
+	    List<Post> numPosts =query.setFirstResult(offset)
+	    								.setMaxResults(size)
+	    								.getResultList();
+	    return numPosts;
 	}
 
 	@Override

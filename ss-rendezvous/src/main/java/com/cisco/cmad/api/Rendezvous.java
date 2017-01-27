@@ -6,7 +6,7 @@ public interface Rendezvous {
 
 	public void register(User user) throws UserAlreadyExistsException, InvalidDataException, RendezvousException;
 	
-	public User login(String username, String password) throws UserNotFoundException, RendezvousException;
+	public User login(String username, String password) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException;
 

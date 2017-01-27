@@ -16,8 +16,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
@@ -36,10 +43,14 @@ public class UserController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/user/register/")
 	public Response register(User user) {
+		Date date = new Date();
+		user.setCreatedDate(date);
+		user.setUpdatedDate(date);
 		try {
 			rendezvous.register(user);
 		} catch (UserAlreadyExistsException e) {
@@ -53,7 +64,7 @@ public class UserController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user/login")
-	public Response login(@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) {
+	public Response login(@Context HttpServletRequest request,@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) {
 		User a = null;
 		try {
 			a = rendezvous.login(username, password);
@@ -62,6 +73,14 @@ public class UserController {
 			e.printStackTrace();
 		} catch (RendezvousException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Date date = new Date();
+		a.setLastLoginDate(date);
+		a.setLastLoginIP(request.getRemoteAddr());
+		try {
+			rendezvous.update(a);
+		} catch (RendezvousException e) {
 			e.printStackTrace();
 		}
 		return Response.ok().entity(a).build();

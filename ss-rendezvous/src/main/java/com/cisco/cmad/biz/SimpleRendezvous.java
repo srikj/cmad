@@ -1,5 +1,6 @@
 package com.cisco.cmad.biz;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cisco.cmad.api.Comment;
@@ -24,24 +25,43 @@ public class SimpleRendezvous implements Rendezvous {
 
 	public SimpleRendezvous() {
 		dao = new JPADAO();
-		
 	}
 
 	@Override
 	public void register(User user) throws UserAlreadyExistsException, InvalidDataException, RendezvousException {
-		// TODO Auto-generated method stub
+		if(user.getUsername()==null|| user.getUsername().trim().isEmpty()) 
+			throw new InvalidDataException();
+		if(user.getEmail()==null || user.getEmail().trim().isEmpty())
+			throw new InvalidDataException();
+		if(user.getName()==null || user.getName().trim().isEmpty())
+			throw new InvalidDataException();
+			
+		if(dao.getUser(user.getUsername()) != null) throw new UserAlreadyExistsException();
 		
+		dao.createUser(user);
 	}
 
 	@Override
-	public User login(String username, String password) throws UserNotFoundException, RendezvousException {
-		// TODO Auto-generated method stub
-		return null;
+	public User login(String username, String password) throws UserNotFoundException,InvalidDataException, RendezvousException {
+		if(username==null|| username.trim().isEmpty()||password == null || password.trim().isEmpty()) {
+			throw new InvalidDataException();
+		}
+		User user = dao.getUser(username);
+		if(user == null) {
+			throw new UserNotFoundException();
+		}
+		if(!user.getPassword().equals(password)) {
+			throw new InvalidDataException();
+		}
+		return user;
 	}
 
 	@Override
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException {
-		// TODO Auto-generated method stub
+		if(user.getUsername()==null|| user.getUsername().trim().isEmpty()) 
+			throw new InvalidDataException();
+		user.setUpdatedDate(new Date());
+		dao.update(user);
 		return null;
 	}
 
