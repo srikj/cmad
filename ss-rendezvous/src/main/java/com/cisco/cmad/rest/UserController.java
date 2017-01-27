@@ -1,5 +1,6 @@
 package com.cisco.cmad.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
