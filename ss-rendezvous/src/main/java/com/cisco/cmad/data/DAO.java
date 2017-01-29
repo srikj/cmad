@@ -13,6 +13,8 @@ public interface DAO {
 	public void createUser(User user);
 
 	public User getUser(String username) ;
+	
+	public User getUserByEmail(String email) ;
 
 	public User update(User user) ;
 

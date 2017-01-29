@@ -10,6 +10,10 @@ public interface Rendezvous {
 	public User login(String username, String password) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException;
+	
+	public User getUserByUsername(String username) throws UserNotFoundException, InvalidDataException, RendezvousException;
+	
+	public User getUserByEmail(String email) throws UserNotFoundException, InvalidDataException, RendezvousException;
 
 	public void invite(String emailIds) throws InvalidDataException, RendezvousException;
 	

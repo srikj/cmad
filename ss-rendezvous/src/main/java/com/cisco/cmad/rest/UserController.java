@@ -18,6 +18,9 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+
+import org.glassfish.jersey.server.mvc.Viewable;
+
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +38,42 @@ import com.cisco.cmad.biz.SimpleRendezvous;
 public class UserController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
+	
+	@PermitAll
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/validateUsername")
+	public Response validateUsername(@QueryParam(value = "username") String username) {
+		User a = null;
+		try {
+			a = rendezvous.getUserByUsername(username);
+		} catch (UserNotFoundException e) {
+			return Response.ok().build();
+		} catch (InvalidDataException e) {
+			return Response.status(400).build();
+		} catch (RendezvousException e) {
+			return Response.status(400).build();
+		}
+		return Response.status(404).build();
+	}
+	
+	@PermitAll
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/validateEmail")
+	public Response validateEmail(@QueryParam(value = "email") String email) {
+		User a = null;
+		try {
+			a = rendezvous.getUserByEmail(email);
+		} catch (UserNotFoundException e) {
+			return Response.ok().build();
+		} catch (InvalidDataException e) {
+			return Response.status(500).build();
+		} catch (RendezvousException e) {
+			return Response.status(500).build();
+		}
+		return Response.status(404).build();
+	}
 	
 	@PermitAll
 	@POST
@@ -78,8 +117,14 @@ public class UserController {
 		} catch (RendezvousException e) {
 			e.printStackTrace();
 		}
-		a.setFavouritePosts(null);
 		return Response.ok().entity(a).build();
+	}
+	
+	@GET
+	@Path("/home")
+	public Viewable home(@Context HttpServletRequest request) {
+		Viewable view = new Viewable("/home.jsp");
+		return view;
 	}
 
 	@PUT
@@ -138,5 +183,7 @@ public class UserController {
 		}
 		return Response.ok().entity(posts).build();
 	}
+	
+	
 
 }

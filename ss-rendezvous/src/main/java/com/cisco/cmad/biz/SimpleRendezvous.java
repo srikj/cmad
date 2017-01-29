@@ -62,6 +62,7 @@ public class SimpleRendezvous implements Rendezvous {
 		if(!user.getPassword().equals(password)) {
 			throw new InvalidDataException();
 		}
+		user.setFavouritePosts(null);
 		return user;
 	}
 
@@ -69,8 +70,8 @@ public class SimpleRendezvous implements Rendezvous {
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if(user.getUsername()==null|| user.getUsername().trim().isEmpty()) 
 			throw new InvalidDataException();
-		dao.update(user);
-		return null;
+		User updatedUser = dao.update(user);
+		return updatedUser;
 	}
 
 	@Override
@@ -109,6 +110,7 @@ public class SimpleRendezvous implements Rendezvous {
 				post.getPostText() == null || post.getPostText().trim().isEmpty()) {
 			throw new InvalidDataException();
 		}
+		post.setAbstractText(post.getPostText().substring(0, 100));
 		post.setCreatedDate(new Date());
 		post.setUpdatedDate(new Date());
 		dao.createPost(post);
@@ -252,6 +254,31 @@ public class SimpleRendezvous implements Rendezvous {
 	public List<Message> getMessages(int offset, int size) {
 		List<Message> numMessages = dao.getMessages(offset, size);
 		return numMessages;
+	}
+
+	@Override
+	public User getUserByUsername(String username)
+			throws UserNotFoundException, InvalidDataException, RendezvousException {
+		if(username==null|| username.trim().isEmpty()) 
+			throw new InvalidDataException();
+		
+		User user = dao.getUser(username);
+		
+		if(user == null) 
+			throw new UserNotFoundException();
+		return user;
+	}
+
+	@Override
+	public User getUserByEmail(String email) throws UserNotFoundException, InvalidDataException, RendezvousException {
+		if(email==null|| email.trim().isEmpty()) 
+			throw new InvalidDataException();
+		
+		User user = dao.getUserByEmail(email);
+		
+		if(user == null) 
+			throw new UserNotFoundException();
+		return user;
 	}
 
 	

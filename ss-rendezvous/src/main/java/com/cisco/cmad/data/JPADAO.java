@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -224,6 +225,19 @@ public class JPADAO implements DAO {
 	    								.setMaxResults(size)
 	    								.getResultList();
 	    return numMessages;
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		EntityManager em = factory.createEntityManager();
+		User user = null;
+		try {
+			user = (User) em.createQuery("from User a where a.userInfo.email = :email").setParameter("email", email).getSingleResult();
+		} catch(NoResultException nre) {
+			return null;
+		}
+		em.close();
+		return user;
 	}
 
 }

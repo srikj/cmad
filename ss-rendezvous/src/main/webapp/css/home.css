@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+#nav-form {
+	margin-right: 15px;
+}
+nav .container {
+	margin-top: 0;
+}
+.container {
+	margin-top: 60px;
+}
+
+.sidenav2 {
+	width: 350px;
+}
+.sidenav {
+	width: 200px;
+}
+.searchResults .results {
+	list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.searchResults .results li {
+    margin-bottom: 10px;
+}
+
+.results h5 {
+    margin: 0;
+}
+
+.widget {
+	margin-bottom: 30px;
+}
+
+span.glyphicon {
+    margin-left: 5px;
+}
+
+span.glyphicon-star {
+    color: #FFD700;
+    text-shadow: 0px 0px 1px rgba(0,0,0, 1);
+    margin-left: 5px;
+}
