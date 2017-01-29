@@ -8,21 +8,26 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
 	@Id
 	private String username;
 	
-	private String name;
+	@OneToOne(cascade = CascadeType.ALL)
+	protected UserInfo userInfo;
+	
 	private String password;
-	private String email;
-	private Number phoneNumber;
-	private Interest interest;
+	
 	private String lastLoginIP;
 	
 	@Temporal(TemporalType.DATE)
@@ -38,19 +43,15 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, String name, String password, String email, Number phoneNumber, Interest interest,
-			Date createdDate, Date updatedDate, String lastLoginIP, Date lastLoginDate, Set<Post> favouritePosts) {
+	public User(String username, UserInfo userInfo, String lastLoginIP, Date lastLoginDate, Date createdDate,
+			Date updatedDate, Set<Post> favouritePosts) {
 		super();
 		this.username = username;
-		this.name = name;
-		this.password = password;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.interest = interest;
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
+		this.userInfo = userInfo;
 		this.lastLoginIP = lastLoginIP;
 		this.lastLoginDate = lastLoginDate;
+		this.createdDate = createdDate;
+		this.updatedDate = updatedDate;
 		this.favouritePosts = favouritePosts;
 	}
 
@@ -62,60 +63,12 @@ public class User {
 		this.username = username;
 	}
 
-	public String getName() {
-		return name;
+	public UserInfo getUserInfo() {
+		return userInfo;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Number getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(Number phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public Interest getInterest() {
-		return interest;
-	}
-
-	public void setInterest(Interest interest) {
-		this.interest = interest;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
 	}
 
 	public String getLastLoginIP() {
@@ -134,6 +87,22 @@ public class User {
 		this.lastLoginDate = lastLoginDate;
 	}
 
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
 	public Set<Post> getFavouritePosts() {
 		return favouritePosts;
 	}
@@ -141,5 +110,15 @@ public class User {
 	public void setFavouritePosts(Set<Post> favouritePosts) {
 		this.favouritePosts = favouritePosts;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
 
 }

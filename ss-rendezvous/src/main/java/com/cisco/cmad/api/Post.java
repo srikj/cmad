@@ -44,7 +44,8 @@ public class Post {
 	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 	
-	private String username;
+	@OneToOne(cascade = CascadeType.ALL)
+	private UserInfo userInfo;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Comment> comments;
@@ -59,19 +60,19 @@ public class Post {
 	public Post() {
 	}
 
-	public Post(int post_id, String title, Set<Tag> tags, String postText, String abstractText, List<Comment> comments,
-			Date createdDate, Date updatedDate, String username, Interest interest, Set<User> favouritedUsers) {
+	public Post(int post_id, String title, String postText, String abstractText, Interest interest, Date createdDate,
+			Date updatedDate, UserInfo userInfo, List<Comment> comments, Set<Tag> tags, Set<User> favouritedUsers) {
 		super();
 		this.post_id = post_id;
 		this.title = title;
-		this.tags = tags;
 		this.postText = postText;
 		this.abstractText = abstractText;
-		this.comments = comments;
+		this.interest = interest;
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
-		this.username = username;
-		this.interest = interest;
+		this.userInfo = userInfo;
+		this.comments = comments;
+		this.tags = tags;
 		this.favouritedUsers = favouritedUsers;
 	}
 
@@ -91,14 +92,6 @@ public class Post {
 		this.title = title;
 	}
 
-	public Set<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(Set<Tag> tags) {
-		this.tags = tags;
-	}
-
 	public String getPostText() {
 		return postText;
 	}
@@ -115,12 +108,12 @@ public class Post {
 		this.abstractText = abstractText;
 	}
 
-	public List<Comment> getComments() {
-		return comments;
+	public Interest getInterest() {
+		return interest;
 	}
 
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
+	public void setInterest(Interest interest) {
+		this.interest = interest;
 	}
 
 	public Date getCreatedDate() {
@@ -139,12 +132,28 @@ public class Post {
 		this.updatedDate = updatedDate;
 	}
 
-	public String getUser() {
-		return username;
+	public UserInfo getUserInfo() {
+		return userInfo;
 	}
 
-	public void setUser(String username) {
-		this.username = username;
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public Set<User> getFavouritedUsers() {
@@ -155,12 +164,6 @@ public class Post {
 		this.favouritedUsers = favouritedUsers;
 	}
 
-	public Interest getInterest() {
-		return interest;
-	}
-
-	public void setInterest(Interest interest) {
-		this.interest = interest;
-	}
+	
 
 }

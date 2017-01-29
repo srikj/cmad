@@ -11,14 +11,13 @@
 		<class>com.cisco.cmad.api.Post</class>
 		<class>com.cisco.cmad.api.Tag</class>
 		<properties>
-			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:derby:/Users/srikj/Desktop/cmad/rendezvous-db;create=true" />
+				value="jdbc:mysql://192.168.99.100:3306/hello" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
-			
-			<property name="hibernate.search.default.directory_provider" value="filesystem"/>
-			<property name="hibernate.search.default.indexBase" value="/indexes"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.connection.username" value = "root"/>
+   			<property name="hibernate.connection.password" value = "password"/>
 		</properties>
 		
 	</persistence-unit>

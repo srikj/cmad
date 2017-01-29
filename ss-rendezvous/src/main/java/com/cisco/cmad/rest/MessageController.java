@@ -19,7 +19,7 @@ import com.cisco.cmad.api.RendezvousException;
 import com.cisco.cmad.biz.SimpleRendezvous;
 
 
-@Path("/rendezvous")
+@Path("/message")
 public class MessageController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
@@ -27,7 +27,7 @@ public class MessageController {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/Messages/create/")
+	@Path("/create/")
 	public Response createMessage(Message message) {
 		try {
 			rendezvous.createMessage(message);
@@ -45,7 +45,7 @@ public class MessageController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/Messages")
+	@Path("/all")
 	public Response getMessages(@QueryParam(value = "offset") int offset, @QueryParam(value = "size")int size) {
 		List<Message> messages = rendezvous.getMessages(offset,size);
 		return Response.ok().entity(messages).build();

@@ -18,6 +18,7 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,15 +31,15 @@ import com.cisco.cmad.api.UserAlreadyExistsException;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.biz.SimpleRendezvous;
 
-@Path("/rendezvous")
+@Path("/user")
 public class UserController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
-	
+	@PermitAll
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/user/register/")
+	@Path("/register/")
 	public Response register(User user) {
 		Date date = new Date();
 		user.setCreatedDate(date);
@@ -53,9 +54,10 @@ public class UserController {
 		return Response.ok().build();
 	}
 	
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/user/login")
+	@Path("/login")
 	public Response login(@Context HttpServletRequest request,@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) {
 		User a = null;
 		try {
@@ -71,17 +73,19 @@ public class UserController {
 		a.setLastLoginDate(date);
 		a.setLastLoginIP(request.getRemoteAddr());
 		try {
+			a.setUpdatedDate(date);
 			rendezvous.update(a);
 		} catch (RendezvousException e) {
 			e.printStackTrace();
 		}
+		a.setFavouritePosts(null);
 		return Response.ok().entity(a).build();
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/user/update")
+	@Path("/update")
 	public Response update(User user) {
 		User updatedUser = null;
 		try {
@@ -98,7 +102,10 @@ public class UserController {
 		}
 		return Response.ok().entity(updatedUser).build();
 	}
-
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/invite/")
 	public Response invite(String emailIds) {
 		
 		try {
@@ -116,7 +123,7 @@ public class UserController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/user/favouritePosts/{username}")
+	@Path("/favouritePosts/{username}")
 	public Response getFavouritePosts(@PathParam("username") String username) {
 		
 		Set<Post> posts = null;

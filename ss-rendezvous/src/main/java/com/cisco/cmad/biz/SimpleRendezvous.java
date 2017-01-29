@@ -18,6 +18,7 @@ import com.cisco.cmad.api.RendezvousException;
 import com.cisco.cmad.api.TagNotFoundException;
 import com.cisco.cmad.api.User;
 import com.cisco.cmad.api.UserAlreadyExistsException;
+import com.cisco.cmad.api.UserInfo;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.data.DAO;
 import com.cisco.cmad.data.JPADAO;
@@ -34,10 +35,15 @@ public class SimpleRendezvous implements Rendezvous {
 	public void register(User user) throws UserAlreadyExistsException, InvalidDataException, RendezvousException {
 		if(user.getUsername()==null|| user.getUsername().trim().isEmpty()) 
 			throw new InvalidDataException();
-		if(user.getEmail()==null || user.getEmail().trim().isEmpty())
+		UserInfo userinfo = user.getUserInfo();
+		if(userinfo.getEmail()==null || userinfo.getEmail().trim().isEmpty())
 			throw new InvalidDataException();
-		if(user.getName()==null || user.getName().trim().isEmpty())
+		if(userinfo.getName()==null || userinfo.getName().trim().isEmpty())
 			throw new InvalidDataException();
+		
+		if(userinfo.getUsername()==null || userinfo.getUsername().trim().isEmpty()) {
+			userinfo.setUsername(user.getUsername());
+		}
 			
 		if(dao.getUser(user.getUsername()) != null) throw new UserAlreadyExistsException();
 		
@@ -63,7 +69,6 @@ public class SimpleRendezvous implements Rendezvous {
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if(user.getUsername()==null|| user.getUsername().trim().isEmpty()) 
 			throw new InvalidDataException();
-		user.setUpdatedDate(new Date());
 		dao.update(user);
 		return null;
 	}
@@ -218,7 +223,7 @@ public class SimpleRendezvous implements Rendezvous {
 	public void createComment(int post_id, Comment comment)
 			throws PostNotFoundException, InvalidDataException, RendezvousException {
 		if(comment.getCommentText() == null || comment.getCommentText().trim().isEmpty() ||
-				comment.getUser() == null || comment.getUser().trim().isEmpty() || post_id == 0) {
+				comment.getUserInfo().getUsername() == null || comment.getUserInfo().getUsername().trim().isEmpty() || post_id == 0) {
 			throw new InvalidDataException();
 		}
 		comment.setCreatedDate(new Date());
@@ -230,9 +235,10 @@ public class SimpleRendezvous implements Rendezvous {
 	@Override
 	public void createMessage(Message message) throws InvalidDataException, RendezvousException {
 		if (message.getMessageText() == null || message.getMessageText().trim().isEmpty() ||
-				message.getUser() == null) {
+				message.getUserInfo() == null) {
 			throw new InvalidDataException();
 		}
+		message.setCreatedDate(new Date());
 		dao.createMessage(message);
 	}
 

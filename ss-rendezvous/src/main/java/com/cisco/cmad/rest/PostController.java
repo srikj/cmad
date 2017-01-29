@@ -26,14 +26,14 @@ import com.cisco.cmad.api.TagNotFoundException;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.biz.SimpleRendezvous;
 
-@Path("/rendezvous")
+@Path("/post")
 public class PostController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/post")
+	@Path("/create")
 	public Response createPost(Post post) {
 		try {
 			rendezvous.createPost(post);
@@ -49,7 +49,7 @@ public class PostController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/post/{postid}/comments")
+	@Path("/{postid}/comments")
 	public Response getComments(@PathParam(value = "postid") int post_id) {
 		List<Comment> comments = null;
 		try {
@@ -66,7 +66,7 @@ public class PostController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/posts")
+	@Path("/all")
 	public Response getPosts() {
 		
 		List<Post> posts = rendezvous.getPosts();
@@ -76,7 +76,7 @@ public class PostController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/posts")
+	@Path("/paged")
 	public Response getPosts(@QueryParam(value = "start") int offset, @QueryParam(value = "size") int size) {
 		
 		List<Post> posts = rendezvous.getPosts(offset,size);
@@ -86,7 +86,7 @@ public class PostController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/posts")
+	@Path("/postsByTag")
 	public Response getPostsByTag(@QueryParam(value = "tag")int tag_id) {
 		
 		Set<Post> posts = null;
@@ -104,7 +104,7 @@ public class PostController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/posts")
+	@Path("/postsByInterest")
 	public Response getPostsByInterest(@QueryParam(value = "interest") Interest interest) {
 		List<Post> posts = null;
 		try {
@@ -121,7 +121,7 @@ public class PostController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/post/{postid}")
+	@Path("/{postid}")
 	public Response getPost(@PathParam(value = "postid") int post_id) {
 		Post post = null;
 		try {
@@ -138,7 +138,7 @@ public class PostController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/post/favouritedUsers/{postid}")
+	@Path("/favouritedUsers/{postid}")
 	public Response getFavouritePostCount(@PathParam(value = "postid") int post_id) {
 		int count = 0;
 		try {
@@ -155,7 +155,7 @@ public class PostController {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/post/markFav/")
+	@Path("/markFav/")
 	public Response markFavourite(@FormParam(value = "postid") int post_id,@FormParam(value = "username") String username) {
 		try {
 			rendezvous.markFavourite(post_id, username);
@@ -173,7 +173,7 @@ public class PostController {
 	}
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/post/unmarkFav/")
+	@Path("/unmarkFav/")
 	public Response unMarkFavourite(@FormParam (value = "postid") int post_id,@FormParam(value = "username") String username) {
 		try {
 			rendezvous.unMarkFavourite(post_id, username);
@@ -192,7 +192,7 @@ public class PostController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/posts")
+	@Path("/search")
 	public Response search(@QueryParam(value = "search") String key) {
 		
 		List<Post> posts = rendezvous.search(key);
@@ -201,7 +201,7 @@ public class PostController {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/post/{postid}/comment")
+	@Path("/{postid}/comment")
 	public Response createComment(@PathParam(value = "postid") int post_id,Comment comment) {
 		
 		try {
