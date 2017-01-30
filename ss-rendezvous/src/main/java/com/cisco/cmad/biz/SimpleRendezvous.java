@@ -40,7 +40,25 @@ public class SimpleRendezvous implements Rendezvous {
 			throw new InvalidDataException();
 		if(userinfo.getName()==null || userinfo.getName().trim().isEmpty())
 			throw new InvalidDataException();
-		
+		if(userinfo.getPhoneNumber() == null || userinfo.getPhoneNumber().trim().isEmpty()) {
+			throw new InvalidDataException();
+		}
+		Pattern pattern = Pattern.compile("^[0-9]{10}$");
+		Matcher matcher = pattern.matcher(userinfo.getPhoneNumber()); 
+		if (!matcher.matches()) {
+		      throw new InvalidDataException();
+		}
+		Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
+	    Matcher regMatcher   = regexPattern.matcher(userinfo.getEmail());
+	    if(!regMatcher.matches()){
+	    	throw new InvalidDataException();
+	    } 
+		user.setLastLoginDate(new Date());
+		user.setUpdatedDate(new Date());
+		user.setCreatedDate(new Date());
+		user.setPosts(null);
+		user.setFavouritePosts(null);
+		user.setMessages(null);
 			
 		if(dao.getUser(user.getUsername()) != null) throw new UserAlreadyExistsException();
 		
@@ -60,6 +78,10 @@ public class SimpleRendezvous implements Rendezvous {
 			throw new InvalidDataException();
 		}
 		user.setFavouritePosts(null);
+		user.setLastLoginDate(new Date());
+		
+		//here update the lastlogin date and update date in DB
+		dao.update(user);
 		return user;
 	}
 
@@ -67,6 +89,23 @@ public class SimpleRendezvous implements Rendezvous {
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if(user.getUsername()==null|| user.getUsername().trim().isEmpty()) 
 			throw new InvalidDataException();
+		UserInfo userinfo = user.getUserInfo();
+		if (userinfo.getPhoneNumber() != null) {
+			Pattern pattern = Pattern.compile("^[0-9]{10}$");
+			Matcher matcher = pattern.matcher(userinfo.getPhoneNumber()); 
+			 if (!matcher.matches()) {
+			      throw new InvalidDataException();
+			 }
+		}
+		if (userinfo.getEmail()!=null){
+			Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
+		    Matcher regMatcher   = regexPattern.matcher(userinfo.getEmail());
+		    if(!regMatcher.matches()){
+		    	throw new InvalidDataException();
+		    } 
+		}
+		
+		user.setUpdatedDate(new Date());
 		User updatedUser = dao.update(user);
 		return updatedUser;
 	}
@@ -110,6 +149,10 @@ public class SimpleRendezvous implements Rendezvous {
 		post.setAbstractText(post.getPostText().substring(0, 100));
 		post.setCreatedDate(new Date());
 		post.setUpdatedDate(new Date());
+		//When post is created usually there will be no comments
+		post.setComments(null);
+		post.setFavouritedUsers(null);
+		post.setTags(null);
 		dao.createPost(post);
 	}
 
@@ -225,6 +268,10 @@ public class SimpleRendezvous implements Rendezvous {
 				comment.getUser().getUsername() == null || comment.getUser().getUsername().trim().isEmpty() || post_id == 0) {
 			throw new InvalidDataException();
 		}
+		Post post = dao.getPost(post_id);
+		if (post == null)  {
+			throw new PostNotFoundException();
+		}
 		comment.setCreatedDate(new Date());
 		comment.setUpdatedDate(new Date());
 		dao.createComment(post_id, comment);
@@ -233,9 +280,11 @@ public class SimpleRendezvous implements Rendezvous {
 
 	@Override
 	public void createMessage(Message message) throws InvalidDataException, RendezvousException {
-		if (message.getMessageText() == null || message.getMessageText().trim().isEmpty() ||
-				message.getUser() == null) {
+		if (message.getMessageText() == null || message.getMessageText().trim().isEmpty() ) {
 			throw new InvalidDataException();
+		}
+		if (message.getUser() == null) {
+			throw new RendezvousException();
 		}
 		message.setCreatedDate(new Date());
 		dao.createMessage(message);

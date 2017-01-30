@@ -3,7 +3,10 @@ package com.cisco.cmad.api;
 public class InvalidDataException extends RendezvousException {
 
 	public InvalidDataException() {
-		// TODO Auto-generated constructor stub
+		super("Invalid Data Enterered");
 	}
-
+	
+	public InvalidDataException(String errMsg) {
+		super(errMsg);
+	}
 }

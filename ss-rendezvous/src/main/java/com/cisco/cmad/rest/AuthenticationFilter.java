@@ -105,11 +105,11 @@ public class AuthenticationFilter implements ContainerRequestFilter
         try {
 			user = rendezvous.login(username, password);
 		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		    return isAllowed;
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return isAllowed;
 		}
          
         if(user.getUsername().equals(username) && user.getPassword().equals(password))

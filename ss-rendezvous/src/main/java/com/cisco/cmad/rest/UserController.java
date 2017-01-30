@@ -60,9 +60,9 @@ public class UserController {
 		} catch (UserNotFoundException e) {
 			return Response.ok().build();
 		} catch (InvalidDataException e) {
-			return Response.status(400).build();
+			return Response.status(400).entity("Username can't be empty").build();
 		} catch (RendezvousException e) {
-			return Response.status(400).build();
+			return Response.status(400).entity("Invalid server error").build();
 		}
 		return Response.status(404).build();
 	}
@@ -78,9 +78,9 @@ public class UserController {
 		} catch (UserNotFoundException e) {
 			return Response.ok().build();
 		} catch (InvalidDataException e) {
-			return Response.status(500).build();
+			return Response.status(500).entity("Invlid email address given").build();
 		} catch (RendezvousException e) {
-			return Response.status(500).build();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		return Response.status(404).build();
 	}
@@ -97,8 +97,10 @@ public class UserController {
 			rendezvous.register(user);
 		} catch (UserAlreadyExistsException e) {
 			e.printStackTrace();
+			
 		} catch (RendezvousException e) {
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		return Response.ok().build();
 	}
@@ -116,6 +118,7 @@ public class UserController {
 		} catch (RendezvousException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		Date date = new Date();
 		a.setLastLoginDate(date);
@@ -125,6 +128,7 @@ public class UserController {
 			rendezvous.update(a);
 		} catch (RendezvousException e) {
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		String auth = username+":"+password;
 		HttpSession session = request.getSession();
@@ -159,14 +163,14 @@ public class UserController {
 		try {
 			updatedUser = rendezvous.update(user);
 		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Given user doesn't exist").build();
 		} catch (InvalidDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(400).entity("Invalid data entered ").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		return Response.ok().entity(updatedUser).build();
 	}
@@ -179,11 +183,11 @@ public class UserController {
 		try {
 			rendezvous.invite(emailIds);
 		} catch (InvalidDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(400).entity("Invalid data entered ").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		return Response.ok().build();
 		
@@ -198,11 +202,12 @@ public class UserController {
 		try {
 			posts = rendezvous.getFavouritePosts(username);
 		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Given user doesn't exist").build();
 		} catch (RendezvousException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		return Response.ok().entity(posts).build();
 	}

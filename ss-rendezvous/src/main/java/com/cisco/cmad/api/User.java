@@ -138,6 +138,12 @@ public class User {
 		this.posts = posts;
 	}
 
+	public List<Message> getMessages(){
+		return messages;
+	}
 	
+	public void setMessages(List<Message> msgs) {
+		this.messages = msgs;
+	}
 
 }

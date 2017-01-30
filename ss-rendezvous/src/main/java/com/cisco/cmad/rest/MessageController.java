@@ -32,11 +32,11 @@ public class MessageController {
 		try {
 			rendezvous.createMessage(message);
 		} catch (InvalidDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Enter valid text in the textbox").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("User field is invalid").build();
 		}
 		
 		return Response.ok().build();

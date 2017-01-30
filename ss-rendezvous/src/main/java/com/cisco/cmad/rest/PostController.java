@@ -38,11 +38,11 @@ public class PostController {
 		try {
 			rendezvous.createPost(post);
 		} catch (InvalidDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Invalid post title/content").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(400).entity("New post could not be created").build();
 		}
 		return Response.ok().build();
 	}
@@ -55,11 +55,11 @@ public class PostController {
 		try {
 			comments = rendezvous.getComments(post_id);
 		} catch (PostNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("No such post found").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("No comments found for this post").build();
 		}
 		return Response.ok().entity(comments).build();
 	}
@@ -93,11 +93,11 @@ public class PostController {
 		try {
 			posts = rendezvous.getPostsByTag(tag_id);
 		} catch (TagNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Invalid tag").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Post not found for this tag").build();
 		}
 		return Response.ok().entity(posts).build();
 	}
@@ -110,11 +110,12 @@ public class PostController {
 		try {
 			posts = rendezvous.getPostsByInterest(interest);
 		} catch (InvalidInterestException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Interest Entered is not valid").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("No post found for this interest").build();
+
 		}
 		return Response.ok().entity(posts).build();
 	}
@@ -127,11 +128,11 @@ public class PostController {
 		try {
 			post = rendezvous.getPost(post_id);
 		} catch (PostNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("No such post found").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid post title/content").build();
 		}
 		return Response.ok().entity(post).build();
 	}
@@ -144,11 +145,11 @@ public class PostController {
 		try {
 			count = rendezvous.getFavouritePostCount(post_id);
 		} catch (PostNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity("Invalid post title/content").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid operation").build();
 		}
 		return Response.ok().entity(count).build();
 	}
@@ -160,14 +161,14 @@ public class PostController {
 		try {
 			rendezvous.markFavourite(post_id, username);
 		} catch (PostNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity(" No such Post").build();
 		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(401).entity("This user doesn't exist").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
 		}
 		return Response.ok().build();
 	}
@@ -178,14 +179,14 @@ public class PostController {
 		try {
 			rendezvous.unMarkFavourite(post_id, username);
 		} catch (PostNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity(" No such Post").build();
 		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(401).entity("This user doesn't exist").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid Server Error").build();
 		}
 		return Response.ok().build();
 	}
@@ -207,14 +208,14 @@ public class PostController {
 		try {
 			rendezvous.createComment(post_id, comment);
 		} catch (PostNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(404).entity(" No such Post").build();
 		} catch (InvalidDataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(400).entity("Entered Data is invalid").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Invalid Server Error").build();
 		}
 		
 		return Response.ok().build();
