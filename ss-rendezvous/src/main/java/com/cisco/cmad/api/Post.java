@@ -1,5 +1,6 @@
 package com.cisco.cmad.api;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,11 +22,15 @@ import javax.persistence.TemporalType;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
+@Indexed
 public class Post {
 
 	@Id
@@ -48,16 +53,18 @@ public class Post {
 	private Date updatedDate;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "username", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "username", nullable = false)
 	private User user;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="post")
-	private List<Comment> comments;
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="post")
+	private List<Comment> comments = new ArrayList<>();
 	
 	@IndexedEmbedded
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Tag> tags = new HashSet<Tag>(0);
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "favouritePosts")
 	private Set<User> favouritedUsers = new HashSet<User>(0);
 

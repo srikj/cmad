@@ -11,9 +11,6 @@
 <body>
 	<div class="container">
 		<h1>r.e.n.d.e.z.v.o.u.s</h1>
-		
-		
-		
 		<form class="form-signin" method="get" action="rest/user/login" data-toggle="validator">
 		<div class="alert " role="alert"></div>
 			<h2 class="form-signin-heading">Login</h2>

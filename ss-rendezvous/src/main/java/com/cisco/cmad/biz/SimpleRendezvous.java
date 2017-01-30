@@ -252,13 +252,11 @@ public class SimpleRendezvous implements Rendezvous {
 		} else {
 			dao.unMarkFavourite(post_id, username);
 		}
-		
 	}
 
 	@Override
 	public List<Post> search(String key) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.search(key);
 	}
 
 	@Override

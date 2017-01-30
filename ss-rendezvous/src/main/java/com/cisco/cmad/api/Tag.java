@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.search.annotations.Field;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Tag {
 
@@ -21,6 +23,7 @@ public class Tag {
 	@Field
 	private String tagName;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
 	private Set<Post> taggedPosts = new HashSet<Post>(0);
 

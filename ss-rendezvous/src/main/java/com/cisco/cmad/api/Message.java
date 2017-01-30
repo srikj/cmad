@@ -17,8 +17,8 @@ public class Message {
 	@Id
 	private int messageId;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "username", nullable = false, insertable=false, updatable=false)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "username", nullable = false)
 	private User user;
 	
 	private String messageText;

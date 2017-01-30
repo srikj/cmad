@@ -27,8 +27,8 @@ public class Comment {
 	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "post_id", nullable = false, insertable=false, updatable=false)
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 	
 	public Comment() {

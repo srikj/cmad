@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.cisco.cmad.api.Comment;
@@ -65,12 +66,13 @@ public class JPADAO implements DAO {
 	public int createPost(Post post) {
 		
 		EntityManager em = factory.createEntityManager();
+		em.getTransaction().begin();
+		
 		User u = getUser(post.getUser().getUsername());
 		post.setUser(u);
-		u.getPosts().add(post);
-		em.getTransaction().begin();
 		em.persist(post);
 		em.getTransaction().commit();
+		
 		int id = post.getPost_id();
 		em.close();
 		return id;
@@ -90,6 +92,10 @@ public class JPADAO implements DAO {
 	public List<Post> getPosts() {
 		EntityManager em = factory.createEntityManager();
 		List<Post> posts = em.createQuery("from Post").getResultList();
+		for(Post post: posts) {
+			post.getUser();
+			post.setFavouritedUsers(null);
+		}
 		em.close();
 		return posts;
 	}
@@ -175,10 +181,9 @@ public class JPADAO implements DAO {
 	public List<Post> search(String key) {
 
 		EntityManager em = factory.createEntityManager();
-
-		FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
 		em.getTransaction().begin();
-
+		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
+		
 		QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Post.class).get();
 		org.apache.lucene.search.Query luceneQuery = qb.keyword().onFields("title", "postText", "tag.tagName")
 				.matching(key).createQuery();

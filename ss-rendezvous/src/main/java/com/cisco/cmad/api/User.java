@@ -1,5 +1,6 @@
 package com.cisco.cmad.api;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +19,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -42,14 +45,17 @@ public class User {
 	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Post> favouritePosts = new HashSet<Post>(0);
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="user")
-	private List<Post> posts;
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+	private List<Post> posts = new ArrayList<>();
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="user")
-	private List<Message> messages;
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+	private List<Message> messages = new ArrayList<>();
 
 	public User() {
 	}

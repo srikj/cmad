@@ -16,7 +16,7 @@ $(document).ready(function() {
 	  $("#updateProfile, #createPost, #searchResults").hide();
 	  $("#posts").show();
 	});
-	$( "#createPost form" ).submit(function( event ) {
+	$( "#createPost button" ).click(function( event ) {
 		event.preventDefault();
 		var tagArray = $("#postTags").tagsinput('items');
 		var tags = new Array();
@@ -49,14 +49,55 @@ $(document).ready(function() {
 				$("#postTitle").val("");
 				$("#postText").val("");
 				 $("#createPost .alert").addClass("alert-success");
-				 $(".alert-success").html("Post Successfully Created.");
-				 $(".alert").show();
+				 $("#createPost .alert-success").html("Post Successfully Created.");
+				 $("#createPost .alert").show();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				alert("Failure");
 			}
 			
 		});
+		  
+	});
+	$( "#updateProfile button" ).click(function( event ) {
+		event.preventDefault();
+		var formData = {
+			username: userName,
+			password: $("#regPassword").val(),
+			userInfo : {
+				name: $("#regName").val(),
+				email: $("#regEmail").val(),
+				phoneNumber: $("#regPhone").val(),
+				interest: $("#regInterest").val()
+			}
+		};
+		var logout = false;
+		
+		$.ajax({
+			url : "rest/user/update",
+			type : 'put',
+		    beforeSend: function(request) {
+		      request.setRequestHeader("Authorization", "Basic "+auth);
+		    },
+			data : JSON.stringify(formData),
+			contentType: 'application/json',
+			dataType: 'json',
+			success : function(response) {
+				$("#regName").val();
+				$("#regEmail").val();
+				$("#regPhone").val();
+				$("#regInterest").val();
+				auth = btoa(username+":"+password);
+				$('#updateProfileBtn').html(response.userInfo.name);
+				$("#updateProfile .alert").addClass("alert-success");
+				$("#updateProfile .alert-success").html("User Details Successfully Updated");
+				$("#updateProfile .alert").show();
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert("Failure");
+			}
+			
+		});	
 		  
 	});
 

@@ -1,4 +1,5 @@
 <%@page import="com.cisco.cmad.api.User"%>
+<%@page import="com.cisco.cmad.api.Interest"%>
 <%@page import="com.cisco.cmad.api.Rendezvous"%>
 <%@page import="com.cisco.cmad.biz.SimpleRendezvous"%>  
 <!DOCTYPE html>
@@ -251,11 +252,12 @@ var auth = "<%=auth %>";
         		
         		<div id="updateProfile">
         			<h2>Your Profile</h2>
-        			<form class="form-horizontal">
+        			<div class="alert " role="alert"></div>
+        			<form class="form-horizontal" data-toggle="validator">
 					  <div class="form-group">
 							<label for="regName" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
-						        <input type="text" id="regName" class="form-control" placeholder="Name" required>
+						        <input type="text" id="regName" class="form-control" placeholder="Name" value="<%=user.getUserInfo().getName() %>"required>
 						        <div class="help-block with-errors"></div>
 					        </div>
 				        </div>
@@ -263,7 +265,7 @@ var auth = "<%=auth %>";
 				        <div class="form-group">
 					        <label for="regUsername" class="col-sm-2 control-label">Username</label>
 					        <div class="col-sm-10">
-						        <label class="control-label">srikanthj</label>
+						        <input type="text" id="regName" class="form-control" disabled placeholder="Username" value="<%=user.getUsername() %>"required>
 						        <div class="help-block with-errors"></div>
 					        </div>
 				        </div>
@@ -271,7 +273,7 @@ var auth = "<%=auth %>";
 				        <div class="form-group">
 					        <label for="regEmail" class="col-sm-2 control-label">E-mail</label>
 					        <div class="col-sm-10">
-						        <input type="email" id="regEmail" class="form-control" placeholder="Email address" required>
+						        <input type="email" id="regEmail" class="form-control" placeholder="Email address" value="<%=user.getUserInfo().getEmail() %>" required>
 						    	<div class="help-block with-errors"></div>
 						    </div>
 					    </div>
@@ -279,7 +281,7 @@ var auth = "<%=auth %>";
 					    <div class="form-group ">
 							 <label for="regPhone" class="col-sm-2 control-label">Phone Number</label>
 							 <div class="col-sm-10">
-								 <input type="number" id="regPhone" class="form-control" placeholder="Phone Number">
+								 <input type="number" id="regPhone" class="form-control" placeholder="Phone Number" value="<%=user.getUserInfo().getPhoneNumber() %>">
 								 <div class="help-block with-errors"></div>
 							 </div>
 						</div>
@@ -288,9 +290,13 @@ var auth = "<%=auth %>";
 							<label for="regInterest" class="col-sm-2 control-label">Interest</label>
 								<div class="col-sm-10">
 							 	<select id="regInterest" class="form-control">
-								  <option value="0">Technology</option>
-								  <option value="1">Movies</option>
-								  <option value="2">Sports</option>
+								 	<% for(Interest interest : Interest.values()) { %>
+								 		<%if(user.getUserInfo().getInterest().equals(interest)){ %>
+								    	<option value="<%=interest.ordinal()%>" selected><%=interest.name()%></option>
+								    	<% } else {%>
+								    	<option value="<%=interest.ordinal()%>" ><%=interest.name()%></option>
+								    	<% } %>
+								    <% } %>
 								</select>
 								<div class="help-block with-errors"></div>
 							</div>
@@ -390,7 +396,7 @@ var auth = "<%=auth %>";
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
     <script src="js/bootstrap-tagsinput.min.js"></script>
-    <script src="js/home.js"></script>
+    <script src="js/home.js?v1.0"></script>
 
 </body>
 </html>
