@@ -181,7 +181,6 @@ public class JPADAO implements DAO {
 	public List<Post> search(String key) {
 
 		EntityManager em = factory.createEntityManager();
-		em.getTransaction().begin();
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
 		
 		QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Post.class).get();
