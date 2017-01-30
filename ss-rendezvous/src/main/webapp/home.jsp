@@ -1,3 +1,6 @@
+<%@page import="com.cisco.cmad.api.User"%>
+<%@page import="com.cisco.cmad.api.Rendezvous"%>
+<%@page import="com.cisco.cmad.biz.SimpleRendezvous"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,9 +9,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>r.e.n.d.e.z.v.o.u.s</title>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="css/home.css" rel="stylesheet">
+<link href="css/home.css?v1" rel="stylesheet">
 </head>
 <body>
+<%
+//allow access only if session exists
+User user = null;
+Rendezvous rendezvous = new SimpleRendezvous();
+String userName = null;
+String auth = null;
+if(session.getAttribute("username") == null || session.getAttribute("auth") == null){
+	response.sendRedirect("index.jsp");
+}
+
+userName = (String) session.getAttribute("username");
+auth = (String) session.getAttribute("auth");
+user = 	rendezvous.getUserByUsername(userName);
+
+%>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -22,8 +40,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav pull-right">
-            <li><a href="profile.html">Krishna Mohan Koyya</a></li>
-            <li><a href="index.html">Logout</a></li>
+            <li><a href="#" id="updateProfileBtn"><%=user.getUserInfo().getName() %></a></li>
+            <li><a href="rest/user/logout">Logout</a></li>
           </ul>
         <form class="navbar-form navbar-right" id="nav-form">
         	
@@ -35,7 +53,7 @@
 			      </span>
 			    </div>
         		<div class="col-md-5" >
-					<button class="btn  btn-primary btn-block" type="button" id="createPost">Create Post</button>
+					<button class="btn  btn-primary btn-block" type="button" id="createPostBtn">Create Post</button>
 				</div>
 			</div>
           </form>
@@ -73,116 +91,118 @@
 				</div>
         	</div>
         	<div class="col-md-6">
-        		<div class="post">
-	        		<h2 class="post-title">OpenSource Event Announced</h2> 
-	        		<p class="meta">Posted on <span class="date">1 JAN 2017</span> by <span class="author">glarimy</span> <a href="" class="unMarkFav"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a></p>
-					<div class="post-text">
-						<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-							dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-							asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-							dflasdkfjasldkfja</p>
-		
-						<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-							dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-							asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-							dflasdkfjasldkfjas dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-							asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-							dflaskfjalskfjas fds dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-							asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-							dflaskfjalskfjas fd</p>
-		
-						<p>jalskfjas fdasdfjaf adflkajflask salldfkjjsdlfkjsdf
-							salfksajflksjdf dflaskf</p>
-		
-						<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-							dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-							asdlkfjsdalfjksdaflkj asdflaskdfjasfd asldkfjasdlfkjasdf
-							salldfkj	jsdlfkjsdf salfksajflksjdf dflaskfjalskfjas fd</p>
-					</div>
-					
-			        <div class="comments">
-			        	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#post1-comments" aria-expanded="false" aria-controls="post1-comments">
-						  Comments
-						</a>
-						<div class="collapse" id="post1-comments">
-						  <div class="well">
-						    <form role="form">
-			        			<div class="form-group">
-							      <textarea id="comment" class="form-control" rows="3"></textarea>
-							      <button class="btn btn-success btn-block" type="submit">Post Comment</button>
-							    </div>
-					        </form>
-					        <h3>Comments</h3>
-					        <div class="comment">
-					        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-					        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-								asdflaskfjladskfjsda f</p>
-					        </div>
-					        <div class="comment">
-					        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-					        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-								asdflaskfjladskfjsda f</p>
-					        </div>
-						  </div>
+        		<div id="posts">
+	        		<div class="post">
+		        		<h2 class="post-title">OpenSource Event Announced</h2> 
+		        		<p class="meta">Posted on <span class="date">1 JAN 2017</span> by <span class="author">glarimy</span> <a href="" class="unMarkFav"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a></p>
+						<div class="post-text">
+							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
+								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
+								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
+								dflasdkfjasldkfja</p>
+			
+							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
+								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
+								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
+								dflasdkfjasldkfjas dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
+								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
+								dflaskfjalskfjas fds dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
+								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
+								dflaskfjalskfjas fd</p>
+			
+							<p>jalskfjas fdasdfjaf adflkajflask salldfkjjsdlfkjsdf
+								salfksajflksjdf dflaskf</p>
+			
+							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
+								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
+								asdlkfjsdalfjksdaflkj asdflaskdfjasfd asldkfjasdlfkjasdf
+								salldfkj	jsdlfkjsdf salfksajflksjdf dflaskfjalskfjas fd</p>
 						</div>
-					</div>
-        		</div>
-        		<div class="post">
-	        		<h2 class="post-title">OpenSource Event Announced</h2> 
-	        		<p class="date">Posted on 1 JAN 2017<a href="" class="markFav"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a></p>
-					<div class="post-text">
-						<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-							dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-							asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-							dflasdkfjasldkfja</p>
-		
-						<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-							dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-							asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-							dflasdkfjasldkfjas dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-							asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-							dflaskfjalskfjas fds dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-							asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-							dflaskfjalskfjas fd</p>
-		
-						<p>jalskfjas fdasdfjaf adflkajflask salldfkjjsdlfkjsdf
-							salfksajflksjdf dflaskf</p>
-		
-						<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-							dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-							asdlkfjsdalfjksdaflkj asdflaskdfjasfd asldkfjasdlfkjasdf
-							salldfkj	jsdlfkjsdf salfksajflksjdf dflaskfjalskfjas fd</p>
-					</div>
-					<div class="comments">
-			        	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#post2-comments" aria-expanded="false" aria-controls="post1-comments">
-						  Comments
-						</a>
-						<div class="collapse" id="post2-comments">
-						  <div class="well">
-						    <form role="form">
-			        			<div class="form-group">
-							      <textarea id="comment" class="form-control" rows="3"></textarea>
-							      <button class="btn btn-success btn-block" type="submit">Post Comment</button>
-							    </div>
-					        </form>
-					        <h3>Comments</h3>
-					        <div class="comment">
-					        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-					        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-								asdflaskfjladskfjsda f</p>
-					        </div>
-					        <div class="comment">
-					        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-					        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-								asdflaskfjladskfjsda f</p>
-					        </div>
-						  </div>
+						
+				        <div class="comments">
+				        	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#post1-comments" aria-expanded="false" aria-controls="post1-comments">
+							  Comments
+							</a>
+							<div class="collapse" id="post1-comments">
+							  <div class="well">
+							    <form role="form">
+				        			<div class="form-group">
+								      <textarea id="comment" class="form-control" rows="3"></textarea>
+								      <button class="btn btn-success btn-block" type="submit">Post Comment</button>
+								    </div>
+						        </form>
+						        <h3>Comments</h3>
+						        <div class="comment">
+						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
+						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
+									asdflaskfjladskfjsda f</p>
+						        </div>
+						        <div class="comment">
+						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
+						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
+									asdflaskfjladskfjsda f</p>
+						        </div>
+							  </div>
+							</div>
 						</div>
-					</div>
+	        		</div>
+	        		<div class="post">
+		        		<h2 class="post-title">OpenSource Event Announced</h2> 
+		        		<p class="date">Posted on 1 JAN 2017<a href="" class="markFav"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a></p>
+						<div class="post-text">
+							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
+								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
+								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
+								dflasdkfjasldkfja</p>
+			
+							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
+								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
+								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
+								dflasdkfjasldkfjas dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
+								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
+								dflaskfjalskfjas fds dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
+								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
+								dflaskfjalskfjas fd</p>
+			
+							<p>jalskfjas fdasdfjaf adflkajflask salldfkjjsdlfkjsdf
+								salfksajflksjdf dflaskf</p>
+			
+							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
+								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
+								asdlkfjsdalfjksdaflkj asdflaskdfjasfd asldkfjasdlfkjasdf
+								salldfkj	jsdlfkjsdf salfksajflksjdf dflaskfjalskfjas fd</p>
+						</div>
+						<div class="comments">
+				        	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#post2-comments" aria-expanded="false" aria-controls="post1-comments">
+							  Comments
+							</a>
+							<div class="collapse" id="post2-comments">
+							  <div class="well">
+							    <form role="form">
+				        			<div class="form-group">
+								      <textarea id="comment" class="form-control" rows="3"></textarea>
+								      <button class="btn btn-success btn-block" type="submit">Post Comment</button>
+								    </div>
+						        </form>
+						        <h3>Comments</h3>
+						        <div class="comment">
+						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
+						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
+									asdflaskfjladskfjsda f</p>
+						        </div>
+						        <div class="comment">
+						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
+						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
+									asdflaskfjladskfjsda f</p>
+						        </div>
+							  </div>
+							</div>
+						</div>
+	        		</div>
         		</div>
         		
         		
-        		<div class="createPost">
+        		<div id="createPost">
         			<h2>New Post</h2>
         			<form class="form-horizontal">
 					  <div class="form-group">
@@ -221,7 +241,7 @@
 					</form>
         		</div>
         		
-        		<div class="updateProfile">
+        		<div id="updateProfile">
         			<h2>Your Profile</h2>
         			<form class="form-horizontal">
 					  <div class="form-group">
@@ -293,7 +313,7 @@
 					</form>
         		</div>
         		
-        		<div class="searchResults">
+        		<div id="searchResults">
         			<h2>Search Results</h2>
         			<p>Key:  <span id="key">asdf  saddf sdfs fs df</span></p>
         			<ul class="results">
@@ -360,6 +380,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+    <script src="js/home.js"></script>
 
 </body>
 </html>

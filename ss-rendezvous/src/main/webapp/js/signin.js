@@ -12,31 +12,31 @@ $(document).ready(function() {
 	  $(".form-signup").hide();
 	  $(".form-signin").show();
 	});
-	$( ".form-signin" ).submit(function( event ) {
-		username = $("#inputUsername").val();
-		password = $("#inputPassword").val();
-		$.ajax({
-			url : "rest/user/login?username="+username+"&password="+password,
-			type : 'get',
-			success : function(response) {
-				 $.ajax({
-					 type :'get',
-					 url: "rest/user/home",
-					 beforeSend: function (xhr) {
-						    xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
-					 },
-					 success: function (response){
-						     $('body').html(response);
-						    }
-				 })
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				alert("Failure");
-			}
-			
-		});
-		  event.preventDefault();
-	});
+//	$( ".form-signin" ).submit(function( event ) {
+//		username = $("#inputUsername").val();
+//		password = $("#inputPassword").val();
+//		$.ajax({
+//			url : "rest/user/login?username="+username+"&password="+password,
+//			type : 'get',
+//			success : function(response) {
+//				 $.ajax({
+//					 type :'get',
+//					 url: "rest/user/home",
+//					 beforeSend: function (xhr) {
+//						    xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+//					 },
+//					 success: function (response){
+//						     $('body').html(response);
+//						    }
+//				 })
+//			},
+//			error: function(jqXHR, textStatus, errorThrown) {
+//				alert("Failure");
+//			}
+//			
+//		});
+//		  event.preventDefault();
+//	});
 	$( ".form-signup" ).submit(function( event ) {
 		event.preventDefault();
 		var formData = {

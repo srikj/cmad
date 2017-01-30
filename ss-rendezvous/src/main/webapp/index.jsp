@@ -14,17 +14,17 @@
 		
 		
 		
-		<form class="form-signin" data-toggle="validator">
+		<form class="form-signin" method="get" action="rest/user/login" data-toggle="validator">
 		<div class="alert " role="alert"></div>
 			<h2 class="form-signin-heading">Login</h2>
 		  <div class="form-group">
 			  <label for="inputUsername" class="control-label">Username</label>
-			  <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+			  <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required autofocus>
 			  <div class="help-block with-errors"></div>
 		  </div>
 		  <div class="form-group">
 			  <label for="inputPassword" class="control-label">Password</label>
-			  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+			  <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
 			  <div class="help-block with-errors"></div>
 		  </div>
 		  <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
@@ -101,6 +101,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
-    <script src="js/signin.js?v1.1"></script>
+    <script src="js/signin.js?v1.2"></script>
 </body>
 </html>

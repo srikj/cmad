@@ -1,5 +1,8 @@
 package com.cisco.cmad.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
 
@@ -12,8 +15,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -23,7 +28,9 @@ import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.cisco.cmad.api.InvalidDataException;
 import com.cisco.cmad.api.Post;
@@ -37,6 +44,10 @@ import com.cisco.cmad.biz.SimpleRendezvous;
 @Path("/user")
 public class UserController {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
 	@PermitAll
@@ -95,9 +106,8 @@ public class UserController {
 	
 	@PermitAll
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/login")
-	public Response login(@Context HttpServletRequest request,@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) {
+	public Response login(@Context HttpServletRequest request,@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) throws URISyntaxException {
 		User a = null;
 		try {
 			a = rendezvous.login(username, password);
@@ -117,16 +127,30 @@ public class UserController {
 		} catch (RendezvousException e) {
 			e.printStackTrace();
 		}
-		return Response.ok().entity(a).build();
+		String auth = username+":"+password;
+		HttpSession session = request.getSession();
+		session.setAttribute("username", a.getUsername());
+		session.setAttribute("auth", Base64.getEncoder().encodeToString(auth.getBytes()));
+		session.setMaxInactiveInterval(30*60);
+//		NewCookie[] cookies = new NewCookie[2];
+//		cookies[0] = new NewCookie(new NewCookie("username", a.getUsername()), "", 30*60, false);
+//		cookies[1] = new NewCookie(new NewCookie("auth", Base64.getEncoder().encodeToString(auth.getBytes())), "", 30*60, false);
+		//setting cookie to expiry in 30 mins
+		return Response.temporaryRedirect(new URI("/rendezvous/home.jsp")).build();
 	}
 	
+	@PermitAll
 	@GET
-	@Path("/home")
-	public Viewable home(@Context HttpServletRequest request) {
-		Viewable view = new Viewable("/home.jsp");
-		return view;
+	@Path("/logout")
+	public Response logout(@Context HttpServletRequest request) throws URISyntaxException {
+		
+		HttpSession session = request.getSession(false);
+    	if(session != null){
+    		session.invalidate();
+    	}
+		return Response.temporaryRedirect(new URI("/rendezvous/index.jsp")).build();
 	}
-
+	
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
