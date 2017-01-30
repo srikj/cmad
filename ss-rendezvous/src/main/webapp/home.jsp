@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>r.e.n.d.e.z.v.o.u.s</title>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-tagsinput.css" rel="stylesheet">
 <link href="css/home.css?v1" rel="stylesheet">
 </head>
 <body>
@@ -21,12 +22,16 @@ String auth = null;
 if(session.getAttribute("username") == null || session.getAttribute("auth") == null){
 	response.sendRedirect("index.jsp");
 }
-
-userName = (String) session.getAttribute("username");
-auth = (String) session.getAttribute("auth");
-user = 	rendezvous.getUserByUsername(userName);
-
+else {
+	userName = (String) session.getAttribute("username");
+	auth = (String) session.getAttribute("auth");
+	user = 	rendezvous.getUserByUsername(userName);
+}
 %>
+<script >
+var userName = "<%=userName %>";
+var auth = "<%=auth %>";
+</script>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -204,17 +209,19 @@ user = 	rendezvous.getUserByUsername(userName);
         		
         		<div id="createPost">
         			<h2>New Post</h2>
-        			<form class="form-horizontal">
+        			<div class="alert " role="alert"></div>
+        			<form class="form-horizontal" data-toggle="validator">
 					  <div class="form-group">
 					    <label for="postTitle" class="col-sm-2 control-label">Title</label>
 					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="postTitle" placeholder="Title">
+					      <input type="text" class="form-control" id="postTitle" placeholder="Title" required>
+					      <div class="help-block with-errors"></div>
 					    </div>
 					  </div>
 					  <div class="form-group">
 					    <label for="postTags" class="col-sm-2 control-label">Tags</label>
 					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="postTags" placeholder="Tags">
+					      <input type="text" class="form-control full-width" id="postTags" placeholder="Tags" data-role="tagsinput">
 					    </div>
 					  </div>
 					  <div class="form-group">
@@ -230,7 +237,8 @@ user = 	rendezvous.getUserByUsername(userName);
 					  <div class="form-group">
 					    <label for="postText" class="col-sm-2 control-label">Post</label>
 					    <div class="col-sm-10">
-					      <textarea id="postText" class="form-control" rows="5"></textarea>
+					      <textarea id="postText" class="form-control" rows="5" data-minlength="100"></textarea>
+					      <div class="help-block with-errors"></div>
 					    </div>
 					  </div>
 					  <div class="form-group">
@@ -381,6 +389,7 @@ user = 	rendezvous.getUserByUsername(userName);
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+    <script src="js/bootstrap-tagsinput.min.js"></script>
     <script src="js/home.js"></script>
 
 </body>

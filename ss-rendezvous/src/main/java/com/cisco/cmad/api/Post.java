@@ -10,7 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -33,10 +36,11 @@ public class Post {
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
 	
+	@Lob
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String postText;
 	private String abstractText;
-	private Interest interest;
+	private Interest topic;
 	
 	@Temporal(TemporalType.DATE)
 	private Date createdDate;
@@ -44,10 +48,11 @@ public class Post {
 	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private UserInfo userInfo;
+	@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "username", nullable = false, insertable=false, updatable=false)
+	private User user;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="post")
 	private List<Comment> comments;
 	
 	@IndexedEmbedded
@@ -60,17 +65,17 @@ public class Post {
 	public Post() {
 	}
 
-	public Post(int post_id, String title, String postText, String abstractText, Interest interest, Date createdDate,
-			Date updatedDate, UserInfo userInfo, List<Comment> comments, Set<Tag> tags, Set<User> favouritedUsers) {
+	public Post(int post_id, String title, String postText, String abstractText, Interest topic, Date createdDate,
+			Date updatedDate, User user, List<Comment> comments, Set<Tag> tags, Set<User> favouritedUsers) {
 		super();
 		this.post_id = post_id;
 		this.title = title;
 		this.postText = postText;
 		this.abstractText = abstractText;
-		this.interest = interest;
+		this.topic = topic;
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
-		this.userInfo = userInfo;
+		this.user = user;
 		this.comments = comments;
 		this.tags = tags;
 		this.favouritedUsers = favouritedUsers;
@@ -108,12 +113,12 @@ public class Post {
 		this.abstractText = abstractText;
 	}
 
-	public Interest getInterest() {
-		return interest;
+	public Interest getTopic() {
+		return topic;
 	}
 
-	public void setInterest(Interest interest) {
-		this.interest = interest;
+	public void setTopic(Interest topic) {
+		this.topic = topic;
 	}
 
 	public Date getCreatedDate() {
@@ -132,12 +137,12 @@ public class Post {
 		this.updatedDate = updatedDate;
 	}
 
-	public UserInfo getUserInfo() {
-		return userInfo;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public List<Comment> getComments() {

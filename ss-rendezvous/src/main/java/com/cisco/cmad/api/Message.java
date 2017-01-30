@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,8 +17,9 @@ public class Message {
 	@Id
 	private int messageId;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private UserInfo userInfo;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "username", nullable = false, insertable=false, updatable=false)
+	private User user;
 	
 	private String messageText;
 	
@@ -25,10 +29,10 @@ public class Message {
 	public Message() {
 	}
 
-	public Message(int messageId, UserInfo userInfo, String messageText, Date createdDate) {
+	public Message(int messageId, User user, String messageText, Date createdDate) {
 		super();
 		this.messageId = messageId;
-		this.userInfo = userInfo;
+		this.user = user;
 		this.messageText = messageText;
 		this.createdDate = createdDate;
 	}
@@ -41,12 +45,12 @@ public class Message {
 		this.messageId = messageId;
 	}
 
-	public UserInfo getUserInfo() {
-		return userInfo;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getMessageText() {

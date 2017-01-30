@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;

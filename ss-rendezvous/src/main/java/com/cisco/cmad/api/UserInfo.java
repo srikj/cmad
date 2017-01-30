@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -12,12 +13,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-
+@Embeddable
 public class UserInfo {
 	
-	@Id
-	private String username;
 	
 	private String name;
 	private String email;
@@ -27,20 +25,13 @@ public class UserInfo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public UserInfo(String username, String name, String email, String phoneNumber,
+	public UserInfo( String name, String email, String phoneNumber,
 			Interest interest) {
 		super();
-		this.username = username;
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.interest = interest;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
 	}
 	public String getName() {
 		return name;

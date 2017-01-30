@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,7 +19,7 @@ public class Comment {
 	private String commentText;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	private UserInfo userInfo;
+	private User user;
 	
 	@Temporal(TemporalType.DATE)
 	private Date createdDate;
@@ -24,14 +27,18 @@ public class Comment {
 	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "post_id", nullable = false, insertable=false, updatable=false)
+    private Post post;
+	
 	public Comment() {
 	}
 
-	public Comment(int id, String commentText, UserInfo userInfo, Date createdDate, Date updatedDate) {
+	public Comment(int id, String commentText, User user, Date createdDate, Date updatedDate) {
 		super();
 		this.id = id;
 		this.commentText = commentText;
-		this.userInfo = userInfo;
+		this.user = user;
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
 	}
@@ -52,12 +59,12 @@ public class Comment {
 		this.commentText = commentText;
 	}
 
-	public UserInfo getUserInfo() {
-		return userInfo;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getCreatedDate() {
@@ -74,6 +81,14 @@ public class Comment {
 
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 	
 

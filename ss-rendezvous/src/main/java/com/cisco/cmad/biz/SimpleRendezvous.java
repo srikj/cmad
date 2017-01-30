@@ -41,9 +41,6 @@ public class SimpleRendezvous implements Rendezvous {
 		if(userinfo.getName()==null || userinfo.getName().trim().isEmpty())
 			throw new InvalidDataException();
 		
-		if(userinfo.getUsername()==null || userinfo.getUsername().trim().isEmpty()) {
-			userinfo.setUsername(user.getUsername());
-		}
 			
 		if(dao.getUser(user.getUsername()) != null) throw new UserAlreadyExistsException();
 		
@@ -225,7 +222,7 @@ public class SimpleRendezvous implements Rendezvous {
 	public void createComment(int post_id, Comment comment)
 			throws PostNotFoundException, InvalidDataException, RendezvousException {
 		if(comment.getCommentText() == null || comment.getCommentText().trim().isEmpty() ||
-				comment.getUserInfo().getUsername() == null || comment.getUserInfo().getUsername().trim().isEmpty() || post_id == 0) {
+				comment.getUser().getUsername() == null || comment.getUser().getUsername().trim().isEmpty() || post_id == 0) {
 			throw new InvalidDataException();
 		}
 		comment.setCreatedDate(new Date());
@@ -237,7 +234,7 @@ public class SimpleRendezvous implements Rendezvous {
 	@Override
 	public void createMessage(Message message) throws InvalidDataException, RendezvousException {
 		if (message.getMessageText() == null || message.getMessageText().trim().isEmpty() ||
-				message.getUserInfo() == null) {
+				message.getUser() == null) {
 			throw new InvalidDataException();
 		}
 		message.setCreatedDate(new Date());

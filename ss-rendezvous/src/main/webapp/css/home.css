@@ -48,3 +48,6 @@ span.glyphicon-star {
 #createPost, #updateProfile, #searchResults {
 	display: none;
 }
+.bootstrap-tagsinput {
+	width: 100%;
+}

@@ -2,16 +2,20 @@ package com.cisco.cmad.api;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,9 +25,10 @@ import javax.persistence.TemporalType;
 public class User {
 
 	@Id
+	@PrimaryKeyJoinColumn
 	private String username;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@Embedded
 	protected UserInfo userInfo;
 	
 	private String password;
@@ -39,6 +44,12 @@ public class User {
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Post> favouritePosts = new HashSet<Post>(0);
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="user")
+	private List<Post> posts;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="user")
+	private List<Message> messages;
 
 	public User() {
 	}
@@ -117,6 +128,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 	

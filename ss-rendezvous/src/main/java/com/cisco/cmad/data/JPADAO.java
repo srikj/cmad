@@ -63,7 +63,11 @@ public class JPADAO implements DAO {
 
 	@Override
 	public int createPost(Post post) {
+		
 		EntityManager em = factory.createEntityManager();
+		User u = getUser(post.getUser().getUsername());
+		post.setUser(u);
+		u.getPosts().add(post);
 		em.getTransaction().begin();
 		em.persist(post);
 		em.getTransaction().commit();
