@@ -31,7 +31,10 @@
 		<hibernate.version>5.2.6.Final</hibernate.version>
 		<derby.version>10.10.1.1</derby.version>
 		<jersey.version>2.22.2</jersey.version>
+    	<sonar.language>js</sonar.language>
+    	<sonar.exclusions>bootstrap/**</sonar.exclusions>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 	        <groupId>javax.ws.rs</groupId>
