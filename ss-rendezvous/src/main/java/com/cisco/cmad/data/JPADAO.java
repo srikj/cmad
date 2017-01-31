@@ -108,7 +108,7 @@ public class JPADAO implements DAO {
 	@Override
 	public List<Post> getPosts() {
 		EntityManager em = factory.createEntityManager();
-		List<Post> posts = em.createQuery("from Post").getResultList();
+		List<Post> posts = em.createQuery("from Post p order by p.createdDate DESC").getResultList();
 		for(Post post: posts) {
 			post.getUser();
 		}
@@ -120,7 +120,7 @@ public class JPADAO implements DAO {
 	public List<Post> getPosts(int offset, int size) {
 		EntityManager em = factory.createEntityManager();
 		TypedQuery<Post> query =
-			      em.createQuery("FROM Post", Post.class);
+			      em.createQuery("FROM Post p order by p.createdDate DESC", Post.class);
 	    List<Post> numPosts =query.setFirstResult(offset)
 	    								.setMaxResults(size)
 	    								.getResultList();
@@ -213,7 +213,7 @@ public class JPADAO implements DAO {
 		EntityManager em = factory.createEntityManager();
 		List<Post> posts; 
 		try {
-			posts = em.createQuery("from Post p where p.title like :key OR p.postText like :key").setParameter("key", "%"+key+"%")
+			posts = em.createQuery("from Post p where p.title like :key OR p.postText like :key order by p.createdDate DESC").setParameter("key", "%"+key+"%")
 				.getResultList();
 		} catch(NoResultException e) {
 			em.close();
@@ -250,7 +250,7 @@ public class JPADAO implements DAO {
 	@Override
 	public List<Message> getMessages() {
 		EntityManager em = factory.createEntityManager();
-		List<Message> AllMessages = em.createQuery("FROM Message", Message.class).getResultList();
+		List<Message> AllMessages = em.createQuery("FROM Message m order by m.createdDate DESC", Message.class).getResultList();
 		em.close();
 		return AllMessages;
 	}
@@ -259,7 +259,7 @@ public class JPADAO implements DAO {
 	public List<Message> getMessages(int offset, int size) {
 		EntityManager em = factory.createEntityManager();
 		TypedQuery<Message> query =
-			      em.createQuery("FROM Message", Message.class);
+			      em.createQuery("FROM Message m order by m.createdDate DESC", Message.class);
 	    List<Message> numMessages =query.setFirstResult(offset)
 	    								.setMaxResults(size)
 	    								.getResultList();

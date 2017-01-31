@@ -109,7 +109,7 @@ var auth = "<%=auth %>";
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
     <script src="js/bootstrap-tagsinput.min.js"></script>
-    <script src="js/home.js?v1.1"></script>
+    <script src="js/home.js?v1.2"></script>
 
 </body>
 </html>

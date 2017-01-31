@@ -15,12 +15,13 @@
 		<h4>Invite Users</h4>
 		<form role="form">
 			<div class="input-group">
-				<input type="text" id="invite" class="form-control"
+				<input type="text" id="emails" class="form-control"
 					placeholder="email1, email2, email3"> <span
 					class="input-group-btn">
 					<button class="btn btn-default btn-block" type="submit">Invite</button>
 				</span>
 			</div>
+			<div class="alert" role="alert"></div>
 		</form>
 	</div>
 </div>

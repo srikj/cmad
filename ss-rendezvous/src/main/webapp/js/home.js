@@ -406,6 +406,30 @@ $(document).ready(function() {
 		});
 	});
 	
+	$( "#invite form" ).submit(function( event ) {
+		event.preventDefault();
+		var emails = $("#emails").val();
+		$.ajax({
+			url : "rest/user/invite?emailids="+emails,
+			type : 'get',
+			dataType: 'json',
+			data: JSON.stringify(emails),
+			beforeSend: function(request) {
+		      request.setRequestHeader("Authorization", "Basic "+auth);
+		    },
+			success : function(response) {
+				$("#invite .alert").addClass("alert-success");
+				$("#invite .alert-success").html("Invites successful");
+				$("#invite .alert").show();
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				$("#invite .alert").addClass("alert-danger");
+				$("#invite .alert-danger").html("Invites successful");
+				$("#invite .alert").show();
+			}
+		});
+	});
+	
 	
 	
 	function display(heading, response) {

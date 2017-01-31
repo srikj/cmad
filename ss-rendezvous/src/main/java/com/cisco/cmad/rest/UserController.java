@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -175,10 +176,10 @@ public class UserController {
 		return Response.ok().entity(updatedUser).build();
 	}
 	
-	@POST
+	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/invite/")
-	public Response invite(String emailIds) {
+	public Response invite(@QueryParam(value="emailids") String emailIds) {
 		
 		try {
 			rendezvous.invite(emailIds);
@@ -190,7 +191,6 @@ public class UserController {
 			return Response.status(500).entity("Invalid server error").build();
 		}
 		return Response.ok().build();
-		
 	}
 	
 	@GET

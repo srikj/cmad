@@ -1,5 +1,6 @@
 package com.cisco.cmad.test;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.cisco.cmad.api.Interest;
@@ -32,11 +33,9 @@ public class UserTest {
 			System.out.println("Successfully registerd the user");
 			return;
 		}catch (InvalidDataException e) {
-			e.printStackTrace();
-			System.out.println("Invalid data entered");
+			Assert.fail();
 		} catch (RendezvousException e) {
-			e.printStackTrace();
-			System.out.println("User registration unsuccessfu");
+			Assert.fail();
 		}
 	}
 	@Test
