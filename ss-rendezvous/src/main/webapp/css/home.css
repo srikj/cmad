@@ -15,12 +15,12 @@ nav .container {
 .sidenav {
 	width: 200px;
 }
-.searchResults .results {
+#searchResults .results {
 	list-style: none;
     margin: 0;
     padding: 0;
 }
-.searchResults .results li {
+#searchResults .results li {
     margin-bottom: 10px;
 }
 
@@ -63,4 +63,7 @@ span.author {
 }
 .topic a {
     text-transform: capitalize;
+}
+#search-form {
+	margin-right: 15px;
 }

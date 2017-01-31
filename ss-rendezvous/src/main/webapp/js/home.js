@@ -373,7 +373,7 @@ $(document).ready(function() {
 	
 	$( "#search-form" ).submit(function( event ) {
 		event.preventDefault();
-		var key = $("search").val();
+		var key = $("#search").val();
 		$.ajax({
 			url : "rest/post/search?search="+key,
 			type : 'get',
@@ -381,7 +381,24 @@ $(document).ready(function() {
 		      request.setRequestHeader("Authorization", "Basic "+auth);
 		    },
 			success : function(response) {
-				$("#posts").html(buildPost(response));
+				var results = "<h2>Search Results</h2>";
+				if(response.length ==0) {
+					results = "<p>No Results Found</p>";
+				} else {
+					results+="<p>Key: <span id='key'>"+key+"</span></p>";
+					results+="<ul class='results'>";
+					for(var i = 0; i<response.length; i++) {
+						var post = response[i];
+						results+="<li><h5>"+
+								"<a href='' class='singlePost' id='"+post.post_id+"-single-post'>"+post.title+"</a></h5> "+
+								"<span class='meta'>by <span class='author'>"+post.user.username+"</span> on"+
+								"<span class='date'>"+formatDate(new Date(post.createdDate))+"</span></span></li>";
+					}
+					results+="</ul>"
+				}
+				$("#searchResults").html(results);
+				$("#posts, #createPost, #updateProfile").hide();
+				$("#searchResults").show();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				alert("Failure");
