@@ -49,5 +49,7 @@ public interface Rendezvous {
 	
 	public List<Message> getMessages(int offset, int size) ;
 	
+	public List<Tag> getTags() ;
+	
 	
 }

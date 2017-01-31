@@ -1,5 +1,6 @@
 package com.cisco.cmad.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,9 +12,9 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
+//import org.hibernate.search.jpa.FullTextEntityManager;
+//import org.hibernate.search.jpa.Search;
+//import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
@@ -58,6 +59,7 @@ public class JPADAO implements DAO {
 		EntityManager em = factory.createEntityManager();
 		User user = em.find(User.class, username);
 		Set<Post> posts = user.getFavouritePosts();
+		posts.size();
 		em.close();
 		return posts;
 	}
@@ -70,6 +72,21 @@ public class JPADAO implements DAO {
 		
 		User u = getUser(post.getUser().getUsername());
 		post.setUser(u);
+		
+		for(Tag tag : post.getTags() ) {
+			Tag t = null;
+			try {
+				t = (Tag) em.createQuery("from Tag t where t.tagName=:tagName").setParameter("tagName", tag.getTagName()).getSingleResult();
+			} catch(NoResultException e) {
+				tag.getTaggedPosts().add(post);
+			}
+			if(t != null) {
+				t.getTaggedPosts().add(post);
+				em.merge(t);
+				post.getTags().remove(tag);
+				post.getTags().add(t);
+			}
+		}
 		em.persist(post);
 		em.getTransaction().commit();
 		
@@ -94,7 +111,6 @@ public class JPADAO implements DAO {
 		List<Post> posts = em.createQuery("from Post").getResultList();
 		for(Post post: posts) {
 			post.getUser();
-			post.setFavouritedUsers(null);
 		}
 		em.close();
 		return posts;
@@ -116,6 +132,7 @@ public class JPADAO implements DAO {
 		EntityManager em = factory.createEntityManager();
 		Tag t = em.find(Tag.class, tag_id);
 		Set<Post> posts = t.getTaggedPosts();
+		posts.size();
 		em.close();
 		return posts;
 	}
@@ -124,7 +141,7 @@ public class JPADAO implements DAO {
 	@Override
 	public List<Post> getPostsByInterest(Interest interest) {
 		EntityManager em = factory.createEntityManager();
-		List<Post> posts = em.createQuery("from Post p where p.interest=:interest").setParameter("interest", interest)
+		List<Post> posts = em.createQuery("from Post p where p.topic=:interest").setParameter("interest", interest)
 				.getResultList();
 		em.close();
 		return posts;
@@ -154,8 +171,8 @@ public class JPADAO implements DAO {
 		Post p = em.find(Post.class, post_id);
 		em.getTransaction().begin();
 		user.getFavouritePosts().add(p);
-		p.getFavouritedUsers().add(user);
 		em.persist(user);
+		p.getFavouritedUsers().add(user);
 		em.persist(p);
 		em.getTransaction().commit();
 		em.close();
@@ -180,28 +197,42 @@ public class JPADAO implements DAO {
 	@Override
 	public List<Post> search(String key) {
 
+//		EntityManager em = factory.createEntityManager();
+//		em.getTransaction().begin();
+//		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
+//		
+//		QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Post.class).get();
+//		org.apache.lucene.search.Query luceneQuery = qb.keyword().onFields("title", "postText", "tag.tagName")
+//				.matching(key).createQuery();
+//
+//		Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Post.class);
+//
+//		// execute search
+//		List<Post> result = jpaQuery.getResultList();
+//		em.close();
 		EntityManager em = factory.createEntityManager();
-		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
-		
-		QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Post.class).get();
-		org.apache.lucene.search.Query luceneQuery = qb.keyword().onFields("title", "postText", "tag.tagName")
-				.matching(key).createQuery();
-
-		Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Post.class);
-
-		// execute search
-		List<Post> result = jpaQuery.getResultList();
+		List<Post> posts; 
+		try {
+			posts = em.createQuery("from Post p where p.title like :key OR p.postText like :key").setParameter("key", "%"+key+"%")
+				.getResultList();
+		} catch(NoResultException e) {
+			em.close();
+			return new ArrayList<Post>();
+		}
 		em.close();
-		return result;
+		return posts;
 	}
 
 	@Override
 	public void createComment(int post_id,Comment comment) {
+		
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
+		User u = getUser(comment.getUser().getUsername());
+		comment.setUser(u);
 		Post p = em.find(Post.class, post_id);
-		p.getComments().add(comment);
-		em.persist(p);
+		comment.setPost(p);
+		em.persist(comment);
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -246,6 +277,15 @@ public class JPADAO implements DAO {
 		}
 		em.close();
 		return user;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Tag> getTags() {
+		EntityManager em = factory.createEntityManager();
+		List<Tag> tags = em.createQuery("from Tag").getResultList();
+		em.close();
+		return tags;
 	}
 
 }

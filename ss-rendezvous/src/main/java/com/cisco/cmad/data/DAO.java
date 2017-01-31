@@ -7,6 +7,7 @@ import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
 import com.cisco.cmad.api.Message;
 import com.cisco.cmad.api.Post;
+import com.cisco.cmad.api.Tag;
 import com.cisco.cmad.api.User;
 
 public interface DAO {
@@ -49,4 +50,6 @@ public interface DAO {
 	public List<Message> getMessages() ;
 	
 	public List<Message> getMessages(int offset, int size) ;
+	
+	public List<Tag> getTags();
 }

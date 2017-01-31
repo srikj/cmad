@@ -3,13 +3,15 @@ package com.cisco.cmad.api;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.UniqueConstraint;
 
-import org.hibernate.search.annotations.Field;
+//import org.hibernate.search.annotations.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,7 +22,8 @@ public class Tag {
 	@Id
 	@GeneratedValue
 	private int id;
-	@Field
+//	@Field
+	@Column(unique = true)
 	private String tagName;
 	
 	@JsonIgnore

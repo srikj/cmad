@@ -51,3 +51,16 @@ span.glyphicon-star {
 .bootstrap-tagsinput {
 	width: 100%;
 }
+#message-body {
+    height: 150px;
+    overflow-y: scroll;
+}
+span.author {
+    font-weight: bold;
+}
+.comment .meta {
+    margin: 0;
+}
+.topic a {
+    text-transform: capitalize;
+}

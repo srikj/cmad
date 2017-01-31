@@ -19,29 +19,29 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Store;
+//import org.hibernate.search.annotations.Analyze;
+//import org.hibernate.search.annotations.Field;
+//import org.hibernate.search.annotations.Index;
+//import org.hibernate.search.annotations.Indexed;
+//import org.hibernate.search.annotations.IndexedEmbedded;
+//import org.hibernate.search.annotations.Store;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-@Indexed
+//@Indexed
 public class Post {
 
 	@Id
 	@GeneratedValue
 	private int post_id;
 	
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+//	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
 	
 	@Lob
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+//	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String postText;
 	private String abstractText;
 	private Interest topic;
@@ -56,11 +56,10 @@ public class Post {
     @JoinColumn(name = "username", nullable = false)
 	private User user;
 	
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="post")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="post")
 	private List<Comment> comments = new ArrayList<>();
 	
-	@IndexedEmbedded
+//	@IndexedEmbedded
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Tag> tags = new HashSet<Tag>(0);
 

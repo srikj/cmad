@@ -42,20 +42,20 @@ var auth = "<%=auth %>";
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">r.e.n.d.e.z.v.o.u.s</a>
+          <a class="navbar-brand" href="home.jsp">r.e.n.d.e.z.v.o.u.s</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav pull-right">
             <li><a href="#" id="updateProfileBtn"><%=user.getUserInfo().getName() %></a></li>
             <li><a href="rest/user/logout">Logout</a></li>
           </ul>
-        <form class="navbar-form navbar-right" id="nav-form">
+        <form class="navbar-form navbar-right" id="search-form" data-toggle="validator">
         	
         	<div class="row">
         	<div class="input-group col-md-7">
-			      <input type="text" id="search" class="form-control" placeholder="Search Posts...">
+			      <input type="text" id="search" class="form-control" placeholder="Search Posts..." required>
 			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button">Go!</button>
+			        <button class="btn btn-default" type="submit">Go!</button>
 			      </span>
 			    </div>
         		<div class="col-md-5" >
@@ -72,317 +72,30 @@ var auth = "<%=auth %>";
     <div class="container">
     	<div class="row">
         	<div class="col-md-2">
-        		<div class="sidenav affix">
-        			<div class="widget" id="favouritePosts">
-		        		<h4>Favorite Posts</h4>
-						<ul>
-							<li><a href='home.html'>asdkjf saddflkj</a></li>
-							<li><a href='home.html'>oioi oioi</a></li>
-							<li><a href='home.html'>mkkjvnch sdf</a></li>
-							<li><a href='home.html'>zxc zxv zcxcv</a></li>
-						</ul>
-					</div>
-					<div class="widget" id="postsByTag">
-		        		<h4>Tags</h4>
-		        		<p><a href='home.html'>asdkjf saddflkj</a>, <a href='home.html'>oioi oioi</a>, <a href='home.html'>mkkjvnch sdf</a>, <a href='home.html'>zxc zxv zcxcv</a></p>
-					</div>
-					<div class="widget" id="postsByTopic">
-		        		<h4>Topic</h4>
-						<ul>
-							<li><a href='home.html'>Movies</a></li>
-							<li><a href='home.html'>Technology</a></li>
-							<li><a href='home.html'>Sports</a></li>
-						</ul>
-					</div>
-				</div>
+        		<jsp:include page="sidenav.jsp" >
+        			<jsp:param name="username" value="${userName}"/>
+        		</jsp:include>
+        		
         	</div>
         	<div class="col-md-6">
-        		<div id="posts">
-	        		<div class="post">
-		        		<h2 class="post-title">OpenSource Event Announced</h2> 
-		        		<p class="meta">Posted on <span class="date">1 JAN 2017</span> by <span class="author">glarimy</span> <a href="" class="unMarkFav"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a></p>
-						<div class="post-text">
-							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-								dflasdkfjasldkfja</p>
-			
-							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-								dflasdkfjasldkfjas dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-								dflaskfjalskfjas fds dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-								dflaskfjalskfjas fd</p>
-			
-							<p>jalskfjas fdasdfjaf adflkajflask salldfkjjsdlfkjsdf
-								salfksajflksjdf dflaskf</p>
-			
-							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-								asdlkfjsdalfjksdaflkj asdflaskdfjasfd asldkfjasdlfkjasdf
-								salldfkj	jsdlfkjsdf salfksajflksjdf dflaskfjalskfjas fd</p>
-						</div>
-						
-				        <div class="comments">
-				        	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#post1-comments" aria-expanded="false" aria-controls="post1-comments">
-							  Comments
-							</a>
-							<div class="collapse" id="post1-comments">
-							  <div class="well">
-							    <form role="form">
-				        			<div class="form-group">
-								      <textarea id="comment" class="form-control" rows="3"></textarea>
-								      <button class="btn btn-success btn-block" type="submit">Post Comment</button>
-								    </div>
-						        </form>
-						        <h3>Comments</h3>
-						        <div class="comment">
-						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-									asdflaskfjladskfjsda f</p>
-						        </div>
-						        <div class="comment">
-						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-									asdflaskfjladskfjsda f</p>
-						        </div>
-							  </div>
-							</div>
-						</div>
-	        		</div>
-	        		<div class="post">
-		        		<h2 class="post-title">OpenSource Event Announced</h2> 
-		        		<p class="date">Posted on 1 JAN 2017<a href="" class="markFav"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a></p>
-						<div class="post-text">
-							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-								dflasdkfjasldkfja</p>
-			
-							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-								asdlkfjsdalfjksdaflkajsdf asdflaksdjflasdkfjas dfllaskdfjlaskdfjas
-								dflasdkfjasldkfjas dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-								dflaskfjalskfjas fds dflaskdfjlaskdfjlasdkfj asdflaskdfjasfd
-								asldkfjasdlfkjasdf salldfkjjsdlfkjsdf salfksajflksjdf
-								dflaskfjalskfjas fd</p>
-			
-							<p>jalskfjas fdasdfjaf adflkajflask salldfkjjsdlfkjsdf
-								salfksajflksjdf dflaskf</p>
-			
-							<p>asdfjaf adflkajflaskdjf afflaskfjaf aslfkajsflkasjfas
-								dflaskfjasd flaskfjalsfkjalsfdkjsa dfasdlfkjasdflasf
-								asdlkfjsdalfjksdaflkj asdflaskdfjasfd asldkfjasdlfkjasdf
-								salldfkj	jsdlfkjsdf salfksajflksjdf dflaskfjalskfjas fd</p>
-						</div>
-						<div class="comments">
-				        	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#post2-comments" aria-expanded="false" aria-controls="post1-comments">
-							  Comments
-							</a>
-							<div class="collapse" id="post2-comments">
-							  <div class="well">
-							    <form role="form">
-				        			<div class="form-group">
-								      <textarea id="comment" class="form-control" rows="3"></textarea>
-								      <button class="btn btn-success btn-block" type="submit">Post Comment</button>
-								    </div>
-						        </form>
-						        <h3>Comments</h3>
-						        <div class="comment">
-						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-									asdflaskfjladskfjsda f</p>
-						        </div>
-						        <div class="comment">
-						        	<p class="meta"><span class="author">glarimy</span> | <span class="date">3 JAN 2017</span>
-						        	<p class="commentText">alsdkfj asdfllkkasjflasdkf sdfkaskjflkasdjf
-									asdflaskfjladskfjsda f</p>
-						        </div>
-							  </div>
-							</div>
-						</div>
-	        		</div>
-        		</div>
+        		<jsp:include page="posts.jsp" >
+        			<jsp:param name="username" value="${userName}"/>
+        		</jsp:include>
+        			
+        		<jsp:include page="createPost.jsp" >
+        			<jsp:param name="username" value="${userName}"/>
+        		</jsp:include>
+        		
+        		<jsp:include page="updateProfile.jsp" >
+        			<jsp:param name="userName" value="${userName}" />
+        		</jsp:include>
         		
         		
-        		<div id="createPost">
-        			<h2>New Post</h2>
-        			<div class="alert " role="alert"></div>
-        			<form class="form-horizontal" data-toggle="validator">
-					  <div class="form-group">
-					    <label for="postTitle" class="col-sm-2 control-label">Title</label>
-					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="postTitle" placeholder="Title" required>
-					      <div class="help-block with-errors"></div>
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label for="postTags" class="col-sm-2 control-label">Tags</label>
-					    <div class="col-sm-10">
-					      <input type="text" class="form-control full-width" id="postTags" placeholder="Tags" data-role="tagsinput">
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label for="postTopic" class="col-sm-2 control-label">Topic</label>
-					    <div class="col-sm-10">
-					      <select id="postTopic" class="form-control">
-							  <option value="0">Technology</option>
-							  <option value="1">Movies</option>
-							  <option value="2">Sports</option>
-							</select>
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label for="postText" class="col-sm-2 control-label">Post</label>
-					    <div class="col-sm-10">
-					      <textarea id="postText" class="form-control" rows="5" data-minlength="100"></textarea>
-					      <div class="help-block with-errors"></div>
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <div class="col-sm-offset-2 col-sm-10">
-					      <button type="submit" class="btn btn-default">Submit Post</button>
-					    </div>
-					  </div>
-					</form>
-        		</div>
-        		
-        		<div id="updateProfile">
-        			<h2>Your Profile</h2>
-        			<div class="alert " role="alert"></div>
-        			<form class="form-horizontal" data-toggle="validator">
-					  <div class="form-group">
-							<label for="regName" class="col-sm-2 control-label">Name</label>
-							<div class="col-sm-10">
-						        <input type="text" id="regName" class="form-control" placeholder="Name" value="<%=user.getUserInfo().getName() %>"required>
-						        <div class="help-block with-errors"></div>
-					        </div>
-				        </div>
-				        
-				        <div class="form-group">
-					        <label for="regUsername" class="col-sm-2 control-label">Username</label>
-					        <div class="col-sm-10">
-						        <input type="text" id="regName" class="form-control" disabled placeholder="Username" value="<%=user.getUsername() %>"required>
-						        <div class="help-block with-errors"></div>
-					        </div>
-				        </div>
-				        
-				        <div class="form-group">
-					        <label for="regEmail" class="col-sm-2 control-label">E-mail</label>
-					        <div class="col-sm-10">
-						        <input type="email" id="regEmail" class="form-control" placeholder="Email address" value="<%=user.getUserInfo().getEmail() %>" required>
-						    	<div class="help-block with-errors"></div>
-						    </div>
-					    </div>
-					    
-					    <div class="form-group ">
-							 <label for="regPhone" class="col-sm-2 control-label">Phone Number</label>
-							 <div class="col-sm-10">
-								 <input type="number" id="regPhone" class="form-control" placeholder="Phone Number" value="<%=user.getUserInfo().getPhoneNumber() %>">
-								 <div class="help-block with-errors"></div>
-							 </div>
-						</div>
-						
-						<div class="form-group">
-							<label for="regInterest" class="col-sm-2 control-label">Interest</label>
-								<div class="col-sm-10">
-							 	<select id="regInterest" class="form-control">
-								 	<% for(Interest interest : Interest.values()) { %>
-								 		<%if(user.getUserInfo().getInterest().equals(interest)){ %>
-								    	<option value="<%=interest.ordinal()%>" selected><%=interest.name()%></option>
-								    	<% } else {%>
-								    	<option value="<%=interest.ordinal()%>" ><%=interest.name()%></option>
-								    	<% } %>
-								    <% } %>
-								</select>
-								<div class="help-block with-errors"></div>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label for="regPassword" class="col-sm-2 control-label">Password</label>
-							<div class="col-sm-10">
-						        <input type="password" id="regPassword" class="form-control" placeholder="Password" data-minlength="6" required>
-						        <div class="help-block">Minimum of 6 characters</div>
-					        </div>
-				        </div>
-				        
-				        <div class="form-group">
-				        	<label for="regConfirmPassword" class="col-sm-2 control-label">Confirm Password</label>
-				        	<div class="col-sm-10">
-						        <input type="password" id="regConfirmPassword" class="form-control" 
-						        data-match="#regPassword" data-match-error="Whoops, these don't match"
-						        placeholder="Confirm Password" required>
-						        <div class="help-block with-errors"></div>
-					        </div>
-				        </div>
-				        <div class="form-group">
-						    <div class="col-sm-offset-2 col-sm-10">
-						      <button type="submit" class="btn btn-default">Update</button>
-						    </div>
-						  </div>
-					</form>
-        		</div>
-        		
-        		<div id="searchResults">
-        			<h2>Search Results</h2>
-        			<p>Key:  <span id="key">asdf  saddf sdfs fs df</span></p>
-        			<ul class="results">
-        				<li>
-        					<h5><a href="home.html">alsdkfja adf</a></h5>
-        					<span class="meta">by <span class="author">alsdkjf</span> on <span class="date">12 NOV 2017</span></span>
-        				</li>
-        				<li>
-        					<h5><a href="home.html">alsdkfja adf</a></h5>
-        					<span class="meta">by <span class="author">alsdkjf</span> on <span class="date">12 NOV 2017</span></span>
-        				</li>
-        				<li>
-        					<h5><a href="home.html">alsdkfja adf</a></h5>
-        					<span class="meta">by <span class="author">alsdkjf</span> on <span class="date">12 NOV 2017</span></span>
-        				</li>
-        			</ul>
-        		</div>
+        		<%@ include file="searchResults.jsp" %>
         		
         	</div>
         	<div class="col-md-4" role="complementary">
-        		<div class="sidenav2 affix">
-	        		<div class="widget" id="messages">
-		        		<h4>Messages</h4>
-						<p>
-							<u>krishna | 31 DEC 2016 3.45PM</u><br />asdf adlfkajsf
-							asfllsdakfjsdad faslfdjasdfasf sdfllsdakfjs df
-						</p>
-						<p>
-							<u>krishna | 31 DEC 2016 3.45PM</u><br />asdf adlfkajsf
-							asfllsdakfjsdad faslfdjasdfasf sdfllsdakfjs df
-						</p>
-						<p>
-							<u>mohan | 30 DEC 2016 3.45PM</u><br />asdf adlfkajsf
-							asfllsdakfjsdad faslfdjasdfasf sdfllsdakfjs df
-						</p>
-						<hr /> 
-						<form role="form">
-		        			<div class="form-group">
-						      <textarea id="message" class="form-control" rows="3"></textarea>
-						      <button class="btn btn-success btn-block" type="submit">Post Message</button>
-						    </div>
-				        </form>
-	        		</div>
-	        		<div class="widget" id="invite">
-	        			<h4>Invite Users</h4>
-	        			<form role="form">
-		        			<div class="input-group">
-						      <input type="text" id="invite" class="form-control" placeholder="email1, email2, email3">
-						      <span class="input-group-btn">
-						        <button class="btn btn-default btn-block" type="submit">Invite</button>
-						      </span>
-						    </div>
-				        </form>
-	        		</div>
-        		</div>
+        		<%@ include file="sidenav2.jsp" %>
         	</div>
         </div>
     	
@@ -396,7 +109,7 @@ var auth = "<%=auth %>";
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
     <script src="js/bootstrap-tagsinput.min.js"></script>
-    <script src="js/home.js?v1.0"></script>
+    <script src="js/home.js?v1.1"></script>
 
 </body>
 </html>

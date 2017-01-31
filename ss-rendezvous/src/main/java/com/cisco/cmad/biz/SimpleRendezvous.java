@@ -15,6 +15,7 @@ import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.PostNotFoundException;
 import com.cisco.cmad.api.Rendezvous;
 import com.cisco.cmad.api.RendezvousException;
+import com.cisco.cmad.api.Tag;
 import com.cisco.cmad.api.TagNotFoundException;
 import com.cisco.cmad.api.User;
 import com.cisco.cmad.api.UserAlreadyExistsException;
@@ -77,11 +78,6 @@ public class SimpleRendezvous implements Rendezvous {
 		if(!user.getPassword().equals(password)) {
 			throw new InvalidDataException();
 		}
-		user.setFavouritePosts(null);
-		user.setLastLoginDate(new Date());
-		
-		//here update the lastlogin date and update date in DB
-		dao.update(user);
 		return user;
 	}
 
@@ -150,9 +146,9 @@ public class SimpleRendezvous implements Rendezvous {
 		post.setCreatedDate(new Date());
 		post.setUpdatedDate(new Date());
 		//When post is created usually there will be no comments
-		post.setComments(null);
-		post.setFavouritedUsers(null);
-		post.setTags(null);
+//		post.setComments(null);
+//		post.setFavouritedUsers(null);
+//		post.setTags(null);
 		dao.createPost(post);
 	}
 
@@ -160,12 +156,10 @@ public class SimpleRendezvous implements Rendezvous {
 	public List<Comment> getComments(int post_id) throws PostNotFoundException, RendezvousException {
 		List <Comment> comments = null;
 		comments = dao.getComments(post_id);
-		if (comments.isEmpty() ) {
+		if(comments == null) {
 			throw new PostNotFoundException();
 		}
-		else {
-			return comments;
-		}
+		return comments;
 	}
 
 	@Override
@@ -190,7 +184,7 @@ public class SimpleRendezvous implements Rendezvous {
 
 	@Override
 	public Set<Post> getPostsByTag(int tag_id) throws TagNotFoundException, RendezvousException {
-		Set<Post> postByTag = dao.getPostsByTag(tag_id);;
+		Set<Post> postByTag = dao.getPostsByTag(tag_id);
 		if (postByTag == null) {
 			throw new TagNotFoundException();
 		}
@@ -323,6 +317,11 @@ public class SimpleRendezvous implements Rendezvous {
 		if(user == null) 
 			throw new UserNotFoundException();
 		return user;
+	}
+
+	@Override
+	public List<Tag> getTags() {
+		return dao.getTags();
 	}
 
 	

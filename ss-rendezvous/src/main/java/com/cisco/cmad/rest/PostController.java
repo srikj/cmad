@@ -104,8 +104,8 @@ public class PostController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/postsByInterest")
-	public Response getPostsByInterest(@QueryParam(value = "interest") Interest interest) {
+	@Path("/postsByTopic")
+	public Response getPostsByInterest(@QueryParam(value = "topic") Interest interest) {
 		List<Post> posts = null;
 		try {
 			posts = rendezvous.getPostsByInterest(interest);
@@ -155,9 +155,8 @@ public class PostController {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/markFav/")
-	public Response markFavourite(@FormParam(value = "postid") int post_id,@FormParam(value = "username") String username) {
+	@Path("/markFav/{post_id}/{username}")
+	public Response markFavourite(@PathParam(value="post_id") int post_id,@PathParam(value = "username")String username) {
 		try {
 			rendezvous.markFavourite(post_id, username);
 		} catch (PostNotFoundException e) {
@@ -173,9 +172,8 @@ public class PostController {
 		return Response.ok().build();
 	}
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/unmarkFav/")
-	public Response unMarkFavourite(@FormParam (value = "postid") int post_id,@FormParam(value = "username") String username) {
+	@Path("/unmarkFav/{post_id}/{username}")
+	public Response unMarkFavourite(@PathParam(value="post_id") int post_id,@PathParam(value = "username")String username) {
 		try {
 			rendezvous.unMarkFavourite(post_id, username);
 		} catch (PostNotFoundException e) {

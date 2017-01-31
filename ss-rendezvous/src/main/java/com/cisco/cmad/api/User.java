@@ -21,6 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 
 @Entity
@@ -34,14 +36,21 @@ public class User {
 	@Embedded
 	protected UserInfo userInfo;
 	
+	@JsonIgnore
 	private String password;
 	
+	@JsonIgnore
 	private String lastLoginIP;
 	
+	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	private Date lastLoginDate;
+	
+	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	private Date createdDate;
+	
+	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 
@@ -56,7 +65,7 @@ public class User {
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
 	private List<Message> messages = new ArrayList<>();
-
+	
 	public User() {
 	}
 
@@ -88,18 +97,22 @@ public class User {
 		this.userInfo = userInfo;
 	}
 
+	@JsonIgnore
 	public String getLastLoginIP() {
 		return lastLoginIP;
 	}
 
+	@JsonProperty
 	public void setLastLoginIP(String lastLoginIP) {
 		this.lastLoginIP = lastLoginIP;
 	}
 
+	@JsonIgnore
 	public Date getLastLoginDate() {
 		return lastLoginDate;
 	}
-
+	
+	@JsonProperty
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
 	}
@@ -128,10 +141,12 @@ public class User {
 		this.favouritePosts = favouritePosts;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -151,5 +166,7 @@ public class User {
 	public void setMessages(List<Message> msgs) {
 		this.messages = msgs;
 	}
+
+	
 
 }
