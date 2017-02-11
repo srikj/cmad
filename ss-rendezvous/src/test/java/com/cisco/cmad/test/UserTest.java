@@ -22,7 +22,7 @@ public class UserTest {
 		userInf.setEmail("subh@cisco.com");
 		userInf.setInterest(Interest.MOVIES);
 		userInf.setName("Subhransu");
-		userInf.setPhoneNumber("998645967");
+		userInf.setPhoneNumber("9986459679");
 		
 		user.setUsername("subchhot");
 		user.setPassword("1234");
