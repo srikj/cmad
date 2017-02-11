@@ -33,8 +33,10 @@ public class UserTest {
 			System.out.println("Successfully registerd the user");
 			return;
 		}catch (InvalidDataException e) {
+			e.printStackTrace();
 			Assert.fail();
 		} catch (RendezvousException e) {
+			e.printStackTrace();
 			Assert.fail();
 		}
 	}
