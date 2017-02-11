@@ -205,7 +205,6 @@ public class UserController {
 			e.printStackTrace();
 			return Response.status(404).entity("Given user doesn't exist").build();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return Response.status(500).entity("Invalid server error").build();
 		}
