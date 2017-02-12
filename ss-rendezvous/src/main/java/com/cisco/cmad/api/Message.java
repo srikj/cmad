@@ -30,6 +30,7 @@ public class Message {
 	private Date createdDate;
 	
 	public Message() {
+		super();
 	}
 
 	public Message(int messageId, User user, String messageText, Date createdDate) {

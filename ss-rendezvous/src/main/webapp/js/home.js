@@ -3,7 +3,7 @@
  */
 $(document).ready(function() {
 	var username, password;
-	var favPostsArray = new Array();
+	var favPostsArray = [];
 	$( "#createPostBtn" ).click(function() {
 	  $("#posts, #updateProfile, #searchResults").hide();
 	  $("#createPost .alert").hide();
@@ -19,7 +19,7 @@ $(document).ready(function() {
 	$( "#createPost button" ).click(function( event ) {
 		event.preventDefault();
 		var tagArray = $("#postTags").tagsinput('items');
-		var tags = new Array();
+		var tags = [];
 		for (var i=0;i<tagArray.length; i++) {
 			var tag = {
 					tagName: tagArray[i]
@@ -71,7 +71,6 @@ $(document).ready(function() {
 				interest: $("#regInterest").val()
 			}
 		};
-		var logout = false;
 		
 		$.ajax({
 			url : "rest/user/update",
@@ -157,7 +156,7 @@ $(document).ready(function() {
 	  hours = hours ? hours : 12; // the hour '0' should be '12'
 	  minutes = minutes < 10 ? '0'+minutes : minutes;
 	  var strTime = hours + ':' + minutes + ' ' + ampm;
-	  var month = new Array();
+	  var month = [];
 	  month[0] = "JAN";
 	  month[1] = "FEB";
 	  month[2] = "MAR";
@@ -382,7 +381,7 @@ $(document).ready(function() {
 		    },
 			success : function(response) {
 				var results = "<h2>Search Results</h2>";
-				if(response.length ==0) {
+				if(response.length ===0) {
 					results = "<p>No Results Found</p>";
 				} else {
 					results+="<p>Key: <span id='key'>"+key+"</span></p>";
@@ -435,7 +434,7 @@ $(document).ready(function() {
 	function display(heading, response) {
 		var posts = "<h2>"+heading+"</h2>";
 		fetchFavouritePosts();
-		if(response.length == 0) {
+		if(response.length === 0) {
 			posts+="<p>There are no posts to display. Please create one!</p>";
 		} else {
 			for(var i = 0; i<response.length; i++) {
@@ -455,7 +454,7 @@ $(document).ready(function() {
 		var fav = false;
 		for(var j = 0; j<favPostsArray.length; j++ ) {
 			var p = favPostsArray[j];
-			if (p.post_id == post.post_id) 
+			if (p.post_id === post.post_id) 
 	        	fav = true;
 		}
 		markFav = fav?"markFav":"unMarkFav";
@@ -464,8 +463,8 @@ $(document).ready(function() {
 					"class='glyphicon "+glyph+"' aria-hidden='true'></span></a>"+
 			"<br>"+
 				"Tags: <span class='tags'>";
-		for(var j = 0; j<post.tags.length; j++) {
-			var t = post.tags[j];
+		for(var k = 0; k<post.tags.length; k++) {
+			var t = post.tags[k];
 			posts+="<a href='' class='"+t.id+"-tag'>"+t.tagName+"</a> "
 		}
 		posts+="</span>, Topic: <span class='topic'><a class='"+post.topic+"-topic'>"+post.topic+"</a></span></a></p>";
@@ -488,12 +487,12 @@ $(document).ready(function() {
 						"</form>"+
 						"<h3>Comments</h3>"+
 						"<div id='"+post.post_id+"-comment-body'>";
-		if(post.comments == null || post.comments.length ==0) {
+		if(post.comments === null || post.comments.length ===0) {
 			posts+="<p>There are no comments!</p>";
 		}
 		else {
-			for(var j = 0; j<post.comments.length; j++ ) {
-				var comment = post.comments[j];
+			for(var l = 0; l<post.comments.length; l++ ) {
+				var comment = post.comments[l];
 				posts+="<div class='comment'>"+
 					"<p class='meta'>"+
 					"<span class='author'>"+comment.user.username+"</span> | <span class='date'>"+formatDate(new Date(comment.createdDate))+"</span></p>"+

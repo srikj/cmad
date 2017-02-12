@@ -68,6 +68,7 @@ public class Post {
 	private Set<User> favouritedUsers = new HashSet<User>(0);
 
 	public Post() {
+		super();
 	}
 
 	public Post(int post_id, String title, String postText, String abstractText, Interest topic, Date createdDate,

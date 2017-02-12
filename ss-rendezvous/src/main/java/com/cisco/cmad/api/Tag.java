@@ -31,6 +31,7 @@ public class Tag {
 	private Set<Post> taggedPosts = new HashSet<Post>(0);
 
 	public Tag() {
+		super();
 	}
 
 	public Tag(int id, String tagName, Set<Post> taggedPosts) {

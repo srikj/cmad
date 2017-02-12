@@ -67,6 +67,7 @@ public class User {
 	private List<Message> messages = new ArrayList<>();
 	
 	public User() {
+		super();
 	}
 
 	public User(String username, UserInfo userInfo, String lastLoginIP, Date lastLoginDate, Date createdDate,

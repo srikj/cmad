@@ -41,6 +41,7 @@ public class Comment {
     private Post post;
 	
 	public Comment() {
+		super();
 	}
 
 	public Comment(int id, String commentText, User user, Date createdDate, Date updatedDate) {

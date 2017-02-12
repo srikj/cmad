@@ -23,7 +23,6 @@ public class UserInfo {
 	private Interest interest;
 	public UserInfo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public UserInfo( String name, String email, String phoneNumber,
 			Interest interest) {
