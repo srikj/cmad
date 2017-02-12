@@ -14,7 +14,8 @@
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://192.168.99.100:3306/rendezvous" />
+				value="jdbc:mysql://192.168.99.100:3306/rendezvous-test" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.connection.username" value = "root"/>
    			<property name="hibernate.connection.password" value = "password"/>
