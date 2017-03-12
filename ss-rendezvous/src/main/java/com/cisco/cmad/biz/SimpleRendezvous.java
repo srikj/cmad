@@ -30,13 +30,17 @@ import com.cisco.cmad.api.UserInfo;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.data.DAO;
 import com.cisco.cmad.data.JPADAO;
+import com.cisco.cmad.mongoapi.Mongoapi;
+
 
 public class SimpleRendezvous implements Rendezvous {
 
 	private DAO dao;
+	private Mongoapi mapi;
 
 	public SimpleRendezvous() {
 		dao = new JPADAO();
+		mapi = new Mongoapi();
 	}
 
 	@Override
@@ -176,7 +180,8 @@ public class SimpleRendezvous implements Rendezvous {
 		// post.setComments(null);
 		// post.setFavouritedUsers(null);
 		// post.setTags(null);
-		dao.createPost(post);
+		//dao.createPost(post);
+		mapi.createPost(post);
 	}
 
 	@Override
