@@ -3,6 +3,10 @@ package com.cisco.cmad.api;
 import java.util.List;
 import java.util.Set;
 
+import org.bson.Document;
+
+import com.mongodb.client.FindIterable;
+
 public interface Rendezvous {
 
 	public void register(User user) throws UserAlreadyExistsException, InvalidDataException, RendezvousException;
@@ -11,9 +15,9 @@ public interface Rendezvous {
 	
 	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
-	public User getUserByUsername(String username) throws UserNotFoundException, InvalidDataException, RendezvousException;
+	public Document getUserByUsername(String username) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
-	public User getUserByEmail(String email) throws UserNotFoundException, InvalidDataException, RendezvousException;
+	public Document getUserByEmail(String email) throws UserNotFoundException, InvalidDataException, RendezvousException;
 
 	public void invite(String emailIds) throws InvalidDataException, RendezvousException;
 	
@@ -23,7 +27,7 @@ public interface Rendezvous {
 	
 	public List<Comment> getComments(int post_id) throws PostNotFoundException,RendezvousException;
 	
-	public List<Post> getPosts() ;
+	public Object getPosts() ;
 	
 	public List<Post> getPosts(int offset, int size) ;
 	

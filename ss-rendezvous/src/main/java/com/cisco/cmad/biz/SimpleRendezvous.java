@@ -13,6 +13,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.bson.Document;
+
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
 import com.cisco.cmad.api.InvalidDataException;
@@ -31,6 +33,7 @@ import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.data.DAO;
 import com.cisco.cmad.data.JPADAO;
 import com.cisco.cmad.mongoapi.Mongoapi;
+import com.mongodb.client.FindIterable;
 
 
 public class SimpleRendezvous implements Rendezvous {
@@ -72,10 +75,11 @@ public class SimpleRendezvous implements Rendezvous {
 		user.setFavouritePosts(null);
 		user.setMessages(null);
 
-		if (dao.getUser(user.getUsername()) != null)
+		if (mapi.getUser(user.getUsername()) != null)
 			throw new UserAlreadyExistsException();
 
-		dao.createUser(user);
+		//dao.createUser(user);
+		mapi.createUser(user);
 	}
 
 	@Override
@@ -85,11 +89,9 @@ public class SimpleRendezvous implements Rendezvous {
 			throw new InvalidDataException();
 		}
 		User user = dao.getUser(username);
+		//Document user = mapi.validateUser(username, password);
 		if (user == null) {
 			throw new UserNotFoundException();
-		}
-		if (!user.getPassword().equals(password)) {
-			throw new InvalidDataException();
 		}
 		return user;
 	}
@@ -195,12 +197,9 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public List<Post> getPosts() {
-		List<Post> allPosts = null;
-		allPosts = dao.getPosts();
-		if (allPosts.isEmpty()) {
-			return null;
-		}
+	public Object getPosts() {
+		FindIterable<Document> allPosts = null;
+		allPosts = mapi.getPosts();
 		return allPosts;
 	}
 
@@ -328,12 +327,12 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public User getUserByUsername(String username)
+	public Document getUserByUsername(String username)
 			throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if (username == null || username.trim().isEmpty())
 			throw new InvalidDataException();
 
-		User user = dao.getUser(username);
+		Document user = mapi.getUser(username);
 
 		if (user == null)
 			throw new UserNotFoundException();
@@ -341,12 +340,12 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public User getUserByEmail(String email) throws UserNotFoundException, InvalidDataException, RendezvousException {
+	public Document getUserByEmail(String email) throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if (email == null || email.trim().isEmpty())
 			throw new InvalidDataException();
 
-		User user = dao.getUserByEmail(email);
-
+		//User user = dao.getUserByEmail(email);
+		Document user = mapi.getUserByEmail(email);
 		if (user == null)
 			throw new UserNotFoundException();
 		return user;

@@ -14,6 +14,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.bson.Document;
+
 import com.cisco.cmad.api.Comment;
 import com.cisco.cmad.api.Interest;
 import com.cisco.cmad.api.InvalidDataException;
@@ -25,6 +27,7 @@ import com.cisco.cmad.api.RendezvousException;
 import com.cisco.cmad.api.TagNotFoundException;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.biz.SimpleRendezvous;
+import com.mongodb.client.FindIterable;
 
 @Path("/post")
 public class PostController {
@@ -67,11 +70,11 @@ public class PostController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/all")
-	public Response getPosts() {
+	public FindIterable<Document> getPosts() {
 		
-		List<Post> posts = rendezvous.getPosts();
+		FindIterable<Document> posts = (FindIterable<Document>) rendezvous.getPosts();
 		
-		return Response.ok().entity(posts).build();
+		return posts;
 	}
 	
 	@GET
