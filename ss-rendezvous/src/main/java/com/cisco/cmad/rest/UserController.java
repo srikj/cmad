@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.Document;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
@@ -67,7 +68,7 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/validateUsername")
 	public Response validateUsername(@QueryParam(value = "username") String username) {
-		User a = null;
+		Document a = null;
 		try {
 			a = rendezvous.getUserByUsername(username);
 		} catch (UserNotFoundException e) {
@@ -85,7 +86,7 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/validateEmail")
 	public Response validateEmail(@QueryParam(value = "email") String email) {
-		User a = null;
+		Document a = null;
 		try {
 			a = rendezvous.getUserByEmail(email);
 		} catch (UserNotFoundException e) {
@@ -174,7 +175,7 @@ public class UserController {
 
 		String username = claims.getBody().getSubject();
 		
-		User a = null;
+		Document a = null;
 		try {
 			a = rendezvous.getUserByUsername(username);
 		} catch (UserNotFoundException e) {

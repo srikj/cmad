@@ -20,6 +20,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import org.bson.Document;
 import org.glassfish.jersey.internal.util.Base64;
 
 import com.cisco.cmad.api.Rendezvous;
@@ -113,7 +114,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		boolean isAllowed = false;
 
 		Rendezvous rendezvous = new SimpleRendezvous();
-		User user = null;
+		Document user = null;
 		try {
 			user = rendezvous.getUserByUsername(username);
 		} catch (UserNotFoundException e) {
@@ -124,7 +125,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 			return isAllowed;
 		}
 
-		if (user.getUsername().equals(username))
+		if (user.getString("username").equals(username))
 			isAllowed = true;
 		return isAllowed;
 	}
