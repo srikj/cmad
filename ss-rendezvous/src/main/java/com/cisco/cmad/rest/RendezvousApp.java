@@ -11,5 +11,6 @@ public class RendezvousApp extends ResourceConfig
 
 		//Register Auth Filter here
 		register(AuthenticationFilter.class);
+//		register(OAuth1ServerFeature.class);
 	}
 }

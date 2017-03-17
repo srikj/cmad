@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="Rendezvous">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>r.e.n.d.e.z.v.o.u.s</title>
+<link rel="stylesheet" href="assets/styles/bootstrap.css"></link>
+<link rel="stylesheet" href="assets/styles/bootstrap-theme.css"></link>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-tagsinput.css" rel="stylesheet">
+<link href="css/home.css?v1" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <rv-page-nav></rv-page-nav>
+  </nav>
+    
+    <div class="container">
+      <div class="row">
+          <div class="col-md-2">
+            <rv-side-nav></rv-side-nav>
+            <!-- <jsp:include page="sidenav.jsp" >
+              <jsp:param name="username" value="${userName}"/>
+            </jsp:include> -->
+            
+          </div>
+          <div ng-view class="col-md-6">
+
+            <!-- <jsp:include page="posts.jsp" >
+              <jsp:param name="username" value="${userName}"/>
+            </jsp:include>
+              
+            <jsp:include page="createPost.jsp" >
+              <jsp:param name="username" value="${userName}"/>
+            </jsp:include>
+            
+            <jsp:include page="updateProfile.jsp" >
+              <jsp:param name="userName" value="${userName}" />
+            </jsp:include> 
+            
+            
+            <%@ include file="searchResults.jsp" %>-->
+            
+          </div>
+          <div class="col-md-4" role="complementary">
+            <rv-side-nav2></rv-side-nav2>
+            <!-- <%@ include file="sidenav2.jsp" %> -->
+          </div>
+        </div>
+      
+    </div>
+    
+</body>
+  <!-- vendor -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="assets/javascript/vendor/angular.js"></script>
+  <script src="assets/javascript/vendor/angular-route.js"></script>
+  <script src="assets/javascript/vendor/bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+  <script src="assets/javascript/vendor/bootstrap-tagsinput.min.js"></script>
+
+  <!-- App -->
+  <script src="assets/javascript/app.js"></script>
+  <script src="assets/javascript/routes.js"></script>
+
+  <!-- Directives -->
+  <script src="assets/javascript/directives/rvPageNav.js"></script>
+  <script src="assets/javascript/directives/rvSideNav.js"></script>
+  <script src="assets/javascript/directives/rvSideNav2.js"></script>
+
+  <!-- Controllers -->
+  <script src="assets/javascript/controllers/noteIndexController.js"></script>
+
+  <!-- Services -->
+  <script src="assets/javascript/services/note.js"></script>
+  <script src="assets/javascript/services/user.js"></script>
+  <script src="assets/javascript/services/category.js"></script>
+
+
+  <script src="js/home.js?v1.2"></script>
+
+
+
+</html>
+
+
+
+
+
+
+
+
+

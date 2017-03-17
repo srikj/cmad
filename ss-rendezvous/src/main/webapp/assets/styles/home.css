@@ -1,0 +1,121 @@
+@CHARSET "UTF-8";
+#nav-form {
+	margin-right: 15px;
+}
+nav .container {
+	margin-top: 0;
+}
+.container {
+	margin-top: 60px;
+}
+
+.sidenav2 {
+	width: 350px;
+}
+.sidenav {
+	width: 200px;
+}
+#searchResults .results {
+	list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#searchResults .results li {
+    margin-bottom: 10px;
+}
+
+.results h5 {
+    margin: 0;
+}
+
+.widget {
+	margin-bottom: 30px;
+}
+
+span.glyphicon {
+    margin-left: 5px;
+}
+
+span.glyphicon-star {
+    color: #FFD700;
+    text-shadow: 0px 0px 1px rgba(0,0,0, 1);
+    margin-left: 5px;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+.bootstrap-tagsinput {
+	width: 100%;
+}
+#message-body {
+    height: 150px;
+    overflow-y: scroll;
+}
+span.author {
+    font-weight: bold;
+}
+.comment .meta {
+    margin: 0;
+}
+.topic a {
+    text-transform: capitalize;
+}
+#search-form {
+	margin-right: 15px;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2.form-signin-heading {
+    font-size: 1.5em;
+    text-align: center;
+    margin-top:0;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signup {
+  max-width: 660px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox, 
+.form-signup .form-signin-heading,
+.form-signup .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox, .form-signup .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control, .form-signup .form-control {
+  position: relative;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus, .form-signup .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signup input[type="password"],.form-signup #regPhone, .form-signup #regInterest {
+    width: 100%;
+}
+.form-signin input[type="password"]{
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+

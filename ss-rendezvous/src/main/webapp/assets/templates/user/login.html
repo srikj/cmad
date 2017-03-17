@@ -1,0 +1,16 @@
+<form class="form-signin" method="get" action="rest/user/login" data-toggle="validator">
+	<div class="alert " role="alert" ng-class="{'alert-success': alertSuccess}" ng-show="showAlert"></div>
+	<h2 class="form-signin-heading">Login</h2>
+	<div class="form-group">
+	  <label for="inputUsername" class="control-label">Username</label>
+	  <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" ng-model="username" required autofocus>
+	  <div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group">
+	  <label for="inputPassword" class="control-label">Password</label>
+	  <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" ng-model="password" required>
+	  <div class="help-block with-errors"></div>
+	</div>
+	<a class="btn btn-lg btn-success btn-block" ng-click="login(username,password)">Sign in</a>
+	<a class="btn btn-lg btn-primary btn-block" href="#/user/register" id="toggleRegister">No Account? Sign Up!</a>
+</form>

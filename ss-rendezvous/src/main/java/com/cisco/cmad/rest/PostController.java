@@ -3,6 +3,7 @@ package com.cisco.cmad.rest;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -47,6 +48,7 @@ public class PostController {
 		return Response.ok().build();
 	}
 
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{postid}/comments")
@@ -64,6 +66,7 @@ public class PostController {
 		return Response.ok().entity(comments).build();
 	}
 
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/all")
@@ -74,6 +77,7 @@ public class PostController {
 		return Response.ok().entity(posts).build();
 	}
 	
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/paged")
@@ -84,6 +88,7 @@ public class PostController {
 		return Response.ok().entity(posts).build();
 	}
 	
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/postsByTag")
@@ -102,6 +107,7 @@ public class PostController {
 		return Response.ok().entity(posts).build();
 	}
 
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/postsByTopic")
@@ -120,6 +126,7 @@ public class PostController {
 		return Response.ok().entity(posts).build();
 	}
 
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{postid}")
@@ -137,6 +144,7 @@ public class PostController {
 		return Response.ok().entity(post).build();
 	}
 
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/favouritedUsers/{postid}")
@@ -189,6 +197,7 @@ public class PostController {
 		return Response.ok().build();
 	}
 
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/search")

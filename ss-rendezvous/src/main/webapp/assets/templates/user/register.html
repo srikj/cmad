@@ -1,0 +1,61 @@
+<form class="form-signup" role="form" data-toggle="validator">
+
+    <h2 class="form-signin-heading">No Account? Sign up!</h2>
+    
+    <div class="form-group">
+		<label for="regName" class="control-label">Name</label>
+        <input type="text" id="regName" class="form-control" placeholder="Name" ng-model="user.userInfo.name" required>
+        <div class="help-block with-errors"></div>
+    </div>
+    
+    <div class="form-group">
+        <label for="regUsername" class="control-label">Username</label>
+        <input type="text" id="regUsername" class="form-control" placeholder="Username" name="username" ng-model="user.username" data-remote="rest/user/validateUsername" required>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
+    </div>
+    
+    <div class="form-group">
+        <label for="regEmail" class="control-label">E-mail</label>
+        <input type="email" id="regEmail" class="form-control" placeholder="Email address" name="email" ng-model="user.userInfo.email" data-remote="rest/user/validateEmail" required>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
+    </div>
+    <div class="form-group">
+         <div class="form-inline row">
+			<div class="form-group col-sm-6">
+				 <label for="regPhone" class="control-label">Phone Number</label>
+				 <input type="number" id="regPhone" class="form-control" ng-model="user.userInfo.phoneNumber" placeholder="Phone Number">
+				 <div class="help-block with-errors"></div>
+			</div>
+			
+			<div class="form-group col-sm-6">
+				<label for="regInterest" class="control-label">Interest</label>
+			 	<select id="regInterest" class="form-control" ng-model="user.userInfo.interest">
+				  <option value="TECHNOLOGY">Technology</option>
+				  <option value="MOVIES">Movies</option>
+				  <option value="SPORTS">Sports</option>
+				</select>
+				<div class="help-block with-errors"></div>
+			</div>
+        </div>
+    </div>
+    <div class="form-group">
+     	<label for="regPassword" class="control-label">Password</label>
+         <div class="form-inline row">
+	        <div class="form-group col-sm-6">
+		        <input type="password" id="regPassword" class="form-control" placeholder="Password" data-minlength="6" ng-model="user.password" required>
+		        <div class="help-block">Minimum of 6 characters</div>
+	        </div>
+	        
+	        <div class="form-group col-sm-6">
+		        <input type="password" id="regConfirmPassword" class="form-control" 
+		        data-match="#regPassword" data-match-error="Whoops, these don't match"
+		        placeholder="Confirm Password" required>
+		        <div class="help-block with-errors"></div>
+	        </div>
+        </div>
+    </div>
+    <a class="btn btn-lg btn-success btn-block" ng-click="register(user)">Create Account</a>
+    <a class="btn btn-lg btn-primary btn-block" href="#/user/login" id="toggleSignIn">Sign In</button>
+</form>

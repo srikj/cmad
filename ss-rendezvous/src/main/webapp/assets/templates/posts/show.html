@@ -1,0 +1,58 @@
+
+<div id="posts">
+
+	<div class="post">
+		<h3 class="post-title">{{post.title}}</h3>
+		<p class="meta">
+			Posted on <span class="date">{{post.createdDate | date}}</span> by <span
+				class="author">{{post.user.username}}</span> 
+				<!-- <%
+					Set<Post> favouritePosts = rendezvous1.getFavouritePosts(userName); 
+					boolean fav = false;
+					for (Iterator<Post> it = favouritePosts.iterator(); it.hasNext(); ) {
+				        Post p = it.next();
+				        if (p.getPost_id() == post.getPost_id()) 
+				        	fav = true;
+				    }
+				%>
+				<a href="" id="{{post.post_id}}-fav" class="<%=fav?"markFav":"unMarkFav"%>"><span
+				class="glyphicon <%=fav?"glyphicon-star":"glyphicon-star-empty"%>" aria-hidden="true"></span></a> -->
+		<br>
+			Tags: <span class="tags">
+				<a href="#/posts/tag/{{tag.id}}/{{tag.tagName}}" class="{{tag.id}}-tag" ng-repeat="tag in post.tags">{{tag.tagName}}</a>
+			</span>, Topic: <span class="topic"><a class="{{post.topic}}-topic" href="#/posts/topic/{{post.topic}}">{{post.topic}}</a></span></a>
+		</p>
+		
+		<div class="post-text">
+			{{post.postText}}
+		</div>
+
+		<div class="comments">
+			<a class="btn btn-primary" role="button" data-toggle="collapse"
+				href="javascript:;" data-target="#{{post.post_id}}-comments" aria-expanded="false"
+				aria-controls="{{post.post_id}}-comments"> Comments </a>
+			<div class="collapse" id="{{post.post_id}}-comments">
+				<div class="well">
+					<form role="form" ng-if="user">
+						<div class="form-group">
+							<textarea id="{{post.post_id}}-comment" class="form-control" rows="3" ng-model="comment.commentText"></textarea>
+							<button id="{{post.post_id}}-button" class="btn btn-success btn-block" type="submit" ng-click="postComment(comment)">Post
+								Comment</button>
+						</div>
+					</form>
+					<p ng-show="!post.comments">There are no comments!</p>
+					<h3 ng-show="post.comments">Comments</h3>
+					<div id="{{post.post_id}}-comment-body" ng-show="post.comments">
+							<!-- <p>There are no comments!</p> -->
+						<div class="comment" ng-repeat="comment in post.comments">
+							<p class="meta">
+								<span class="author">{{comment.user.username}}</span> | <span class="date">{{comment.createdDate | date}}</span></p>
+							<p class="commentText">{{comment.commentText}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

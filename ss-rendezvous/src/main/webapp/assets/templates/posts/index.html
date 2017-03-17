@@ -1,0 +1,33 @@
+
+<div id="posts" >
+	<h2>{{heading}}</h2>
+	<p ng-if="!posts">There are no posts to display! please create one</p>
+	<div class="post" ng-repeat="post in posts" ng-if="posts">
+		<a href="#/posts/{{post.post_id}}"><h3 class="post-title">{{post.title}}</h3></a>
+		<p class="meta">
+			Posted on <span class="date">{{post.createdDate | date}}</span> by <span
+				class="author">{{post.user.username}}</span> 
+				<!-- <%
+					Set<Post> favouritePosts = rendezvous1.getFavouritePosts(userName); 
+					boolean fav = false;
+					for (Iterator<Post> it = favouritePosts.iterator(); it.hasNext(); ) {
+				        Post p = it.next();
+				        if (p.getPost_id() == post.getPost_id()) 
+				        	fav = true;
+				    }
+				%>
+				<a href="" id="{{post.post_id}}-fav" class="<%=fav?"markFav":"unMarkFav"%>"><span
+				class="glyphicon <%=fav?"glyphicon-star":"glyphicon-star-empty"%>" aria-hidden="true"></span></a> -->
+		<br>
+			Tags: <span class="tags">
+				<a href="#/posts/tag/{{tag.id}}/{{tag.tagName}}" class="{{tag.id}}-tag" ng-repeat="tag in post.tags">{{tag.tagName}}</a>
+			</span>, Topic: <span class="topic"><a class="{{post.topic}}-topic" href="#/posts/topic/{{post.topic}}">{{post.topic}}</a></span></a>
+		</p>
+		
+		<div class="post-text">
+			{{post.postText}}
+		</div>
+	</div>
+
+</div>
+

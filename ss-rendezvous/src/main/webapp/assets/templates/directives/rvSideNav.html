@@ -1,0 +1,25 @@
+<div class="sidenav affix visible-md-block visible-lg-block">
+	<div class="widget" id="favouritePosts" ng-controller="FavPostsController as favPostsCtrl"  ng-if="user">
+		<h4 ng-if="favPosts">Favorite Posts</h4>
+		<ul ng-if="favPosts">
+	        <li><a href="#/posts/{{favPost.post_id}}" class="favPost" id="{{favPost.id}}-post" ng-repeat="favPost in favPosts" >{{favPost.title}}</a></li>
+		</ul>
+	</div>
+	<div class="widget" id="postsByTag" ng-controller="TagController as tagCtrl">
+		<h4>Tags</h4>
+		<p class="tags">			        
+        	<a href="#/posts/tag/{{tag.id}}/{{tag.tagName}}" class="{{tag.id}}-tag" ng-repeat="tag in tags">{{tag.tagName}} </a>   
+    	</p>
+	</div>
+	<div class="widget" id="postsByTopic" >
+		<h4>Topics</h4>
+		<ul>
+			<li><span class="topic"><a class="TECHNOLOGY-topic" href="#/posts/topic/TECHNOLOGY">technology</a></span></li>
+		
+			<li><span class="topic"><a class="MOVIES-topic" href="#/posts/topic/MOVIES">movies</a></span></li>
+		
+			<li><span class="topic"><a class="SPORTS-topic" href="#/posts/topic/SPORTS">sports</a></span></li>
+		
+		</ul>
+	</div>
+</div>

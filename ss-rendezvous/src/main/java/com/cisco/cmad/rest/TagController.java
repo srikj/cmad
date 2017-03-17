@@ -3,6 +3,7 @@ package com.cisco.cmad.rest;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,6 +26,7 @@ public class TagController {
 	
 	static Rendezvous rendezvous = new SimpleRendezvous();
 	
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/all")

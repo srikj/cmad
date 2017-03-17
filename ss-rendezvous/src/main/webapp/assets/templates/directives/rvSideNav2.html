@@ -1,0 +1,31 @@
+<div class="sidenav2 affix visible-md-block visible-lg-block">
+	<div class="widget" id="messages" ng-if="user">
+		<h4>Messages</h4>
+		<div id="message-body">
+			<p class='message' ng-repeat="message in messages"><b>{{message.user.username}}</b> | {{message.createdDate | date}}<br>
+			{{message.messageText}}
+			</p>
+		</div>
+		<hr />
+		<form role="form">
+			<div class="form-group">
+				<textarea id="messageText" class="form-control" rows="3" ng-model="message.messageText"></textarea>
+				<button class="btn btn-success btn-block" type="submit" ng-click="saveMessage(message)">Post
+					Message</button>
+			</div>
+		</form>
+	</div>
+	<div class="widget" id="invite">
+		<h4>Invite Users</h4>
+		<form role="form">
+			<div class="input-group">
+				<input type="text" id="emails" class="form-control"
+					placeholder="email1, email2, email3"> <span
+					class="input-group-btn">
+					<button class="btn btn-default btn-block" type="submit">Invite</button>
+				</span>
+			</div>
+			<div class="alert" role="alert"></div>
+		</form>
+	</div>
+</div>

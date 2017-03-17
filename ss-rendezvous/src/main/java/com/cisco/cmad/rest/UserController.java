@@ -1,7 +1,9 @@
 package com.cisco.cmad.rest;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
@@ -40,6 +42,16 @@ import com.cisco.cmad.api.User;
 import com.cisco.cmad.api.UserAlreadyExistsException;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.biz.SimpleRendezvous;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.impl.crypto.MacProvider;
 
 @Path("/user")
 public class UserController {
@@ -109,15 +121,14 @@ public class UserController {
 	@PermitAll
 	@GET
 	@Path("/login")
-	public Response login(@Context HttpServletRequest request,@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) throws URISyntaxException {
+	public Response login(@Context HttpServletRequest request,@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) throws URISyntaxException, UnsupportedEncodingException {
+		
 		User a = null;
 		try {
 			a = rendezvous.login(username, password);
 		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RendezvousException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return Response.status(500).entity("Invalid server error").build();
 		}
@@ -131,16 +142,50 @@ public class UserController {
 			e.printStackTrace();
 			return Response.status(500).entity("Invalid server error").build();
 		}
-		String auth = username+":"+password;
-		HttpSession session = request.getSession();
-		session.setAttribute("username", a.getUsername());
-		session.setAttribute("auth", Base64.getEncoder().encodeToString(auth.getBytes()));
-		session.setMaxInactiveInterval(30*60);
+//		String auth = username+":"+password;
+//		HttpSession session = request.getSession();
+//		session.setAttribute("username", a.getUsername());
+//		session.setAttribute("auth", Base64.getEncoder().encodeToString(auth.getBytes()));
+//		session.setMaxInactiveInterval(30*60);
 //		NewCookie[] cookies = new NewCookie[2];
 //		cookies[0] = new NewCookie(new NewCookie("username", a.getUsername()), "", 30*60, false);
 //		cookies[1] = new NewCookie(new NewCookie("auth", Base64.getEncoder().encodeToString(auth.getBytes())), "", 30*60, false);
 		//setting cookie to expiry in 30 mins
-		return Response.temporaryRedirect(new URI("/rendezvous/home.jsp")).build();
+		String compactJws = null;
+		compactJws = Jwts.builder()
+				  .setSubject(a.getUsername())
+				  .signWith(SignatureAlgorithm.HS512, AuthenticationFilter.key)
+				  .compact();
+		return Response.ok().entity(compactJws).build();
+	}
+	
+	@GET
+	@Path("/")
+	public Response getUserByUserName(@Context HttpServletRequest request) throws URISyntaxException {
+		Jws<Claims> claims = null;
+		String token = request.getHeader(AuthenticationFilter.AUTHORIZATION_PROPERTY).replaceFirst(AuthenticationFilter.AUTHENTICATION_SCHEME + " ", "");
+		try {
+			claims = Jwts.parser().setSigningKey(AuthenticationFilter.key).parseClaimsJws(token);
+		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+				| IllegalArgumentException e) {
+			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
+		}
+
+		String username = claims.getBody().getSubject();
+		
+		User a = null;
+		try {
+			a = rendezvous.getUserByUsername(username);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RendezvousException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(500).entity("Invalid server error").build();
+		}
+		return Response.ok().entity(a).build();
 	}
 	
 	@PermitAll
@@ -176,6 +221,7 @@ public class UserController {
 		return Response.ok().entity(updatedUser).build();
 	}
 	
+	@PermitAll
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/invite/")
