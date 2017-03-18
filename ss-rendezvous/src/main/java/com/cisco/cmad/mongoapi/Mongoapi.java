@@ -34,8 +34,8 @@ public class Mongoapi {
 	public MongoCollection<Document>userCollection;
 	
 	public Mongoapi() {
-		MongoClient mongo = new MongoClient("localhost", 27017);
-		MongoDatabase db = mongo.getDatabase("glarimy-mongo");
+		MongoClient mongo = new MongoClient("192.168.99.100", 27017);
+		MongoDatabase db = mongo.getDatabase("rendezvous");
 		postCollection = db.getCollection("user-posts");
 		userCollection = db.getCollection("user-data");
 	}
@@ -54,7 +54,7 @@ public class Mongoapi {
 	public void findpost (String title, String username) {
 		System.out.println(title);
 		System.out.println(username);
-		postCollection.find(eq("title", title)).forEach((Document d) -> System.out.println(d.toJson()));
+		postCollection.find(eq("title", title));
 		
 	}
 
@@ -168,14 +168,16 @@ public class Mongoapi {
 	
 	public void createUser (User user) {
 		Document userDoc = new Document("username",user.getUsername())
-					    .append("passowrd", user.getPassword())
-					    .append("created date", user.getCreatedDate())
+					    .append("password", user.getPassword())
+					    .append("createdDate", user.getCreatedDate())
 					    .append("userinfo",new Document("name", user.getUserInfo().getName())
-					    		.append("mobile", user.getUserInfo().getPhoneNumber())
+					    		.append("phoneNumber", user.getUserInfo().getPhoneNumber())
 					    		.append("interest", user.getUserInfo().getInterest().toString())
 					    		.append("email", user.getUserInfo().getEmail()))
-					    .append("updated date", user.getUpdatedDate())
-					    .append("loginIp", user.getLastLoginIP());
+					    .append("updatedDate", user.getUpdatedDate())
+					    .append("lastLoginIP", user.getLastLoginIP())
+					    .append("lastLoginDate", user.getLastLoginDate());
+						
 		userCollection.insertOne(userDoc);
 		return;
 		
@@ -198,6 +200,25 @@ public class Mongoapi {
 			return null;
 		}
 		return(user.first());
+	}
+	
+	public Document update(User user) {
+		BasicDBObject query = new BasicDBObject();
+		Document userDoc = new Document("username",user.getUsername())
+			    .append("password", user.getPassword())
+			    .append("createdDate", user.getCreatedDate())
+			    .append("userinfo",new Document("name", user.getUserInfo().getName())
+			    		.append("phoneNumber", user.getUserInfo().getPhoneNumber())
+			    		.append("interest", user.getUserInfo().getInterest().toString())
+			    		.append("email", user.getUserInfo().getEmail()))
+			    .append("updatedDate", user.getUpdatedDate())
+			    .append("lastLoginIP", user.getLastLoginIP())
+			    .append("lastLoginDate", user.getLastLoginDate());
+		
+		userCollection.updateOne(eq("username", user.getUsername()),userDoc);
+		
+		
+		return userCollection.find(eq("username",user.getUsername())).first();
 	}
 }
 

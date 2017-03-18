@@ -35,7 +35,6 @@ import com.cisco.cmad.data.JPADAO;
 import com.cisco.cmad.mongoapi.Mongoapi;
 import com.mongodb.client.FindIterable;
 
-
 public class SimpleRendezvous implements Rendezvous {
 
 	private DAO dao;
@@ -78,26 +77,27 @@ public class SimpleRendezvous implements Rendezvous {
 		if (mapi.getUser(user.getUsername()) != null)
 			throw new UserAlreadyExistsException();
 
-		//dao.createUser(user);
+		// dao.createUser(user);
 		mapi.createUser(user);
 	}
 
 	@Override
-	public User login(String username, String password)
+	public boolean login(String username, String password)
 			throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
 			throw new InvalidDataException();
 		}
-		User user = dao.getUser(username);
-		//Document user = mapi.validateUser(username, password);
+		// User user = dao.getUser(username);
+
+		Document user = mapi.validateUser(username, password);
 		if (user == null) {
 			throw new UserNotFoundException();
 		}
-		return user;
+		return true;
 	}
 
 	@Override
-	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException {
+	public Document update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if (user.getUsername() == null || user.getUsername().trim().isEmpty())
 			throw new InvalidDataException();
 		UserInfo userinfo = user.getUserInfo();
@@ -117,44 +117,47 @@ public class SimpleRendezvous implements Rendezvous {
 		}
 
 		user.setUpdatedDate(new Date());
-		User updatedUser = dao.update(user);
+		Document updatedUser = mapi.update(user);
 		return updatedUser;
 	}
 
 	@Override
 	public void invite(String emailIds) throws InvalidDataException, RendezvousException {
-//		String from = "noreply@cisco.com";
-//		String host = "outbound.cisco.com";
-//		Properties properties = System.getProperties();
-//		properties.setProperty("mail.smtp.host", host);
-//		Session session = Session.getDefaultInstance(properties);
-//
-//		for (String emailid : emailIds.split(",")) {
-//			if (emailid == null || emailid.trim().isEmpty()) {
-//				throw new InvalidDataException();
-//			}
-//			Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
-//			Matcher regMatcher = regexPattern.matcher(emailid);
-//			if (regMatcher.matches()) {
-//				System.out.println("Email Invite sent to" + emailid);
-//
-//				try {
-//					getUserByEmail(emailid); 
-//					MimeMessage message = new MimeMessage(session);
-//					message.setFrom(new InternetAddress(from));
-//					message.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(emailid));
-//					message.setSubject("Welcome to Rendezvous");
-//					message.setText("You have been invited to Rendezvous! Register at http://localhost:8080/rendezvous");
-//					Transport.send(message);
-//				} catch (MessagingException mex) {
-//					mex.printStackTrace();
-//				} catch(RendezvousException e) {
-//					e.printStackTrace();
-//				}
-//			} else {
-//				throw new InvalidDataException();
-//			}
-//		}
+		// String from = "noreply@cisco.com";
+		// String host = "outbound.cisco.com";
+		// Properties properties = System.getProperties();
+		// properties.setProperty("mail.smtp.host", host);
+		// Session session = Session.getDefaultInstance(properties);
+		//
+		// for (String emailid : emailIds.split(",")) {
+		// if (emailid == null || emailid.trim().isEmpty()) {
+		// throw new InvalidDataException();
+		// }
+		// Pattern regexPattern =
+		// Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
+		// Matcher regMatcher = regexPattern.matcher(emailid);
+		// if (regMatcher.matches()) {
+		// System.out.println("Email Invite sent to" + emailid);
+		//
+		// try {
+		// getUserByEmail(emailid);
+		// MimeMessage message = new MimeMessage(session);
+		// message.setFrom(new InternetAddress(from));
+		// message.addRecipient(javax.mail.Message.RecipientType.TO, new
+		// InternetAddress(emailid));
+		// message.setSubject("Welcome to Rendezvous");
+		// message.setText("You have been invited to Rendezvous! Register at
+		// http://localhost:8080/rendezvous");
+		// Transport.send(message);
+		// } catch (MessagingException mex) {
+		// mex.printStackTrace();
+		// } catch(RendezvousException e) {
+		// e.printStackTrace();
+		// }
+		// } else {
+		// throw new InvalidDataException();
+		// }
+		// }
 	}
 
 	@Override
@@ -182,7 +185,7 @@ public class SimpleRendezvous implements Rendezvous {
 		// post.setComments(null);
 		// post.setFavouritedUsers(null);
 		// post.setTags(null);
-		//dao.createPost(post);
+		// dao.createPost(post);
 		mapi.createPost(post);
 	}
 
@@ -340,11 +343,12 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public Document getUserByEmail(String email) throws UserNotFoundException, InvalidDataException, RendezvousException {
+	public Document getUserByEmail(String email)
+			throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if (email == null || email.trim().isEmpty())
 			throw new InvalidDataException();
 
-		//User user = dao.getUserByEmail(email);
+		// User user = dao.getUserByEmail(email);
 		Document user = mapi.getUserByEmail(email);
 		if (user == null)
 			throw new UserNotFoundException();

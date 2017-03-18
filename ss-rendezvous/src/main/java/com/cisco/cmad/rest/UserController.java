@@ -126,7 +126,7 @@ public class UserController {
 		
 		User a = null;
 		try {
-			a = rendezvous.login(username, password);
+			rendezvous.login(username, password);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		} catch (RendezvousException e) {
@@ -206,7 +206,7 @@ public class UserController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/update")
 	public Response update(User user) {
-		User updatedUser = null;
+		Document updatedUser = null;
 		try {
 			updatedUser = rendezvous.update(user);
 		} catch (UserNotFoundException e) {

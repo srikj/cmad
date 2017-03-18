@@ -11,9 +11,9 @@ public interface Rendezvous {
 
 	public void register(User user) throws UserAlreadyExistsException, InvalidDataException, RendezvousException;
 	
-	public User login(String username, String password) throws UserNotFoundException, InvalidDataException, RendezvousException;
+	public boolean login(String username, String password) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
-	public User update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException;
+	public Document update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
 	public Document getUserByUsername(String username) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
