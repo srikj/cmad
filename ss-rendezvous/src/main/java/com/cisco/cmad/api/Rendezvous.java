@@ -21,39 +21,39 @@ public interface Rendezvous {
 
 	public void invite(String emailIds) throws InvalidDataException, RendezvousException;
 	
-	public Set<Post> getFavouritePosts(String username) throws UserNotFoundException,RendezvousException;
+	public FindIterable<Document> getFavouritePosts(String username) throws UserNotFoundException,RendezvousException;
 	
 	public void createPost(Post post) throws InvalidDataException,RendezvousException;
 	
-	public List<Comment> getComments(int post_id) throws PostNotFoundException,RendezvousException;
+	public List<String> getComments(String post_id) throws PostNotFoundException,RendezvousException;
 	
 	public Object getPosts() ;
 	
-	public List<Post> getPosts(int offset, int size) ;
+	public FindIterable<Document> getPosts(int offset, int size) ;
 	
-	public Set<Post> getPostsByTag(int tag_id) throws TagNotFoundException,RendezvousException;
+	public FindIterable<Document> getPostsByTag(String tag) throws TagNotFoundException,RendezvousException;
 	
-	public List<Post> getPostsByInterest(Interest interest) throws InvalidInterestException,RendezvousException;
+	public FindIterable<Document> getPostsByInterest(Interest interest) throws InvalidInterestException,RendezvousException;
 	
-	public Post getPost(int post_id) throws PostNotFoundException,RendezvousException;
+	public FindIterable<Document> getPost(String post_id) throws PostNotFoundException,RendezvousException;
 	
-	public int getFavouritePostCount(int post_id) throws PostNotFoundException,RendezvousException;
+	//public int getFavouritePostCount(int post_id) throws PostNotFoundException,RendezvousException;
 	
-	public void markFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException, InvalidDataException;
+	public void markFavourite(String post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException, InvalidDataException;
 	
-	public void unMarkFavourite(int post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException, InvalidDataException;
+	public void unMarkFavourite(String post_id,String username) throws PostNotFoundException,UserNotFoundException, RendezvousException, InvalidDataException;
 	
-	public List<Post> search(String key);
+	public FindIterable<Document> search(String key);
 	
-	public void createComment(int post_id, Comment comment) throws PostNotFoundException, InvalidDataException, RendezvousException;
+	public void createComment(String post_id, Comment comment) throws PostNotFoundException, InvalidDataException, RendezvousException;
 	
 	public void createMessage(Message message) throws InvalidDataException, RendezvousException;
 	
-	public List<Message> getMessages() ;
+	public FindIterable<Document> getMessages() ;
 	
-	public List<Message> getMessages(int offset, int size) ;
+	public FindIterable<Document> getMessages(int offset, int size) ;
 	
-	public List<Tag> getTags() ;
+	public List<String> getTags() ;
 	
 	
 }

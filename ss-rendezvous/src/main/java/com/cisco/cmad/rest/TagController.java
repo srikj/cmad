@@ -31,7 +31,7 @@ public class TagController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/all")
 	public Response getMessages() {
-		List<Tag> tags = rendezvous.getTags();
+		List<String> tags = rendezvous.getTags();
 		return Response.ok().entity(tags).build();
 	}
 

@@ -55,8 +55,8 @@ public class PostController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{postid}/comments")
-	public Response getComments(@PathParam(value = "postid") int post_id) {
-		List<Comment> comments = null;
+	public Response getComments(@PathParam(value = "postid") String post_id) {
+		List<String> comments = null;
 		try {
 			comments = rendezvous.getComments(post_id);
 		} catch (PostNotFoundException e) {
@@ -86,7 +86,7 @@ public class PostController {
 	@Path("/paged")
 	public Response getPosts(@QueryParam(value = "start") int offset, @QueryParam(value = "size") int size) {
 		
-		List<Post> posts = rendezvous.getPosts(offset,size);
+		FindIterable<Document> posts = rendezvous.getPosts(offset,size);
 		
 		return Response.ok().entity(posts).build();
 	}
@@ -95,9 +95,9 @@ public class PostController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/postsByTag")
-	public Response getPostsByTag(@QueryParam(value = "tag")int tag_id) {
+	public Response getPostsByTag(@QueryParam(value = "tag")String tag_id) {
 		
-		Set<Post> posts = null;
+		FindIterable<Document> posts = null;
 		try {
 			posts = rendezvous.getPostsByTag(tag_id);
 		} catch (TagNotFoundException e) {
@@ -115,7 +115,7 @@ public class PostController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/postsByTopic")
 	public Response getPostsByInterest(@QueryParam(value = "topic") Interest interest) {
-		List<Post> posts = null;
+		FindIterable<Document> posts = null;
 		try {
 			posts = rendezvous.getPostsByInterest(interest);
 		} catch (InvalidInterestException e) {
@@ -133,8 +133,8 @@ public class PostController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{postid}")
-	public Response getPost(@PathParam(value = "postid") int post_id) {
-		Post post = null;
+	public Response getPost(@PathParam(value = "postid") String post_id) {
+		FindIterable<Document> post = null;
 		try {
 			post = rendezvous.getPost(post_id);
 		} catch (PostNotFoundException e) {
@@ -153,7 +153,8 @@ public class PostController {
 	@Path("/favouritedUsers/{postid}")
 	public Response getFavouritePostCount(@PathParam(value = "postid") int post_id) {
 		int count = 0;
-		try {
+		//FIXME : need to define a mongoapi to get count of favourated users
+		/***try {
 			count = rendezvous.getFavouritePostCount(post_id);
 		} catch (PostNotFoundException e) {
 			e.printStackTrace();
@@ -161,13 +162,13 @@ public class PostController {
 		} catch (RendezvousException e) {
 			e.printStackTrace();
 			return Response.status(500).entity("Invalid operation").build();
-		}
+		}*/
 		return Response.ok().entity(count).build();
 	}
 
 	@POST
 	@Path("/markFav/{post_id}/{username}")
-	public Response markFavourite(@PathParam(value="post_id") int post_id,@PathParam(value = "username")String username) {
+	public Response markFavourite(@PathParam(value="post_id") String post_id,@PathParam(value = "username")String username) {
 		try {
 			rendezvous.markFavourite(post_id, username);
 		} catch (PostNotFoundException e) {
@@ -184,7 +185,7 @@ public class PostController {
 	}
 	@POST
 	@Path("/unmarkFav/{post_id}/{username}")
-	public Response unMarkFavourite(@PathParam(value="post_id") int post_id,@PathParam(value = "username")String username) {
+	public Response unMarkFavourite(@PathParam(value="post_id") String post_id,@PathParam(value = "username")String username) {
 		try {
 			rendezvous.unMarkFavourite(post_id, username);
 		} catch (PostNotFoundException e) {
@@ -206,14 +207,14 @@ public class PostController {
 	@Path("/search")
 	public Response search(@QueryParam(value = "search") String key) {
 		
-		List<Post> posts = rendezvous.search(key);
+		FindIterable<Document> posts = rendezvous.search(key);
 		return Response.ok().entity(posts).build();
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{postid}/comment")
-	public Response createComment(@PathParam(value = "postid") int post_id,Comment comment) {
+	public Response createComment(@PathParam(value = "postid") String post_id,Comment comment) {
 		
 		try {
 			rendezvous.createComment(post_id, comment);

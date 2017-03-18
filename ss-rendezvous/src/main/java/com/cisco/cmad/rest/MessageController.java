@@ -12,11 +12,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.bson.Document;
+
 import com.cisco.cmad.api.InvalidDataException;
 import com.cisco.cmad.api.Message;
 import com.cisco.cmad.api.Rendezvous;
 import com.cisco.cmad.api.RendezvousException;
 import com.cisco.cmad.biz.SimpleRendezvous;
+import com.mongodb.client.FindIterable;
 
 
 @Path("/message")
@@ -47,7 +50,7 @@ public class MessageController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/all")
 	public Response getMessages(@QueryParam(value = "offset") int offset, @QueryParam(value = "size")int size) {
-		List<Message> messages = rendezvous.getMessages(offset,size);
+		FindIterable<Document> messages = rendezvous.getMessages(offset,size);
 		return Response.ok().entity(messages).build();
 	}
 

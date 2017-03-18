@@ -43,6 +43,7 @@ import com.cisco.cmad.api.User;
 import com.cisco.cmad.api.UserAlreadyExistsException;
 import com.cisco.cmad.api.UserNotFoundException;
 import com.cisco.cmad.biz.SimpleRendezvous;
+import com.mongodb.client.FindIterable;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -245,7 +246,7 @@ public class UserController {
 	@Path("/favouritePosts/{username}")
 	public Response getFavouritePosts(@PathParam("username") String username) {
 		
-		Set<Post> posts = null;
+		FindIterable<Document> posts = null;
 		try {
 			posts = rendezvous.getFavouritePosts(username);
 		} catch (UserNotFoundException e) {

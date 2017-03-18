@@ -35,6 +35,8 @@ import com.cisco.cmad.data.JPADAO;
 import com.cisco.cmad.mongoapi.Mongoapi;
 import com.mongodb.client.FindIterable;
 
+
+
 public class SimpleRendezvous implements Rendezvous {
 
 	private DAO dao;
@@ -161,11 +163,11 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public Set<Post> getFavouritePosts(String username) throws UserNotFoundException, RendezvousException {
+	public FindIterable<Document> getFavouritePosts(String username) throws UserNotFoundException, RendezvousException {
 		if (username == null || username.trim().isEmpty())
 			throw new InvalidDataException();
 
-		Set<Post> posts = dao.getFavouritePosts(username);
+		FindIterable<Document> posts = mapi.getFavouritePosts(username);
 		if (posts == null) {
 			throw new RendezvousException();
 		}
@@ -190,9 +192,9 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public List<Comment> getComments(int post_id) throws PostNotFoundException, RendezvousException {
-		List<Comment> comments = null;
-		comments = dao.getComments(post_id);
+	public List<String> getComments(String post_id) throws PostNotFoundException, RendezvousException {
+		List<String> comments = null;
+		comments = mapi.getComments(post_id);
 		if (comments == null) {
 			throw new PostNotFoundException();
 		}
@@ -206,19 +208,20 @@ public class SimpleRendezvous implements Rendezvous {
 		return allPosts;
 	}
 
+	
 	@Override
-	public List<Post> getPosts(int offset, int size) {
-		List<Post> numPosts = null;
-		numPosts = dao.getPosts(offset, size);
-		if (numPosts.isEmpty()) {
+	public FindIterable<Document> getPosts(int offset, int size) {
+		FindIterable<Document> numPosts = null;
+		numPosts = mapi.getPosts(size);
+		if (numPosts == null) {
 			return null;
 		}
 		return numPosts;
 	}
 
 	@Override
-	public Set<Post> getPostsByTag(int tag_id) throws TagNotFoundException, RendezvousException {
-		Set<Post> postByTag = dao.getPostsByTag(tag_id);
+	public FindIterable<Document> getPostsByTag(String tag) throws TagNotFoundException, RendezvousException {
+		FindIterable<Document> postByTag = mapi.getPostsByTag(tag);
 		if (postByTag == null) {
 			throw new TagNotFoundException();
 		}
@@ -226,82 +229,87 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public List<Post> getPostsByInterest(Interest interest) throws InvalidInterestException, RendezvousException {
+	public FindIterable<Document> getPostsByInterest(Interest interest) throws InvalidInterestException, RendezvousException {
 		// SHould add here to validate the interest
-		List<Post> postByInt = dao.getPostsByInterest(interest);
-		if (postByInt.isEmpty()) {
+		FindIterable<Document> postByInt = mapi.getPostsByInterest(interest);
+		if (postByInt == null) {
 			throw new RendezvousException();
 		}
 		return postByInt;
 	}
 
 	@Override
-	public Post getPost(int post_id) throws PostNotFoundException, RendezvousException {
-		Post post = dao.getPost(post_id);
+	public FindIterable<Document> getPost(String post_id) throws PostNotFoundException, RendezvousException {
+		FindIterable<Document> post = mapi.getPostId(post_id);
 		if (post == null) {
 			throw new PostNotFoundException();
 		}
 		return post;
 	}
 
-	@Override
+	/***@Override
 	public int getFavouritePostCount(int post_id) throws PostNotFoundException, RendezvousException {
 		int size = dao.getFavouritePostCount(post_id);
 		if (size == 0) {
 			throw new PostNotFoundException();
 		}
 		return size;
-	}
+	}*/
 
 	@Override
-	public void markFavourite(int post_id, String username)
+	public void markFavourite(String post_id, String username)
 			throws PostNotFoundException, UserNotFoundException, RendezvousException, InvalidDataException {
-		if (post_id == 0 || username.trim().isEmpty() || username == null) {
+		if (post_id.trim().isEmpty() || username.trim().isEmpty() || username == null) {
 			throw new InvalidDataException();
 		}
-		User user = dao.getUser(username);
+		//User user = dao.getUser(username);
+		Document user = mapi.getUser(username);
 		if (user == null) {
 			throw new UserNotFoundException();
 		} else {
-			dao.markFavourite(post_id, username);
+			//dao.markFavourite(post_id, username);
+			mapi.markFavourite(post_id, username);
 		}
 
 	}
 
 	@Override
-	public void unMarkFavourite(int post_id, String username)
+	public void unMarkFavourite(String post_id, String username)
 			throws PostNotFoundException, UserNotFoundException, RendezvousException, InvalidDataException {
-		if (post_id == 0 || username.trim().isEmpty() || username == null) {
+		if (post_id.trim().isEmpty() || username.trim().isEmpty() || username == null) {
 			throw new InvalidDataException();
 		}
-		User user = dao.getUser(username);
+		//User user = dao.getUser(username);
+		Document user = mapi.getUser(username);
 		if (user == null) {
 			throw new UserNotFoundException();
 		} else {
-			dao.unMarkFavourite(post_id, username);
+			//dao.unMarkFavourite(post_id, username);
+			mapi.unmarkFavourite(post_id, username);
 		}
 	}
 
 	@Override
-	public List<Post> search(String key) {
-		return dao.search(key);
+	public FindIterable<Document> search(String key) {
+		return mapi.searcPost(key);
 	}
 
 	@Override
-	public void createComment(int post_id, Comment comment)
+	public void createComment(String post_id, Comment comment)
 			throws PostNotFoundException, InvalidDataException, RendezvousException {
 		if (comment.getCommentText() == null || comment.getCommentText().trim().isEmpty()
 				|| comment.getUser().getUsername() == null || comment.getUser().getUsername().trim().isEmpty()
-				|| post_id == 0) {
+				|| post_id.trim().isEmpty()) {
 			throw new InvalidDataException();
 		}
-		Post post = dao.getPost(post_id);
+		//Post post = dao.getPost(post_id);
+		FindIterable<Document> post = mapi.getPostId(post_id);
 		if (post == null) {
 			throw new PostNotFoundException();
 		}
 		comment.setCreatedDate(new Date());
 		comment.setUpdatedDate(new Date());
-		dao.createComment(post_id, comment);
+		mapi.addComment(post_id, comment.getCommentText());
 
 	}
 
@@ -314,18 +322,20 @@ public class SimpleRendezvous implements Rendezvous {
 			throw new RendezvousException();
 		}
 		message.setCreatedDate(new Date());
-		dao.createMessage(message);
+		mapi.createMessage(message);
 	}
 
 	@Override
-	public List<Message> getMessages() {
-		List<Message> allMessage = dao.getMessages();
+	public FindIterable<Document> getMessages() {
+		//List<Message> allMessage = dao.getMessages();
+		FindIterable<Document> allMessage = mapi.getMessages();
 		return allMessage;
 	}
 
 	@Override
-	public List<Message> getMessages(int offset, int size) {
-		List<Message> numMessages = dao.getMessages(offset, size);
+	public FindIterable<Document> getMessages(int offset, int size) {
+		//List<Message> numMessages = dao.getMessages(offset, size);
+		FindIterable<Document> numMessages = mapi.getMessage(size);
 		return numMessages;
 	}
 
@@ -356,8 +366,9 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public List<Tag> getTags() {
-		return dao.getTags();
+	public List<String> getTags() {
+		//return dao.getTags();
+		return mapi.getTags();
 	}
 
 }

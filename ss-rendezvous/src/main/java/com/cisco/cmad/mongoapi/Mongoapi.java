@@ -12,11 +12,13 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.cisco.cmad.api.Interest;
+import com.cisco.cmad.api.Message;
 import com.cisco.cmad.api.Post;
 import com.cisco.cmad.api.Tag;
 import com.cisco.cmad.api.User;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -32,12 +34,14 @@ public class Mongoapi {
 
 	public MongoCollection<Document> postCollection;
 	public MongoCollection<Document>userCollection;
+	public MongoCollection<Document>msgCollection;
 	
 	public Mongoapi() {
 		MongoClient mongo = new MongoClient("192.168.99.100", 27017);
 		MongoDatabase db = mongo.getDatabase("rendezvous");
 		postCollection = db.getCollection("user-posts");
 		userCollection = db.getCollection("user-data");
+		msgCollection = db.getCollection("user-msgs");
 	}
 	
 	public void addPost (String post,String username, String title) {
@@ -79,6 +83,10 @@ public class Mongoapi {
 		return doc;
 	}
 	
+	public FindIterable<Document>getPosts(int size) {
+		return(postCollection.find().sort(new Document("_id",-1)).limit(size));
+	}
+	
 	public FindIterable<Document> getPostId (String id) {
 		BasicDBObject query = new BasicDBObject();
 	    query.put("_id", new ObjectId(id));
@@ -109,7 +117,7 @@ public class Mongoapi {
 		for (Document d1 : doc) {
 			System.out.println(d1.toJson());
 		}
-		postCollection.dropIndex(Indexes.text("post"));
+		//postCollection.dropIndex(Indexes.text("post"));
 		return doc;
 	}
 	
@@ -153,9 +161,23 @@ public class Mongoapi {
 	    System.out.println(result);
 	}
 	
-	/***public void getTags() {
-		System.out.println(postCollection.distinct("Tags", null ));
-	}*/
+	public FindIterable<Document>getFavouritePosts(String username) {
+		BasicDBObject query = new BasicDBObject();
+	    query.put("Favourated_users", username);
+		FindIterable<Document> favPost = postCollection.find(query);
+		return favPost;
+		
+	}
+	public List<String> getTags() {
+		DistinctIterable<String> documents = postCollection.distinct("Tags", String.class);
+		List<String>listTags = new ArrayList<>();
+		for (String document : documents) {
+		    listTags.add(document);
+		}
+		//System.out.println(listTags);
+		return (listTags);
+		
+	}
 	
 	
 	public Document getUser(String username) {
@@ -202,6 +224,23 @@ public class Mongoapi {
 		return(user.first());
 	}
 	
+	public void createMessage(Message message) {
+		User user = message.getUser();
+		Document msg = new Document("messageText",message.getMessageText())
+						.append("createdDate", message.getCreatedDate())
+						.append("username", user.getUsername());
+		msgCollection.insertOne(msg);
+		return;
+	}
+	
+	public FindIterable<Document>getMessage(int size) {
+		return(msgCollection.find().sort(new Document("createdDate",-1)).limit(size));
+	}
+	
+	public FindIterable<Document>getMessages() {
+		return(msgCollection.find());
+	}
+
 	public Document update(User user) {
 		BasicDBObject query = new BasicDBObject();
 		Document userDoc = new Document("username",user.getUsername())
