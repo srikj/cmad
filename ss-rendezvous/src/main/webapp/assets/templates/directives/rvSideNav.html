@@ -8,7 +8,7 @@
 	<div class="widget" id="postsByTag" ng-controller="TagController as tagCtrl">
 		<h4>Tags</h4>
 		<p class="tags">			        
-        	<a href="#/posts/tag/{{tag.id}}/{{tag.tagName}}" class="{{tag.id}}-tag" ng-repeat="tag in tags">{{tag.tagName}} </a>   
+        	<a href="#/posts/tag/{{tag}}" class="tag" ng-repeat="tag in tags">{{tag}} </a>   
     	</p>
 	</div>
 	<div class="widget" id="postsByTopic" >

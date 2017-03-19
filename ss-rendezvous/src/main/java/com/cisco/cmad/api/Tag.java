@@ -3,31 +3,31 @@ package com.cisco.cmad.api;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.UniqueConstraint;
+//import javax.persistence.Column;
+//import javax.persistence.Entity;
+//import javax.persistence.FetchType;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.Id;
+//import javax.persistence.ManyToMany;
+//import javax.persistence.UniqueConstraint;
 
 //import org.hibernate.search.annotations.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
+//@Entity
 public class Tag {
 
 	
-	@Id
-	@GeneratedValue
+//	@Id
+//	@GeneratedValue
 	private int id;
 //	@Field
-	@Column(unique = true)
+//	@Column(unique = true)
 	private String tagName;
 	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
+//	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
 	private Set<Post> taggedPosts = new HashSet<Post>(0);
 
 	public Tag() {

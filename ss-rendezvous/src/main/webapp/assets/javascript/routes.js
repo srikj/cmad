@@ -29,7 +29,7 @@ angular.module('Rendezvous').config(function($routeProvider){
       controller: "PostsTopicController"
     })
 
-    .when('/posts/tag/:id/:tag', {
+    .when('/posts/tag/:tag', {
       templateUrl: "assets/templates/posts/index.html",
       controller: "PostsTagController"
     })

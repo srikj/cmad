@@ -11,6 +11,8 @@ angular.module('Rendezvous').controller('UserLoginController', function($scope, 
 		    	$http.get("rest/user/",
 	                {headers: {'Authorization': 'Bearer '+$sessionStorage.authToken}}).then(function (response) {
 			        $scope.user = response.data;
+			        delete $scope.user._id ;
+			        delete $scope.user.password ;
 			        $rootScope.user = $scope.user;
 			        $sessionStorage.user = $rootScope.user;
 			        $location.path("/posts");

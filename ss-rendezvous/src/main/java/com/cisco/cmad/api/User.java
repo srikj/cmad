@@ -6,34 +6,35 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+//import javax.persistence.CascadeType;
+//import javax.persistence.Embedded;
+//import javax.persistence.Entity;
+//import javax.persistence.FetchType;
+//import javax.persistence.Id;
+//import javax.persistence.Inheritance;
+//import javax.persistence.InheritanceType;
+//import javax.persistence.ManyToMany;
+//import javax.persistence.OneToMany;
+//import javax.persistence.OneToOne;
+//import javax.persistence.PrimaryKeyJoinColumn;
+//import javax.persistence.Temporal;
+//import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Entity
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
+	
 
-	@Id
-	@PrimaryKeyJoinColumn
+//	@Id
+//	@PrimaryKeyJoinColumn
 	private String username;
 	
-	@Embedded
+//	@Embedded
 	protected UserInfo userInfo;
 	
 	@JsonIgnore
@@ -43,27 +44,27 @@ public class User {
 	private String lastLoginIP;
 	
 	@JsonIgnore
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
 	private Date lastLoginDate;
 	
 	@JsonIgnore
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
 	private Date createdDate;
 	
 	@JsonIgnore
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Post> favouritePosts = new HashSet<Post>(0);
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
 	private List<Post> posts = new ArrayList<>();
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
 	private List<Message> messages = new ArrayList<>();
 	
 	public User() {

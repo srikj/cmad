@@ -15,11 +15,12 @@
 				        	fav = true;
 				    }
 				%>
-				<a href="" id="{{post.post_id}}-fav" class="<%=fav?"markFav":"unMarkFav"%>"><span
-				class="glyphicon <%=fav?"glyphicon-star":"glyphicon-star-empty"%>" aria-hidden="true"></span></a> -->
+			 -->
+			 <a ng-if="user" href="" ng-click="toggleFav(post)"><span
+				class="glyphicon" ng-class="{'glyphicon-star-empty': !isFavorites(post), 'glyphicon-star' : isFavorites(post)}"></span></a>
 		<br>
 			Tags: <span class="tags">
-				<a href="#/posts/tag/{{tag.id}}/{{tag.tagName}}" class="{{tag.id}}-tag" ng-repeat="tag in post.tags">{{tag.tagName}}</a>
+				<a href="#/posts/tag/{{tag}}" class="tag" ng-repeat="tag in post.tags">{{tag}}</a>
 			</span>, Topic: <span class="topic"><a class="{{post.topic}}-topic" href="#/posts/topic/{{post.topic}}">{{post.topic}}</a></span></a>
 		</p>
 		

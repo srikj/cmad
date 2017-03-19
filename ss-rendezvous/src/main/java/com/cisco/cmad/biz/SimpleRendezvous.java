@@ -1,5 +1,7 @@
 package com.cisco.cmad.biz;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -43,7 +45,7 @@ public class SimpleRendezvous implements Rendezvous {
 	private Mongoapi mapi;
 
 	public SimpleRendezvous() {
-		dao = new JPADAO();
+//		dao = new JPADAO();
 		mapi = new Mongoapi();
 	}
 
@@ -84,18 +86,17 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public boolean login(String username, String password)
+	public Document login(String username, String password, String ip)
 			throws UserNotFoundException, InvalidDataException, RendezvousException {
 		if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
 			throw new InvalidDataException();
 		}
 		// User user = dao.getUser(username);
-
-		Document user = mapi.validateUser(username, password);
+		Document user = mapi.validateUser(username, password, ip);
 		if (user == null) {
 			throw new UserNotFoundException();
 		}
-		return true;
+		return user;
 	}
 
 	@Override
@@ -239,8 +240,8 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public FindIterable<Document> getPost(String post_id) throws PostNotFoundException, RendezvousException {
-		FindIterable<Document> post = mapi.getPostId(post_id);
+	public Document getPost(String post_id) throws PostNotFoundException, RendezvousException {
+		Document post = mapi.getPostId(post_id);
 		if (post == null) {
 			throw new PostNotFoundException();
 		}
@@ -303,13 +304,13 @@ public class SimpleRendezvous implements Rendezvous {
 			throw new InvalidDataException();
 		}
 		//Post post = dao.getPost(post_id);
-		FindIterable<Document> post = mapi.getPostId(post_id);
+		Document post = mapi.getPostId(post_id);
 		if (post == null) {
 			throw new PostNotFoundException();
 		}
 		comment.setCreatedDate(new Date());
 		comment.setUpdatedDate(new Date());
-		mapi.addComment(post_id, comment.getCommentText());
+		mapi.addComment(post_id, comment);
 
 	}
 

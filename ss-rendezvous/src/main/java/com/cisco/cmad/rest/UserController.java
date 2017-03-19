@@ -125,37 +125,20 @@ public class UserController {
 	@Path("/login")
 	public Response login(@Context HttpServletRequest request,@QueryParam(value = "username") String username, @QueryParam(value = "password")String password) throws URISyntaxException, UnsupportedEncodingException {
 		
-		User a = null;
+		Document a = null;
 		try {
-			rendezvous.login(username, password);
+			a = rendezvous.login(username, password, request.getRemoteAddr());
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
+			return Response.status(401).entity("User Does not exist").build();
 		} catch (RendezvousException e) {
 			e.printStackTrace();
 			return Response.status(500).entity("Invalid server error").build();
 		}
-		Date date = new Date();
-		a.setLastLoginDate(date);
-		a.setLastLoginIP(request.getRemoteAddr());
-		try {
-			a.setUpdatedDate(date);
-			rendezvous.update(a);
-		} catch (RendezvousException e) {
-			e.printStackTrace();
-			return Response.status(500).entity("Invalid server error").build();
-		}
-//		String auth = username+":"+password;
-//		HttpSession session = request.getSession();
-//		session.setAttribute("username", a.getUsername());
-//		session.setAttribute("auth", Base64.getEncoder().encodeToString(auth.getBytes()));
-//		session.setMaxInactiveInterval(30*60);
-//		NewCookie[] cookies = new NewCookie[2];
-//		cookies[0] = new NewCookie(new NewCookie("username", a.getUsername()), "", 30*60, false);
-//		cookies[1] = new NewCookie(new NewCookie("auth", Base64.getEncoder().encodeToString(auth.getBytes())), "", 30*60, false);
-		//setting cookie to expiry in 30 mins
+
 		String compactJws = null;
 		compactJws = Jwts.builder()
-				  .setSubject(a.getUsername())
+				  .setSubject(a.getString("username"))
 				  .signWith(SignatureAlgorithm.HS512, AuthenticationFilter.key)
 				  .compact();
 		return Response.ok().entity(compactJws).build();

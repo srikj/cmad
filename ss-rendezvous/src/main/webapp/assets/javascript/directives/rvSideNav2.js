@@ -5,6 +5,7 @@ angular.module("Rendezvous").directive('rvSideNav2', function(){
     templateUrl: "assets/templates/directives/rvSideNav2.html",
     controller: function($scope, $sessionStorage, $http, $rootScope) {
     	$scope.$storage = $sessionStorage;
+    	$rootScope.user = $sessionStorage.user;
     	$scope.user = $rootScope.user;
     	token = $sessionStorage.authToken;
     	$scope.messages = {};

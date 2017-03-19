@@ -11,7 +11,7 @@ public interface Rendezvous {
 
 	public void register(User user) throws UserAlreadyExistsException, InvalidDataException, RendezvousException;
 	
-	public boolean login(String username, String password) throws UserNotFoundException, InvalidDataException, RendezvousException;
+	public Document login(String username, String password, String ip) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
 	public Document update(User user) throws UserNotFoundException, InvalidDataException, RendezvousException;
 	
@@ -35,7 +35,7 @@ public interface Rendezvous {
 	
 	public FindIterable<Document> getPostsByInterest(Interest interest) throws InvalidInterestException,RendezvousException;
 	
-	public FindIterable<Document> getPost(String post_id) throws PostNotFoundException,RendezvousException;
+	public Document getPost(String post_id) throws PostNotFoundException,RendezvousException;
 	
 	//public int getFavouritePostCount(int post_id) throws PostNotFoundException,RendezvousException;
 	
@@ -54,6 +54,7 @@ public interface Rendezvous {
 	public FindIterable<Document> getMessages(int offset, int size) ;
 	
 	public List<String> getTags() ;
+
 	
 	
 }

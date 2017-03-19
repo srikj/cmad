@@ -4,16 +4,16 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+//import javax.persistence.CascadeType;
+//import javax.persistence.Embeddable;
+//import javax.persistence.Entity;
+//import javax.persistence.FetchType;
+//import javax.persistence.Id;
+//import javax.persistence.ManyToMany;
+//import javax.persistence.Temporal;
+//import javax.persistence.TemporalType;
 
-@Embeddable
+//@Embeddable
 public class UserInfo {
 	
 	

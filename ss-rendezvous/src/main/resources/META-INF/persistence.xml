@@ -5,12 +5,12 @@
 	version="1.0">
 	<persistence-unit name="rendezvous" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>com.cisco.cmad.api.Comment</class>
+		<!-- <class>com.cisco.cmad.api.Comment</class>
 		<class>com.cisco.cmad.api.Message</class>
 		<class>com.cisco.cmad.api.Post</class>
 		<class>com.cisco.cmad.api.Tag</class>
 		<class>com.cisco.cmad.api.User</class>
-		<class>com.cisco.cmad.api.UserInfo</class>
+		<class>com.cisco.cmad.api.UserInfo</class> -->
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"

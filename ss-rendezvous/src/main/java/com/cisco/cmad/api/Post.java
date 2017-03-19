@@ -6,18 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+//import javax.persistence.CascadeType;
+//import javax.persistence.Entity;
+//import javax.persistence.FetchType;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.Id;
+//import javax.persistence.JoinColumn;
+//import javax.persistence.Lob;
+//import javax.persistence.ManyToMany;
+//import javax.persistence.ManyToOne;
+//import javax.persistence.OneToMany;
+//import javax.persistence.Temporal;
+//import javax.persistence.TemporalType;
 
 //import org.hibernate.search.annotations.Analyze;
 //import org.hibernate.search.annotations.Field;
@@ -29,42 +29,42 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
-@Entity
+//@Entity
 //@Indexed
 public class Post {
 
-	@Id
-	@GeneratedValue
+//	@Id
+//	@GeneratedValue
 	private int post_id;
 	
 //	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
 	
-	@Lob
+//	@Lob
 //	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String postText;
 	private String abstractText;
 	private Interest topic;
 	
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
 	private Date createdDate;
 	
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
 	private Date updatedDate;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "username", nullable = false)
+//	@ManyToOne(fetch=FetchType.EAGER)
+//    @JoinColumn(name = "username", nullable = false)
 	private User user;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="post")
+//	@OneToMany(fetch = FetchType.EAGER, mappedBy="post")
 	private List<Comment> comments = new ArrayList<>();
 	
 //	@IndexedEmbedded
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Tag> tags = new HashSet<Tag>(0);
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "favouritePosts")
+//	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "favouritePosts")
 	private Set<User> favouritedUsers = new HashSet<User>(0);
 
 	public Post() {

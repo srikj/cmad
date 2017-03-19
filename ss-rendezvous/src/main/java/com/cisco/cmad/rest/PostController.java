@@ -134,7 +134,7 @@ public class PostController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{postid}")
 	public Response getPost(@PathParam(value = "postid") String post_id) {
-		FindIterable<Document> post = null;
+		Document post = null;
 		try {
 			post = rendezvous.getPost(post_id);
 		} catch (PostNotFoundException e) {

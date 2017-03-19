@@ -7,7 +7,6 @@ angular.module('Rendezvous').controller('PostsShowController', function($scope, 
 	    headers: {
 	    	'Content-Type': 'application/json',
 	    	'Accept': 'application/json',
-	    	'Authorization': 'Basic '+ token
 	    }
 	}).then(function (response) {
         $scope.post = response.data;
@@ -21,7 +20,7 @@ angular.module('Rendezvous').controller('PostsShowController', function($scope, 
 		    headers: {
 		    	'Content-Type': 'application/json',
 		    	'Accept': 'application/json',
-		    	'Authorization': 'Basic '+ token
+		    	'Authorization': 'Bearer '+ token
 		    }
 		}).then(function (response) {
 	        $scope.comment = {};
@@ -34,7 +33,36 @@ angular.module('Rendezvous').controller('PostsShowController', function($scope, 
 			    }
 			}).then(function (response) {
 		        $scope.post.comments = response.data;
+		        $scope.comment = {};
 		  	});
 	  	});
   	}
+  	$scope.isFavorites = function(post) {
+  		if(post.favouritedUsers) {
+       		return post.favouritedUsers.indexOf($scope.user.username) >=0;
+       	} else {
+       		return false;
+       	}
+	}
+
+	$scope.toggleFav = function(post) {
+		if($scope.isFavorites(post)) {
+			$http({
+			    method: 'POST',
+			    url: "rest/post/unmarkFav/"+post.post_id+"/"+$scope.user.username,
+			    headers: {
+			    	'Authorization': 'Bearer '+ token
+			    }
+			});
+		} else {
+			$http({
+			    method: 'POST',
+			    url: "rest/post/markFav/"+post.post_id+"/"+$scope.user.username,
+			    headers: {
+			    	'Authorization': 'Bearer '+ token
+			    }
+			});
+		}
+
+	}
 });
