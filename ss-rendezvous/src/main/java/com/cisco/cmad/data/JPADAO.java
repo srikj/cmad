@@ -79,6 +79,7 @@ public class JPADAO implements DAO {
 				t = (Tag) em.createQuery("from Tag t where t.tagName=:tagName").setParameter("tagName", tag.getTagName()).getSingleResult();
 			} catch(NoResultException e) {
 				tag.getTaggedPosts().add(post);
+				e.printStackTrace();
 			}
 			if(t != null) {
 				t.getTaggedPosts().add(post);
@@ -217,6 +218,7 @@ public class JPADAO implements DAO {
 				.getResultList();
 		} catch(NoResultException e) {
 			em.close();
+			e.printStackTrace();
 			return new ArrayList<Post>();
 		}
 		em.close();
@@ -273,6 +275,7 @@ public class JPADAO implements DAO {
 		try {
 			user = (User) em.createQuery("from User a where a.userInfo.email = :email").setParameter("email", email).getSingleResult();
 		} catch(NoResultException nre) {
+			nre.printStackTrace();
 			return null;
 		}
 		em.close();

@@ -2,15 +2,10 @@ package com.cisco.cmad.mongoapi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.cisco.cmad.api.Comment;
@@ -28,7 +23,6 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.result.UpdateResult;
-import com.sun.research.ws.wadl.Doc;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -141,10 +135,10 @@ public class Mongoapi {
 	    System.out.println(result);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<String> getComments (String id) {
 		Document doc = getPostId(id);
-		List <String>comments = new ArrayList<String>();
-		comments = (List<String> )doc.get("comments");
+		List <String> comments = (List<String>) doc.get("comments");
 		System.out.println(comments);
 		return comments;
 	}
@@ -254,7 +248,6 @@ public class Mongoapi {
 	}
 
 	public Document update(User user) {
-		BasicDBObject query = new BasicDBObject();
 		Document userDoc = new Document("username",user.getUsername())
 			    .append("password", user.getPassword())
 			    .append("createdDate", user.getCreatedDate())

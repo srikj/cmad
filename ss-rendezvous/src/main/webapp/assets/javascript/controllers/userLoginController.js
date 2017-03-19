@@ -16,6 +16,7 @@ angular.module('Rendezvous').controller('UserLoginController', function($scope, 
 			        $rootScope.user = $scope.user;
 			        $sessionStorage.user = $rootScope.user;
 			        $location.path("/posts");
+			        
 			  	});
 	    	}
 	  	});

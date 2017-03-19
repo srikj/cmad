@@ -8,6 +8,6 @@ public enum Interest {
             case MOVIES: return "MOVIES";
             case SPORTS: return "SPORTS";
         }
-        return null;
+        return "";
     }
 }

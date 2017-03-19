@@ -1,9 +1,8 @@
 <div class="sidenav affix visible-md-block visible-lg-block">
 	<div class="widget" id="favouritePosts" ng-controller="FavPostsController as favPostsCtrl"  ng-if="user">
 		<h4 ng-if="favPosts">Favorite Posts</h4>
-		<ul ng-if="favPosts">
-	        <li><a href="#/posts/{{favPost.post_id}}" class="favPost" id="{{favPost.id}}-post" ng-repeat="favPost in favPosts" >{{favPost.title}}</a></li>
-		</ul>
+		<a href="#/posts/{{favPost.post_id}}" class="favPost" id="{{favPost.id}}-post" ng-repeat="favPost in favPosts" >
+		{{favPost.title}}</a>
 	</div>
 	<div class="widget" id="postsByTag" ng-controller="TagController as tagCtrl">
 		<h4>Tags</h4>
