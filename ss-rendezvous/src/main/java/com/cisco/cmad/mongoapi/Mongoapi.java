@@ -37,7 +37,7 @@ public class Mongoapi {
 	public MongoCollection<Document>msgCollection;
 	
 	public Mongoapi() {
-		MongoClient mongo = new MongoClient("192.168.99.100", 27017);
+		MongoClient mongo = new MongoClient("104.198.241.199", 27017);
 		MongoDatabase db = mongo.getDatabase("rendezvous");
 		postCollection = db.getCollection("user-posts");
 		userCollection = db.getCollection("user-data");
