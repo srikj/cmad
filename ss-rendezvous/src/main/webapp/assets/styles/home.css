@@ -13,7 +13,7 @@ nav .container {
 	width: 350px;
 }
 .sidenav {
-	width: 200px;
+	width: 185px;
 }
 #searchResults .results {
 	list-style: none;
@@ -119,7 +119,7 @@ h2.form-signin-heading {
   border-top-right-radius: 0;
 }
 .favPost { 
-  display: none;
+  display: block;
 }
 .tag {
   margin-right: 5px;

@@ -194,8 +194,7 @@ public class SimpleRendezvous implements Rendezvous {
 
 	@Override
 	public List<String> getComments(String post_id) throws PostNotFoundException, RendezvousException {
-		List<String> comments = null;
-		comments = mapi.getComments(post_id);
+		List<String> comments = mapi.getComments(post_id);
 		if (comments == null) {
 			throw new PostNotFoundException();
 		}
@@ -204,16 +203,14 @@ public class SimpleRendezvous implements Rendezvous {
 
 	@Override
 	public Object getPosts() {
-		FindIterable<Document> allPosts = null;
-		allPosts = mapi.getPosts();
+		FindIterable<Document> allPosts = mapi.getPosts();
 		return allPosts;
 	}
 
 	
 	@Override
 	public FindIterable<Document> getPosts(int offset, int size) {
-		FindIterable<Document> numPosts = null;
-		numPosts = mapi.getPosts(size);
+		FindIterable<Document> numPosts = mapi.getPosts(size);
 		if (numPosts == null) {
 			return null;
 		}
