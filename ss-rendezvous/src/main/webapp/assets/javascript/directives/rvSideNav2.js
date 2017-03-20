@@ -40,6 +40,19 @@ angular.module("Rendezvous").directive('rvSideNav2', function(){
 		        $scope.message = {};
 		  	});
 		}
+
+		$scope.sendInvite = function(invite){
+			$http({
+			    method: 'GET',
+			    url: 'rest/user/invite/?emailids='+invite,
+			    headers: {
+			    	'Content-Type': 'application/json',
+			    	'Authorization': 'Bearer '+ token
+			    }
+			}).then(function (response) {
+		        invite = {};
+		  	});
+		}
     }
   };
 });

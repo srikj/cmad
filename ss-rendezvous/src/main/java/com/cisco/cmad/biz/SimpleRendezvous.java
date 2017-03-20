@@ -37,15 +37,13 @@ import com.cisco.cmad.data.JPADAO;
 import com.cisco.cmad.mongoapi.Mongoapi;
 import com.mongodb.client.FindIterable;
 
-
-
 public class SimpleRendezvous implements Rendezvous {
 
 	private DAO dao;
 	private Mongoapi mapi;
 
 	public SimpleRendezvous() {
-//		dao = new JPADAO();
+		// dao = new JPADAO();
 		mapi = new Mongoapi();
 	}
 
@@ -126,41 +124,37 @@ public class SimpleRendezvous implements Rendezvous {
 
 	@Override
 	public void invite(String emailIds) throws InvalidDataException, RendezvousException {
-		// String from = "noreply@cisco.com";
-		// String host = "outbound.cisco.com";
-		// Properties properties = System.getProperties();
-		// properties.setProperty("mail.smtp.host", host);
-		// Session session = Session.getDefaultInstance(properties);
-		//
-		// for (String emailid : emailIds.split(",")) {
-		// if (emailid == null || emailid.trim().isEmpty()) {
-		// throw new InvalidDataException();
-		// }
-		// Pattern regexPattern =
-		// Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
-		// Matcher regMatcher = regexPattern.matcher(emailid);
-		// if (regMatcher.matches()) {
-		// System.out.println("Email Invite sent to" + emailid);
-		//
-		// try {
-		// getUserByEmail(emailid);
-		// MimeMessage message = new MimeMessage(session);
-		// message.setFrom(new InternetAddress(from));
-		// message.addRecipient(javax.mail.Message.RecipientType.TO, new
-		// InternetAddress(emailid));
-		// message.setSubject("Welcome to Rendezvous");
-		// message.setText("You have been invited to Rendezvous! Register at
-		// http://localhost:8080/rendezvous");
-		// Transport.send(message);
-		// } catch (MessagingException mex) {
-		// mex.printStackTrace();
-		// } catch(RendezvousException e) {
-		// e.printStackTrace();
-		// }
-		// } else {
-		// throw new InvalidDataException();
-		// }
-		// }
+		String from = "noreply@cisco.com";
+		String host = "outbound.cisco.com";
+		Properties properties = System.getProperties();
+		properties.setProperty("mail.smtp.host", host);
+		Session session = Session.getDefaultInstance(properties);
+
+		for (String emailid : emailIds.split(",")) {
+			if (emailid == null || emailid.trim().isEmpty()) {
+				throw new InvalidDataException();
+			}
+			Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
+			Matcher regMatcher = regexPattern.matcher(emailid);
+			if (regMatcher.matches()) {
+				System.out.println("Email Invite sent to" + emailid);
+
+				try {
+//					getUserByEmail(emailid);
+					MimeMessage message = new MimeMessage(session);
+					message.setFrom(new InternetAddress(from));
+					message.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(emailid));
+					message.setSubject("Welcome to Rendezvous");
+					message.setText(
+							"You have been invited to Rendezvous! Register at http://35.185.110.136/:8080/rendezvous");
+					Transport.send(message);
+				} catch (MessagingException mex) {
+					mex.printStackTrace();
+				}
+			} else {
+				throw new InvalidDataException();
+			}
+		}
 	}
 
 	@Override
@@ -207,7 +201,6 @@ public class SimpleRendezvous implements Rendezvous {
 		return allPosts;
 	}
 
-	
 	@Override
 	public FindIterable<Document> getPosts(int offset, int size) {
 		FindIterable<Document> numPosts = mapi.getPosts(size);
@@ -227,7 +220,8 @@ public class SimpleRendezvous implements Rendezvous {
 	}
 
 	@Override
-	public FindIterable<Document> getPostsByInterest(Interest interest) throws InvalidInterestException, RendezvousException {
+	public FindIterable<Document> getPostsByInterest(Interest interest)
+			throws InvalidInterestException, RendezvousException {
 		// SHould add here to validate the interest
 		FindIterable<Document> postByInt = mapi.getPostsByInterest(interest);
 		if (postByInt == null) {
@@ -245,14 +239,12 @@ public class SimpleRendezvous implements Rendezvous {
 		return post;
 	}
 
-	/***@Override
-	public int getFavouritePostCount(int post_id) throws PostNotFoundException, RendezvousException {
-		int size = dao.getFavouritePostCount(post_id);
-		if (size == 0) {
-			throw new PostNotFoundException();
-		}
-		return size;
-	}*/
+	/***
+	 * @Override public int getFavouritePostCount(int post_id) throws
+	 *           PostNotFoundException, RendezvousException { int size =
+	 *           dao.getFavouritePostCount(post_id); if (size == 0) { throw new
+	 *           PostNotFoundException(); } return size; }
+	 */
 
 	@Override
 	public void markFavourite(String post_id, String username)
@@ -260,12 +252,12 @@ public class SimpleRendezvous implements Rendezvous {
 		if (post_id.trim().isEmpty() || username.trim().isEmpty() || username == null) {
 			throw new InvalidDataException();
 		}
-		//User user = dao.getUser(username);
+		// User user = dao.getUser(username);
 		Document user = mapi.getUser(username);
 		if (user == null) {
 			throw new UserNotFoundException();
 		} else {
-			//dao.markFavourite(post_id, username);
+			// dao.markFavourite(post_id, username);
 			mapi.markFavourite(post_id, username);
 		}
 
@@ -277,12 +269,12 @@ public class SimpleRendezvous implements Rendezvous {
 		if (post_id.trim().isEmpty() || username.trim().isEmpty() || username == null) {
 			throw new InvalidDataException();
 		}
-		//User user = dao.getUser(username);
+		// User user = dao.getUser(username);
 		Document user = mapi.getUser(username);
 		if (user == null) {
 			throw new UserNotFoundException();
 		} else {
-			//dao.unMarkFavourite(post_id, username);
+			// dao.unMarkFavourite(post_id, username);
 			mapi.unmarkFavourite(post_id, username);
 		}
 	}
@@ -300,7 +292,7 @@ public class SimpleRendezvous implements Rendezvous {
 				|| post_id.trim().isEmpty()) {
 			throw new InvalidDataException();
 		}
-		//Post post = dao.getPost(post_id);
+		// Post post = dao.getPost(post_id);
 		Document post = mapi.getPostId(post_id);
 		if (post == null) {
 			throw new PostNotFoundException();
@@ -325,14 +317,14 @@ public class SimpleRendezvous implements Rendezvous {
 
 	@Override
 	public FindIterable<Document> getMessages() {
-		//List<Message> allMessage = dao.getMessages();
+		// List<Message> allMessage = dao.getMessages();
 		FindIterable<Document> allMessage = mapi.getMessages();
 		return allMessage;
 	}
 
 	@Override
 	public FindIterable<Document> getMessages(int offset, int size) {
-		//List<Message> numMessages = dao.getMessages(offset, size);
+		// List<Message> numMessages = dao.getMessages(offset, size);
 		FindIterable<Document> numMessages = mapi.getMessage(size);
 		return numMessages;
 	}
@@ -365,7 +357,7 @@ public class SimpleRendezvous implements Rendezvous {
 
 	@Override
 	public List<String> getTags() {
-		//return dao.getTags();
+		// return dao.getTags();
 		return mapi.getTags();
 	}
 

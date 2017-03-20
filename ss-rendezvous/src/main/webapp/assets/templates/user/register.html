@@ -1,7 +1,7 @@
 <form class="form-signup" role="form" data-toggle="validator">
 
     <h2 class="form-signin-heading">No Account? Sign up!</h2>
-    
+    <div class="alert " role="alert" ng-class="{'alert-success': alertSuccess}" ng-show="showAlert">{{alertMessage}}</div>
     <div class="form-group">
 		<label for="regName" class="control-label">Name</label>
         <input type="text" id="regName" class="form-control" placeholder="Name" ng-model="user.userInfo.name" required>
