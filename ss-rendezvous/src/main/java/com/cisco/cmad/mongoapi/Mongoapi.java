@@ -22,6 +22,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.UpdateResult;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -74,12 +75,14 @@ public class Mongoapi {
 		doc.put("postText", post.getPostText());
 		doc.put("topic", post.getTopic().toString());
 		doc.put("tags", Tags);
+		doc.put("createdDate", post.getCreatedDate());
+		doc.put("updatedDate", post.getUpdatedDate());
 		postCollection.insertOne(doc);
 		//collection.find(eq("title", post.getTitle())).forEach((Document d) -> System.out.println(d.toJson()));
 	}
 	
 	public FindIterable<Document> getPosts() {
-		FindIterable<Document> doc  = postCollection.find();
+		FindIterable<Document> doc  = postCollection.find().sort(Sorts.descending("createdDate"));
 		return doc;
 	}
 	
@@ -244,7 +247,7 @@ public class Mongoapi {
 	}
 	
 	public FindIterable<Document>getMessages() {
-		return(msgCollection.find());
+		return(msgCollection.find().sort(Sorts.descending("createdDate")));
 	}
 
 	public Document update(User user) {

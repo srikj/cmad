@@ -47,7 +47,7 @@
 							<!-- <p>There are no comments!</p> -->
 						<div class="comment" ng-repeat="comment in post.comments">
 							<p class="meta">
-								<span class="author">{{comment.user.username}}</span> | <span class="date">{{comment.createdDate | date}}</span></p>
+								<span class="author">{{comment.user.username}}</span> | <span class="date">{{comment.createdDate | date:'MMM dd, yyyy HH:mm'}}</span></p>
 							<p class="commentText">{{comment.commentText}}</p>
 						</div>
 					</div>

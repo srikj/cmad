@@ -3,7 +3,7 @@ angular.module("Rendezvous").directive('rvSideNav2', function(){
     replace: true,
     restrict: "E",
     templateUrl: "assets/templates/directives/rvSideNav2.html",
-    controller: function($scope, $sessionStorage, $http, $rootScope) {
+    controller: function($scope, $sessionStorage, $http, $rootScope, $interval) {
     	$scope.$storage = $sessionStorage;
     	$rootScope.user = $sessionStorage.user;
     	$scope.user = $rootScope.user;
@@ -23,7 +23,7 @@ angular.module("Rendezvous").directive('rvSideNav2', function(){
 		        $scope.messages = response.data;
 		  	});
     	}
-    	if(token) updateMessage();
+    	if(token) $interval(updateMessage, 1000);
     	$scope.saveMessage = function(message){
 			message.user=$sessionStorage.user;
 			token = $sessionStorage.authToken;

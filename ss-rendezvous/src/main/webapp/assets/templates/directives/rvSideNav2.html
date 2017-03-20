@@ -2,7 +2,7 @@
 	<div class="widget" id="messages" ng-if="user">
 		<h4>Messages</h4>
 		<div id="message-body">
-			<p class='message' ng-repeat="message in messages"><b>{{message.user.username}}</b> | {{message.createdDate | date}}<br>
+			<p class='message' ng-repeat="message in messages"><b>{{message.user.username}}</b> | {{message.createdDate | date:'MMM dd, yyyy HH:mm'}}<br>
 			{{message.messageText}}
 			</p>
 		</div>
